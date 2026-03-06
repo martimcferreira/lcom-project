@@ -1,6 +1,8 @@
 #include "rtc.h"
 #include <minix/syslib.h>
 #include "bitwise.h"
+#include <minix/sysutil.h>
+
 
 #define TODO return -1
 
