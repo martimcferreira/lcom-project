@@ -67,7 +67,7 @@ We declare that:
 4. We have not used AI tools to generate complete solutions that we present as entirely our own unaided work, and we have avoided plagiarism, whether from AI outputs or other sources.  
 5. If asked, we will provide details of which tools we used, for which files or parts of the project, and how we verified and adapted their outputs.
 
-Signed: `Andre Rocha`, `Guilherme Pinho`, `<student name>`, `<student name>`  
+Signed: `Andre Rocha`, `Guilherme Pinho`, `Martim Ferreira`, `<student name>`  
 Date: `<date>`
 
 ## Authors and acknowledgment
@@ -75,7 +75,7 @@ Date: `<date>`
 LCOM Project for group GRUPO_2LEIC<m><n>_<p>.
 Group members:
 
-<first name> <family name> (<email address>)
-<first name> <family name> (<email address>)
+Guilherme Pinho (up202406596@up.pt)
+Martim Ferreira (up202403764@up.pt)
 <first name> <family name> (<email address>)
 Andre Rocha (up202407636@up.pt)
