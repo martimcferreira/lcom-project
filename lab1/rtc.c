@@ -27,14 +27,14 @@ int rtc_read_date(rtc_date *date) {
         sys_outb(RTC_ADDR_REG, RTC_REG_A);
         sys_inb(RTC_DATA_REG, &regA);
         if (!(regA & RTC_UIP_MSK)) break;  
-        tickdelay(micros_to_ticks(244));
+        tickdelay(micros_to_ticks(2000));
     }
 
 
-    sys_outb(RTC_ADDR_REG, RTC_REG_B);
+   sys_outb(RTC_ADDR_REG, RTC_REG_B);
     sys_inb(RTC_DATA_REG, &regB);
     bool is_binary = (regB & RTC_DM_MSK);
-
+ 
     sys_outb(RTC_ADDR_REG, RTC_REG_DAY);
     sys_inb(RTC_DATA_REG, &temp);
     date->day = is_binary ? (uint8_t)temp : (uint8_t)bdc_to_bin(temp);

@@ -27,7 +27,7 @@ uint8_t mask(int pos, ...) {
     va_start(args, pos);
     
     int current_pos = pos;
-    while (current_pos != -1) {
+    while (current_pos != MSK_END) {
         final_mask |= (1 << current_pos); 
         current_pos = va_arg(args, int);   
     }
