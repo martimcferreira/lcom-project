@@ -45,7 +45,7 @@ int(timer_test_time_base)(uint8_t timer, uint32_t freq) {
 int(timer_test_int)(uint8_t time) {
   uint8_t bit_no;
   if (timer_subscribe_int(&bit_no) != 0) return 1;
-  uint32_t irq_set = bit_no;
+  uint32_t irq_set = BIT(bit_no);
   int ipc_status,r;
   message msg;
   extern uint32_t no_interrupts;

@@ -12,8 +12,8 @@ int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
   uint8_t st;
   if (timer_get_conf(timer, &st) != 0) return 1;
 
-  uint8_t ctrl_world;
-  ctrl_world = (timer <<6 ) | TIMER_LSB_MSB | (st & 0x0F);
+  uint8_t ctrl_word;
+  ctrl_word = (timer <<6 ) | TIMER_LSB_MSB | (st & 0x0F);
 
   uint16_t div = (uint16_t) (TIMER_FREQ/freq);
 
