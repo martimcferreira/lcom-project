@@ -1,10 +1,36 @@
 #include <lcom/lcf.h>
 #include <lcom/lab2.h>
+#include <lcom/timer.h>
+
 #include <stdint.h>
+#include <stdio.h>
 
 // O contador está definido em timer.c.
 // Aqui apenas dizemos ao compilador que ele existe.
 extern volatile int timer_counter;
+
+int main(int argc, char *argv[]) {
+  // sets the language of LCF messages (can be either EN-US or PT-PT)
+  lcf_set_language("EN-US");
+
+  // enables to log function invocations that are being "wrapped" by LCF
+  // [comment this out if you don't want/need it]
+  lcf_trace_calls("/home/lcom/labs/grupo_2leic02_2/lab2/trace.txt");
+
+  // enables to save the output of printf function calls on a file
+  // [comment this out if you don't want/need it]
+  lcf_log_output("/home/lcom/labs/grupo_2leic02_2/lab2/output.txt");
+
+  // handles control over to LCF
+  // [LCF handles command line arguments and invokes the right function]
+  if (lcf_start(argc, argv))
+    return 1;
+
+  // LCF clean up tasks
+  lcf_cleanup();
+
+  return 0;
+}
 
 //Testa a leitura e visualização da configuração de um timer.
 int(timer_test_read_config)(uint8_t timer, enum timer_status_field field) {
