@@ -1,1 +1,0 @@
-timer_print_config:all timer = 2 conf = 0x36

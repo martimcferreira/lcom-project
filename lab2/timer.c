@@ -21,7 +21,7 @@ int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
   util_get_LSB(div, &lsb);
   util_get_MSB(div, &msb);
 
-  if (sys_outb(TIMER_CTRL, ctrl_world) != 0) return 1;
+  if (sys_outb(TIMER_CTRL, ctrl_word) != 0) return 1;
 
   int port = TIMER_0 + timer; 
   if (sys_outb(port, lsb) != 0) return 1;
