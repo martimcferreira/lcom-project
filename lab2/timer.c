@@ -109,7 +109,7 @@ int(timer_set_frequency)(uint8_t timer, uint32_t freq) {
 
   uint8_t status;
   if (timer_get_conf(timer, &status) != 0) return 1;
- uint8_t control = timer_select_bits(timer) | TIMER_LSB_MSB | (status & 0x0F);
+  uint8_t control = timer_select_bits(timer) | TIMER_LSB_MSB | (status & 0x0F);
 
   // Envia o novo control word
   if (sys_outb(TIMER_CTRL, control) != OK) return 1;
