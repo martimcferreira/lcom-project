@@ -107,9 +107,7 @@ int(kbd_test_poll)() {
   return 0;
 }
 
-
 int (kbd_test_timed_scan)(uint8_t n) {
-  // 1. RESET TOTAL das variáveis globais no início 
   scancode_byte = 0;
   no_interrupts = 0;
   ih_error = false;
@@ -121,47 +119,47 @@ int (kbd_test_timed_scan)(uint8_t n) {
     return 1;
   }
 
-  uint32_t irq_set_timer = bit_no_timer;
+  uint32_t irq_set_timer = BIT(bit_no_timer);
   uint32_t irq_set_kbd = BIT(bit_no_kbd);
-  uint32_t time_limit = n * 60; // 60 Hz
+  uint32_t time_limit = (uint32_t)n * 60;
 
   int r, ipc_status;
   message msg;
   uint8_t bytes[2];
   uint8_t size = 0;
+  bool done = false;
 
-  // O loop agora só depende do ESC. O tempo é verificado lá dentro.
-  while (scancode_byte != ESC_BREAKCODE) {
+  while (!done) {
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) continue;
 
     if (is_ipc_notify(ipc_status)) {
       switch (_ENDPOINT_P(msg.m_source)) {
         case HARDWARE:
-          // --- TIMER ---
           if (msg.m_notify.interrupts & irq_set_timer) {
-            timer_int_handler(); 
-            // Verificação imediata para a LCF não dar erro de atraso
+            timer_int_handler();
             if (no_interrupts >= time_limit) {
-                kbd_unsubscribe_int();
-                timer_unsubscribe_int();
-                return 0; // Sai IMEDIATAMENTE aqui
+              done = true;
             }
           }
 
-          // --- KEYBOARD ---
           if (msg.m_notify.interrupts & irq_set_kbd) {
             kbc_ih();
-            if (ih_error) continue;
+            if (ih_error) break;
 
-            no_interrupts = 0; // Reset do tempo ao premir tecla
+            no_interrupts = 0; // reset timer ao pressionar tecla
 
             bytes[size] = scancode_byte;
             size++;
-            if (scancode_byte == TWO_BYTE_CODE) continue;
+
+            if (scancode_byte == TWO_BYTE_CODE) break;
 
             bool make = !(scancode_byte & BIT(7));
             kbd_print_scancode(make, size, bytes);
             size = 0;
+
+            if (scancode_byte == ESC_BREAKCODE) {
+              done = true;
+            }
           }
           break;
       }
