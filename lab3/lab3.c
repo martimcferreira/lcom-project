@@ -121,7 +121,7 @@ int (kbd_test_timed_scan)(uint8_t n) {
     return 1;
   }
 
-  uint32_t irq_set_timer = BIT(bit_no_timer);
+  uint32_t irq_set_timer = bit_no_timer;
   uint32_t irq_set_kbd = BIT(bit_no_kbd);
   uint32_t time_limit = n * 60; // 60 Hz
 
