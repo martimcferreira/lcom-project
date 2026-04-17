@@ -1,12 +1,12 @@
 #include <lcom/lab3.h>
 #include <lcom/lcf.h>
+#include <lcom/timer.h>
 
 #include <stdbool.h>
 #include <stdint.h>
 
 #include "i8042.h"
 #include "kbc.h"
-#include "timer_local.h"
 #include "utils.h"
 
 static int print_scancode_byte(uint8_t byte, bool *awaiting_second_byte, bool *done) {
@@ -162,9 +162,7 @@ int (kbd_test_timed_scan)(uint8_t n) {
     (void) keyboard_unsubscribe_int();
     return 1;
   }
-
-  timer_reset_counter();
-
+  
   while (!done && idle_ticks < timeout_ticks) {
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
       printf("driver_receive failed with: %d\n", r);

@@ -2,7 +2,7 @@
 PROG = lab3
 
 # source code files to be compiled
-SRCS = lab3.c kbc.c timer_local.c utils.c
+SRCS = lab3.c kbc.c ../lab2/timer.c utils.c
 
 # additional compilation flags
 CFLAGS += -pedantic -DLAB3
