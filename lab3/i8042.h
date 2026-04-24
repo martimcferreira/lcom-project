@@ -29,4 +29,7 @@
 #define KBC_DIS_KBD       0xAD    /* Desativa a interface do Teclado */
 #define KBC_ENA_KBD       0xAE    /* Ativa a interface do Teclado */
 
+#define MOUSE_ACK 0xFA
+#define MOUSE_NACK 0xFE
+
 #endif
