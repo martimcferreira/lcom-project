@@ -8,7 +8,7 @@ static uint16_t h_res, v_res;
 static uint8_t bits_per_pixel;
 
 void *(vg_init)(uint16_t mode) {
-    vbe_mode_info_t vmi;
+    vbe_mode_info_t vmi; //estrutura para armazenar as informações sobre a resoluçao do modo gráfico e responde com o PhysBasePtr, que é o endereço físico da memória de vídeo
 
     if (vbe_get_mode_info(mode, &vmi) != 0) {
         printf("vg_init: vbe_get_mode_info() failed\n");
@@ -20,29 +20,29 @@ void *(vg_init)(uint16_t mode) {
     bits_per_pixel = vmi.BitsPerPixel;
 
     struct minix_mem_range mr;
-    unsigned int vram_size = h_res * v_res * ((bits_per_pixel + 7) / 8);
+    unsigned int vram_size = h_res * v_res * ((bits_per_pixel + 7) / 8); //calcula o tamanho da memória de vídeo necessária para armazenar a imagem completa, multiplicando a resolução horizontal (h_res) pela resolução vertical (v_res) e pelo número de bytes por pixel
+    //temos que somar +7 para arredondar para cima e nao perder informações,
+    mr.mr_base  = vmi.PhysBasePtr; //morada fisica da memória de vídeo, que é o endereço físico onde a memória de vídeo está localizada. Essa informação é fornecida pela estrutura vmi, que foi preenchida pela função vbe_get_mode_info() com as informações do modo gráfico solicitado.
+    mr.mr_limit = mr.mr_base + vram_size; //memmoria da placa gráfica onde termina, onde placa grafica comeca + comprimento do terreno, temos de ser especificos e dizer onde começa e onde acaba
 
-    mr.mr_base  = vmi.PhysBasePtr;
-    mr.mr_limit = mr.mr_base + vram_size;
-
-    if (sys_privctl(SELF, SYS_PRIV_ADD_MEM, &mr) != OK) {
+    if (sys_privctl(SELF, SYS_PRIV_ADD_MEM, &mr) != OK) { //pedimos permissao de administrador 
         printf("vg_init: sys_privctl failed\n");
         return NULL;
     }
 
     video_mem = vm_map_phys(SELF, (void *)vmi.PhysBasePtr, vram_size);
     if (video_mem == MAP_FAILED) {
-        printf("vg_init: vm_map_phys failed\n");
+        printf("vg_init: vm_map_phys failed\n"); 
         return NULL;
     }
 
     reg86_t r86;
     memset(&r86, 0, sizeof(r86));
-    r86.intno = 0x10;
-    r86.ah    = 0x4F;
-    r86.al    = 0x02;
-    r86.bx    = mode | BIT(14);
-
+    r86.intno = 0x10; //canal da placa de vídeo
+    r86.ah    = 0x4F; //função para definir o modo gráfico
+    r86.al    = 0x02; //modo de vídeo, 0x02 é o modo de vídeo com suporte a linear frame buffer, que permite acessar a memória de vídeo diretamente, sem precisar usar as funções de acesso à memória do BIOS. Isso é necessário para que possamos desenhar na tela usando o ponteiro video_mem que mapeamos para a memória de vídeo.
+    r86.bx    = mode | BIT(14); //fazemos para usar o linear frame buffer
+    //usamos linear frame buffer porque a placa de vídeo usa um sistema antigo de "bancos" de memória, desta forma é mais eficiente
     if (sys_int86(&r86) != OK || r86.ah != 0x00 || r86.al != 0x4F) {
         printf("vg_init: sys_int86() failed\n");
         return NULL;
@@ -58,7 +58,7 @@ int (vg_draw_pixel)(uint16_t x, uint16_t y, uint32_t color) {
     unsigned int bytes_per_pixel = (bits_per_pixel + 7) / 8;
     uint8_t *pixel = video_mem + (y * h_res + x) * bytes_per_pixel;
 
-    /* Escreve byte a byte (suporta 8, 15, 16, 24 e 32 bpp) */
+
     for (unsigned int i = 0; i < bytes_per_pixel; i++) {
         pixel[i] = (color >> (8 * i)) & 0xFF;
     }
