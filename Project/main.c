@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdio.h>
-
+#include "devices/video/assets/fundo_plateia.xpm"
 #include "structures/includes/game.h"
 #include "devices/video/video.h" 
 
@@ -14,7 +14,6 @@ int main(int argc, char *argv[]) {
   lcf_cleanup();
   return 0;
 }
-
 
 int (proj_main_loop)(int argc, char *argv[]) {
   
@@ -41,7 +40,9 @@ int (proj_main_loop)(int argc, char *argv[]) {
 
   extern Note notes[]; 
 
-  notes[0].x = 375;    
+  // Inicializar a primeira nota na Pista 1 (Vermelho)
+  // As pistas começam nos seguintes X: 200, 280, 360, 440, 520
+  notes[0].x = 280;    
   notes[0].y = 0;      
   notes[0].speed = 4;  
   notes[0].active = true;
@@ -50,6 +51,20 @@ int (proj_main_loop)(int argc, char *argv[]) {
   message msg;
   int r;
   bool game_running = true;
+
+  // --- OTIMIZAÇÃO: CARREGAR O XPM APENAS UMA VEZ NA RAM ---
+  xpm_image_t bg_img;
+  // Carrega em modo True Color (XPM_8_8_8_8) condizente com o modo 0x115
+  uint8_t *bg_map_bytes = xpm_load((xpm_map_t)fundo_plateia_xpm, XPM_8_8_8_8, &bg_img);
+  uint32_t *bg_map = (uint32_t *) bg_map_bytes; 
+
+  if (bg_map == NULL) {
+    printf("Aviso: Falha ao pré-carregar o XPM de fundo!\n");
+  }
+
+  // Array com as cores das 5 pistas (Verde, Vermelho, Azul, Roxo, Amarelo)
+  uint32_t cores_pistas[5] = {0x00FF00, 0xFF0000, 0x0000FF, 0x800080, 0xFFFF00};
+
   printf("Motor de física e vídeo iniciados a 60 Hz...\n");
 
   while (game_running) {
@@ -65,17 +80,42 @@ int (proj_main_loop)(int argc, char *argv[]) {
             timer_int_handler(); 
             update_notes(); 
 
-            vg_draw_rectangle(0, 0, 800, 600, 0x000000);
+            // --- 1. CAMADA DE FUNDO OTIMIZADA ---
+            // Despeja os píxeis pré-carregados diretamente para o back_buffer
+            if (bg_map != NULL) {
+              for (int y = 0; y < bg_img.height; y++) {
+                for (int x = 0; x < bg_img.width; x++) {
+                  vg_draw_pixel(x, y, bg_map[y * bg_img.width + x]);
+                }
+              }
+            } else {
+              // Fallback de segurança (fundo preto) caso a imagem falhe
+              vg_draw_rectangle(0, 0, 800, 600, 0x000000); 
+            }
 
+            for (int i = 0; i <= 5; i++) {
+                int linha_x = 200 + (i * 80);
+                vg_draw_rectangle(linha_x, 0, 2, 600, 0x555555); // Linhas cinzentas
+            }
 
+            vg_draw_rectangle(200, 500, 400, 20, 0x333333);
+
+            // --- 4. AS NOTAS A CAIR ---
             for (int i = 0; i < MAX_NOTES; i++) {
               if (notes[i].active) {
-              
-                vg_draw_rectangle(notes[i].x, notes[i].y, 50, 20, 0xFF0000);
+                // Calcular matematicamente em que pista a nota está baseada no seu X
+                int pista = (notes[i].x - 200) / 80;
+                
+                // Proteção para não aceder fora do array de cores caso o X seja inválido
+                if (pista < 0) pista = 0;
+                if (pista > 4) pista = 4;
+
+                // Desenha a nota com a cor correspondente e centrada na pista (+15px de margem)
+                vg_draw_rectangle(notes[i].x + 15, notes[i].y, 50, 20, cores_pistas[pista]);
               }
             }
 
-           
+            // --- 5. SWAP BUFFERS ---
             vg_swap_buffers();
             
             if (no_interrupts % 60 == 0) {
@@ -98,7 +138,6 @@ int (proj_main_loop)(int argc, char *argv[]) {
     vg_exit(); 
     return 1;
   }
-
   
   vg_exit(); 
 
