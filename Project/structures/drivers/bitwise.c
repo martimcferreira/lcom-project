@@ -1,8 +1,6 @@
 #include "bitwise.h"
 #include <stdarg.h>
 
-#define TODO return 255
-
 uint8_t clear(uint8_t msk, int pos) { 
   return msk & ~(1 << pos);
    }
