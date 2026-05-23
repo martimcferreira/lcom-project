@@ -12,9 +12,59 @@
 #include "devices/video/assets/nota_amarela.xpm"
 
 #include "structures/includes/game.h"
+#include "structures/includes/drivers/kbc.h"
+#include "structures/includes/drivers/i8042.h"
 
 extern uint32_t no_interrupts;
 extern Note notes[];
+
+#define HIT_ZONE_TOP 498
+#define HIT_ZONE_BOTTOM 524
+#define NOTE_HIT_HEIGHT 40
+
+#define A_MAKE_CODE 0x1E
+#define S_MAKE_CODE 0x1F
+#define D_MAKE_CODE 0x20
+#define F_MAKE_CODE 0x21
+#ifndef G_MAKE_CODE
+#define G_MAKE_CODE 0x22
+#endif
+
+static int lane_from_make_code(uint8_t make_code) {
+  switch (make_code) {
+    case A_MAKE_CODE: return 0;
+    case S_MAKE_CODE: return 1;
+    case D_MAKE_CODE: return 2;
+    case F_MAKE_CODE: return 3;
+    case G_MAKE_CODE: return 4;
+    default: return -1;
+  }
+}
+
+static bool note_collides_with_hit_zone(const Note *note) {
+  int note_top = note->y;
+  int note_bottom = note->y + NOTE_HIT_HEIGHT;
+
+  return note_top <= HIT_ZONE_BOTTOM && note_bottom >= HIT_ZONE_TOP;
+}
+
+static bool try_hit_note(uint8_t make_code) {
+  int lane = lane_from_make_code(make_code);
+  if (lane < 0) return false;
+
+  for (int i = 0; i < MAX_NOTES; i++) {
+    if (!notes[i].active) continue;
+
+    int note_lane = (notes[i].x - 200) / 80;
+    if (note_lane == lane && note_collides_with_hit_zone(&notes[i])) {
+      notes[i].active = false;
+      printf("ACERTOU!\n");
+      return true;
+    }
+  }
+
+  return false;
+}
 
 // --- ESTRUTURA DO BEATMAP ---
 typedef struct {
@@ -63,6 +113,15 @@ int (proj_main_loop)(int argc, char *argv[]) {
   }
 
   uint32_t timer_irq_set = BIT(timer_bit_no);
+
+  uint8_t kbd_bit_no;
+  if (kbd_subscribe_int(&kbd_bit_no) != 0) {
+    timer_unsubscribe_int();
+    vg_exit();
+    return 1;
+  }
+
+  uint32_t kbd_irq_set = BIT(kbd_bit_no);
 
   // Inicializar o array global de notas como limpo/inativo
   init_notes();
@@ -139,6 +198,19 @@ int (proj_main_loop)(int argc, char *argv[]) {
     if (is_ipc_notify(ipc_status)) {
       switch (_ENDPOINT_P(msg.m_source)) {
         case HARDWARE:
+          if (msg.m_notify.interrupts & kbd_irq_set) {
+            kbc_ih();
+
+            if (!ih_error) {
+              if (scancode_byte == ESC_BREAKCODE) {
+                game_running = false;
+              }
+              else if ((scancode_byte & BIT(7)) == 0) {
+                try_hit_note(scancode_byte);
+              }
+            }
+          }
+
           if (msg.m_notify.interrupts & timer_irq_set) {
             
             timer_int_handler(); 
@@ -275,10 +347,17 @@ int (proj_main_loop)(int argc, char *argv[]) {
     }
   }
 
+  if (kbd_unsubscribe_int() != 0) {
+    vg_exit();
+    return 1;
+  }
+
   if (timer_unsubscribe_int() != 0) {
     vg_exit();
     return 1;
   }
+
+  kbd_enable_interrupts();
   
   vg_exit(); 
 
