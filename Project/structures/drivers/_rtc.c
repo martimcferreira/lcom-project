@@ -1,6 +1,10 @@
 #include "structures/includes/drivers/_rtc.h"
 #include <minix/sysutil.h>
 
+#ifndef u32_t
+typedef uint32_t u32_t;
+#endif
+
 // Endereços Base
 #define RTC_ADDR_REG 0x70
 #define RTC_DATA_REG 0x71
@@ -26,7 +30,7 @@ static int bcd_to_bin(uint8_t bcd) {
 }
 
 int rtc_read_time(rtc_timestamp *timestamp) {
-    uint32_t regA, regB, temp;
+  u32_t regA, regB, temp;
 
     // 1. Esperar que o RTC não esteja a atualizar (UIP == 0)
     while (true) {
