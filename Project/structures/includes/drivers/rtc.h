@@ -1,19 +1,20 @@
 #pragma once
 
+#include <lcom/lcf.h>
 #include <stdint.h>
 
+// Estrutura expandida para suportar também as Horas e Minutos
 typedef struct {
-  uint8_t day;
-  uint8_t month;
   uint8_t year;
-} rtc_date;
+  uint8_t month;
+  uint8_t day;
+  uint8_t hours;
+  uint8_t minutes;
+  uint8_t seconds;
+} rtc_timestamp;
 
 /**
- * Reads the current date from the RTC and fills the provided `rtc_date`
- * structure. Returns 0 on success, non-zero on failure.
- *
- * This function takes care of ensuring data consistency by checking the Update
- * In Progress (UIP) flag before each read. It also should check the RTC
- * configuration and perform data conversions if necessary (e.g. BCD to binary).
+ * Lê a data e hora atual do RTC e preenche a estrutura `rtc_timestamp`.
+ * Retorna 0 em caso de sucesso, não-zero em caso de erro.
  */
-int rtc_read_date(rtc_date *date);
+int rtc_read_time(rtc_timestamp *timestamp);
