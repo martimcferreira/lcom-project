@@ -2,7 +2,19 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdarg.h>
 #include "devices/video/video.h"
+
+static void write_log(const char *format, ...) {
+  FILE *fp = fopen("/tmp/log.txt", "a");
+  if (fp != NULL) {
+    va_list args;
+    va_start(args, format);
+    vfprintf(fp, format, args);
+    va_end(args);
+    fclose(fp);
+  }
+}
 
 #include "devices/video/assets/fundo_plateia.xpm"
 #include "devices/video/assets/nota_verde.xpm"
@@ -14,13 +26,19 @@
 #include "structures/includes/game.h"
 #include "structures/includes/drivers/kbc.h"
 #include "structures/includes/drivers/i8042.h"
+#include "devices/uart/uart.h"
+#include "structures/includes/beatmap_loader.h"
 
 extern uint32_t no_interrupts;
 extern Note notes[];
 
-#define HIT_ZONE_TOP 498
-#define HIT_ZONE_BOTTOM 524
-#define NOTE_HIT_HEIGHT 40
+static BeatmapEntry beatmap[BEATMAP_MAX_NOTES];
+static int beatmap_count = 0;
+static int current_note_idx = 0;
+
+#define HIT_ZONE_TOP 490
+#define HIT_ZONE_BOTTOM 530
+#define NOTE_HIT_HEIGHT 60
 
 #define A_MAKE_CODE 0x1E
 #define S_MAKE_CODE 0x1F
@@ -48,9 +66,14 @@ static bool note_collides_with_hit_zone(const Note *note) {
   return note_top <= HIT_ZONE_BOTTOM && note_bottom >= HIT_ZONE_TOP;
 }
 
-static bool try_hit_note(uint8_t make_code) {
+/**
+ * Tenta acertar numa nota na pista correspondente ao make_code premido.
+ * @return A pista acertada (0-4) em caso de hit; -1 se a pista for invalida
+ *         ou se nao houver nota na hit zone (miss ativo).
+ */
+static int try_hit_note(uint8_t make_code) {
   int lane = lane_from_make_code(make_code);
-  if (lane < 0) return false;
+  if (lane < 0) return -1;  /* Tecla que nao e de jogo -- ignora */
 
   for (int i = 0; i < MAX_NOTES; i++) {
     if (!notes[i].active) continue;
@@ -58,28 +81,14 @@ static bool try_hit_note(uint8_t make_code) {
     int note_lane = (notes[i].x - 200) / 80;
     if (note_lane == lane && note_collides_with_hit_zone(&notes[i])) {
       notes[i].active = false;
-      printf("ACERTOU!\n");
-      return true;
+      printf("ACERTOU! (pista %d)\n", lane);
+      return lane;
     }
   }
 
-  return false;
+  printf("MISS! (pista %d)\n", lane);
+  return -2;
 }
-
-// --- ESTRUTURA DO BEATMAP ---
-typedef struct {
-  uint32_t spawn_tick; // O tique exato do temporizador (60Hz) para a nota surgir
-  uint8_t lane;        // A pista da nota (0 a 4)
-  bool spawned;        // Flag para garantir que a nota só nasce uma vez
-} BeatmapNote;
-
-// Pauta da música (Exemplo com 4 notas a surgir em tempos e pistas diferentes)
-BeatmapNote current_song[] = {
-  {120, 0, false}, // Aos 2 segundos, nasce na Pista 0 (Verde)
-  {180, 2, false}, // Aos 3 segundos, nasce na Pista 2 (Azul)
-  {240, 1, false}, // Aos 4 segundos, nasce na Pista 1 (Vermelho)
-  {300, 4, false}  // Aos 5 segundos, nasce na Pista 4 (Amarelo)
-};
 
 int main(int argc, char *argv[]) {
   lcf_set_language("EN-US");
@@ -93,7 +102,13 @@ int main(int argc, char *argv[]) {
 }
 
 int (proj_main_loop)(int argc, char *argv[]) {
-  
+
+  if (uart_init() != 0) {
+    printf("[UART] AVISO: falha ao inicializar COM1. Audio desativado.\n");
+  } else {
+    printf("[UART] COM1 inicializada a 115200 bps (8N1). Pronta.\n");
+  }
+
   if (vg_init(0x115) == NULL) {
     printf("Falha ao iniciar o modo grafico!\n");
     return 1;
@@ -106,63 +121,8 @@ int (proj_main_loop)(int argc, char *argv[]) {
     return 1;
   }
 
-  uint8_t timer_bit_no;
-  if (timer_subscribe_int(&timer_bit_no) != 0) {
-    vg_exit();
-    return 1;
-  }
-
-  uint32_t timer_irq_set = BIT(timer_bit_no);
-
-  uint8_t kbd_bit_no;
-  if (kbd_subscribe_int(&kbd_bit_no) != 0) {
-    timer_unsubscribe_int();
-    vg_exit();
-    return 1;
-  }
-
-  uint32_t kbd_irq_set = BIT(kbd_bit_no);
-
-  // Inicializar o array global de notas como limpo/inativo
   init_notes();
   extern Note notes[]; 
-
-  // --- INICIALIZAR 5 NOTAS (UMA EM CADA PISTA) ---
-  
-  // Pista 0: Verde
-  notes[0].x = 200;    
-  notes[0].y = 0;      
-  notes[0].speed = 4;  
-  notes[0].active = true;
-
-  // Pista 1: Vermelha
-  notes[1].x = 280;    
-  notes[1].y = -40;     
-  notes[1].speed = 4;  
-  notes[1].active = true;
-
-  // Pista 2: Azul
-  notes[2].x = 360;    
-  notes[2].y = -80;      
-  notes[2].speed = 4;  
-  notes[2].active = true;
-
-  // Pista 3: Roxa
-  notes[3].x = 440;    
-  notes[3].y = -40;      
-  notes[3].speed = 4;  
-  notes[3].active = true;
-
-  // Pista 4: Amarela
-  notes[4].x = 520;    
-  notes[4].y = 0;      
-  notes[4].speed = 4;  
-  notes[4].active = true;
-
-  int ipc_status;
-  message msg;
-  int r;
-  bool game_running = true;
 
   // --- PRÉ-CARREGAMENTO DO XPM NA RAM ---
   xpm_image_t bg_img;
@@ -173,7 +133,6 @@ int (proj_main_loop)(int argc, char *argv[]) {
     printf("Aviso: Falha ao pré-carregar o XPM de fundo!\n");
   }
 
-  
   xpm_image_t img_notas[5];
   uint32_t *mapas_notas[5];
 
@@ -183,12 +142,106 @@ int (proj_main_loop)(int argc, char *argv[]) {
   mapas_notas[3] = (uint32_t *)xpm_load((xpm_map_t)nota_roxa_xpm, XPM_8_8_8_8, &img_notas[3]);
   mapas_notas[4] = (uint32_t *)xpm_load((xpm_map_t)nota_amarela_xpm, XPM_8_8_8_8, &img_notas[4]);
 
-  // Array provisório caso alguma imagem falhe a carregar
   uint32_t cores_pistas[5] = {0x00FF00, 0xFF0000, 0x0000FF, 0x800080, 0xFFFF00};
-  
+  {
+    FILE *log_init = fopen("/tmp/log.txt", "w");
+    if (log_init != NULL) {
+      fprintf(log_init, "--- DETAILED GAME LOG ---\n");
+      fclose(log_init);
+    }
+  }
+  write_log("[SYSTEM] Motor de fisica e video iniciados a 60 Hz.\n");
 
+  /* --- SELECÇÃO DA MÚSICA & CARREGAMENTO DE BEATMAP DINÂMICO --- */
+  int song_id = 2;
 
-  printf("Motor de física e vídeo iniciados a 60 Hz...\n");
+  char rel_path[64];
+  char tmp_path1[128];
+  char tmp_path2[128];
+  char abs_path1[128];
+  char abs_path2[128];
+  char abs_path3[128];
+  char abs_path4[128];
+  char abs_path5[128];
+  char abs_path6[128];
+
+  snprintf(rel_path, sizeof(rel_path), "beatmaps/song%d.txt", song_id);
+  snprintf(tmp_path1, sizeof(tmp_path1), "/tmp/beatmaps/song%d.txt", song_id);
+  snprintf(tmp_path2, sizeof(tmp_path2), "/tmp/song%d.txt", song_id);
+  snprintf(abs_path1, sizeof(abs_path1), "/shares/lcom/grupo_2leic02_2/Project/beatmaps/song%d.txt", song_id);
+  snprintf(abs_path2, sizeof(abs_path2), "/home/lcom/labs/shared/grupo_2leic02_2/Project/beatmaps/song%d.txt", song_id);
+  snprintf(abs_path3, sizeof(abs_path3), "/home/lcom/labs/Project/beatmaps/song%d.txt", song_id);
+  snprintf(abs_path4, sizeof(abs_path4), "/home/lcom/labs/g2/Project/beatmaps/song%d.txt", song_id);
+  snprintf(abs_path5, sizeof(abs_path5), "/home/lcom/labs/shared/Project/beatmaps/song%d.txt", song_id);
+  snprintf(abs_path6, sizeof(abs_path6), "/home/lcom/shared/grupo_2leic02_2/Project/beatmaps/song%d.txt", song_id);
+
+  const char *candidate_paths[] = {
+    tmp_path1,
+    tmp_path2,
+    rel_path,
+    abs_path1,
+    abs_path2,
+    abs_path3,
+    abs_path4,
+    abs_path5,
+    abs_path6
+  };
+  int num_candidates = sizeof(candidate_paths) / sizeof(candidate_paths[0]);
+
+  beatmap_count = 0;
+  current_note_idx = 0;
+
+  write_log("[BEATMAP] A tentar carregar beatmap para musica %d...\n", song_id);
+  for (int i = 0; i < num_candidates; i++) {
+    if (beatmap_load(candidate_paths[i], beatmap, &beatmap_count) == 0 && beatmap_count > 0) {
+      write_log("[BEATMAP] SUCESSO! Carregado a partir de: %s\n", candidate_paths[i]);
+      break;
+    }
+  }
+
+  if (beatmap_count == 0) {
+    write_log("[BEATMAP] ERRO CRITICO: Nao foi possivel carregar o beatmap de nenhum caminho candidato!\n");
+  } else {
+    write_log("[BEATMAP] %d notas carregadas com sucesso. Jogo pronto.\n", beatmap_count);
+  }
+
+  uint8_t timer_bit_no;
+  if (timer_subscribe_int(&timer_bit_no) != 0) {
+    vg_exit();
+    return 1;
+  }
+  uint32_t timer_irq_set = BIT(timer_bit_no);
+
+  {
+    uint32_t stat, trash;
+    int limit = 20; 
+    while (limit-- > 0) {
+      if (sys_inb(KBC_STAT_REG, &stat) != 0) break;
+      if (stat & KBC_OBF) {
+        sys_inb(KBC_OUT_BUF, &trash);
+        tickdelay(micros_to_ticks(DELAY_US));
+      } else {
+        break;
+      }
+    }
+  }
+  scancode_byte = 0;
+
+  uint8_t kbd_bit_no;
+  if (kbd_subscribe_int(&kbd_bit_no) != 0) {
+    timer_unsubscribe_int();
+    vg_exit();
+    return 1;
+  }
+  uint32_t kbd_irq_set = BIT(kbd_bit_no);
+
+  int ipc_status;
+  message msg;
+  int r;
+  bool game_running = true;
+
+  uart_send_packet(0x10, (uint8_t)song_id);  /* CMD 0x10 = START MUSIC, ARG = song_id */
+  printf("[UART] Pacote START MUSIC (0x10, 0x%02x) enviado.\n", song_id);
 
   while (game_running) {
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
@@ -206,7 +259,18 @@ int (proj_main_loop)(int argc, char *argv[]) {
                 game_running = false;
               }
               else if ((scancode_byte & BIT(7)) == 0) {
-                try_hit_note(scancode_byte);
+                /*
+                 * try_hit_note devolve:
+                 *   >= 0  : pista acertada (hit)  -> envia CMD 0x20, ARG = pista+1
+                 *   == -2 : tecla valida mas miss  -> envia CMD 0x21, ARG = 0x00
+                 *   == -1 : tecla nao e de jogo   -> ignora
+                 */
+                int hit_result = try_hit_note(scancode_byte);
+                if (hit_result >= 0) {
+                  uart_send_packet(0x20, (uint8_t)(hit_result + 1));
+                } else if (hit_result == -2) {
+                  uart_send_packet(0x21, 0x00);  /* Miss ativo */
+                }
               }
             }
           }
@@ -215,30 +279,37 @@ int (proj_main_loop)(int argc, char *argv[]) {
             
             timer_int_handler(); 
 
-            // --- LÓGICA DE SPAWN DO BEATMAP ---
-            for (size_t i = 0; i < (sizeof(current_song) / sizeof(current_song[0])); i++) {
-              // Se o tique atual for igual ao spawn_tick da nota e ela ainda não nasceu
-              if (!current_song[i].spawned && no_interrupts == current_song[i].spawn_tick) {
-                current_song[i].spawned = true;
+            
+             while (current_note_idx < beatmap_count) {
+               if (no_interrupts < beatmap[current_note_idx].spawn_tick) {
+                 break;
+               }
 
-                // Procurar um slot livre no array global de notas do jogo para a ativar
-                for (int j = 0; j < MAX_NOTES; j++) {
-                  if (!notes[j].active) {
-                    // Define o X com base na pista (largura de 80px por pista, a começar no X=200)
-                    notes[j].x = 200 + (current_song[i].lane * 80);
-                    notes[j].y = 0;
-                    notes[j].speed = 4;
-                    notes[j].active = true;
-                    
-                    printf("[DEBUG] Spawning nota na pista %u no tique %u\n", current_song[i].lane, current_song[i].spawn_tick);
-                    break; 
-                  }
+               beatmap[current_note_idx].spawned = true;
+               write_log("[DEBUG] NOTA SPAWNADA! idx=%d, tick=%u, lane=%d, no_interrupts=%u\n",
+                      current_note_idx, beatmap[current_note_idx].spawn_tick, 
+                      (int)beatmap[current_note_idx].lane, no_interrupts);
+
+               for (int j = 0; j < MAX_NOTES; j++) {
+                 if (!notes[j].active) {
+                   notes[j].x      = 200 + (beatmap[current_note_idx].lane * 80);
+                   notes[j].y      = 0;
+                   notes[j].speed  = 4;
+                   notes[j].active = true;
+                   break;
+                 }
+               }
+               current_note_idx++;
+             }
+
+            {
+              int passive_misses = update_notes();
+              if (passive_misses > 0) {
+                for (int m = 0; m < passive_misses; m++) {
+                  uart_send_packet(0x21, 0x00);
                 }
               }
-            }
-
-            // Atualizar a física de todas as notas que se encontram ativas
-            update_notes(); 
+            } 
 
             // --- 1. CAMADA DE FUNDO OTIMIZADA ---
             if (bg_map != NULL) {
@@ -337,7 +408,8 @@ int (proj_main_loop)(int argc, char *argv[]) {
             
             // Debug regular no terminal a cada segundo
             if (no_interrupts % 60 == 0) {
-              printf("[DEBUG] Segundo %d de jogo decorrido.\n", (no_interrupts / 60));
+              write_log("[DEBUG] Segundo %d: no_interrupts=%u, current_note_idx=%d, beatmap_count=%d\n", 
+                        (no_interrupts / 60), no_interrupts, current_note_idx, beatmap_count);
             }
           }
           break;
@@ -346,6 +418,11 @@ int (proj_main_loop)(int argc, char *argv[]) {
       }
     }
   }
+
+  /* --- SHUTDOWN: envia paragem de musica e som de game over/saida --- */
+  uart_send_packet(0x11, 0x00);  /* CMD 0x11 = STOP MUSIC */
+  uart_send_packet(0x42, 0x00);  /* CMD 0x42 = FAIL / GAME OVER SOUND */
+  printf("[UART] Pacotes STOP (0x11) e GAME OVER (0x42) enviados.\n");
 
   if (kbd_unsubscribe_int() != 0) {
     vg_exit();

@@ -11,4 +11,9 @@ typedef struct {
 #define MAX_NOTES 100 
 
 void init_notes();
-void update_notes();
+
+/**
+ * Atualiza a posição de todas as notas ativas.
+ * @return Número de notas que passaram o limite inferior sem serem acertadas (misses).
+ */
+int update_notes();

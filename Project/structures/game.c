@@ -9,16 +9,20 @@ void init_notes() {
     }
 }
 
-void update_notes() {
+int update_notes() {
+    int misses = 0;
     for (int i = 0; i < MAX_NOTES; i++) {
         if (notes[i].active) {
             // Atualiza a posição vertical
-            notes[i].y += notes[i].speed; 
+            notes[i].y += notes[i].speed;
 
-            // Se a nota ultrapassar o limite inferior do ecrã (ex: 600 píxeis)
-            if (notes[i].y > 600) {
-                notes[i].active = false; // Desativa a nota
+            // Se a nota ultrapassar o limite inferior do ecrã (530px)
+            // sem ter sido acertada pelo jogador -> miss passivo
+            if (notes[i].y > 530) {
+                notes[i].active = false;
+                misses++;
             }
         }
     }
+    return misses;
 }
