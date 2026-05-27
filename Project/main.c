@@ -66,6 +66,17 @@ static bool note_collides_with_hit_zone(const Note *note) {
   return note_top <= HIT_ZONE_BOTTOM && note_bottom >= HIT_ZONE_TOP;
 }
 
+static bool uart_send_audio_event(bool uart_ready, uint8_t event_byte, const char *event_name) {
+  if (!uart_ready) return false;
+
+  if (uart_send_byte(event_byte) != 0) {
+    printf("[UART] Falha ao enviar evento %s (0x%02x).\n", event_name, event_byte);
+    return false;
+  }
+
+  return true;
+}
+
 /**
  * Tenta acertar numa nota na pista correspondente ao make_code premido.
  * @return A pista acertada (0-4) em caso de hit; -1 se a pista for invalida
@@ -103,7 +114,8 @@ int main(int argc, char *argv[]) {
 
 int (proj_main_loop)(int argc, char *argv[]) {
 
-  if (uart_init() != 0) {
+  bool uart_ready = (uart_init() == 0);
+  if (!uart_ready) {
     printf("[UART] AVISO: falha ao inicializar COM1. Audio desativado.\n");
   } else {
     printf("[UART] COM1 inicializada a 115200 bps (8N1). Pronta.\n");
@@ -240,8 +252,9 @@ int (proj_main_loop)(int argc, char *argv[]) {
   int r;
   bool game_running = true;
 
-  uart_send_packet(0x10, (uint8_t)song_id);  /* CMD 0x10 = START MUSIC, ARG = song_id */
-  printf("[UART] Pacote START MUSIC (0x10, 0x%02x) enviado.\n", song_id);
+  if (uart_send_audio_event(uart_ready, UART_EVENT_GAME_START, "INICIO_JOGO")) {
+    printf("[UART] Evento INICIO_JOGO (0x%02x) enviado.\n", UART_EVENT_GAME_START);
+  }
 
   while (game_running) {
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
@@ -261,15 +274,15 @@ int (proj_main_loop)(int argc, char *argv[]) {
               else if ((scancode_byte & BIT(7)) == 0) {
                 /*
                  * try_hit_note devolve:
-                 *   >= 0  : pista acertada (hit)  -> envia CMD 0x20, ARG = pista+1
-                 *   == -2 : tecla valida mas miss  -> envia CMD 0x21, ARG = 0x00
+                 *   >= 0  : pista acertada (hit)  -> envia byte 0x0A
+                 *   == -2 : tecla valida mas miss  -> envia byte 0x0E
                  *   == -1 : tecla nao e de jogo   -> ignora
                  */
                 int hit_result = try_hit_note(scancode_byte);
                 if (hit_result >= 0) {
-                  uart_send_packet(0x20, (uint8_t)(hit_result + 1));
+                  uart_send_audio_event(uart_ready, UART_EVENT_HIT, "ACERTOU");
                 } else if (hit_result == -2) {
-                  uart_send_packet(0x21, 0x00);  /* Miss ativo */
+                  uart_send_audio_event(uart_ready, UART_EVENT_MISS, "ERRO");  /* Miss ativo */
                 }
               }
             }
@@ -306,7 +319,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
               int passive_misses = update_notes();
               if (passive_misses > 0) {
                 for (int m = 0; m < passive_misses; m++) {
-                  uart_send_packet(0x21, 0x00);
+                  uart_send_audio_event(uart_ready, UART_EVENT_MISS, "ERRO");
                 }
               }
             } 
@@ -419,10 +432,8 @@ int (proj_main_loop)(int argc, char *argv[]) {
     }
   }
 
-  /* --- SHUTDOWN: envia paragem de musica e som de game over/saida --- */
-  uart_send_packet(0x11, 0x00);  /* CMD 0x11 = STOP MUSIC */
-  uart_send_packet(0x42, 0x00);  /* CMD 0x42 = FAIL / GAME OVER SOUND */
-  printf("[UART] Pacotes STOP (0x11) e GAME OVER (0x42) enviados.\n");
+  /* O protocolo simples pedido para o Membro 3 só define início, acerto e erro. */
+  printf("[UART] Jogo terminado. Sem evento UART extra no shutdown.\n");
 
   if (kbd_unsubscribe_int() != 0) {
     vg_exit();

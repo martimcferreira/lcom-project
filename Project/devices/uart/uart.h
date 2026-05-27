@@ -30,9 +30,14 @@
 #define UART_BAUD_115200_DLL  0x01
 #define UART_BAUD_115200_DLM  0x00
 
-/* --- Protocolo de pacotes --- */
+/* --- Protocolo de pacotes legado --- */
 #define UART_PKT_START      0xAA
 #define UART_PKT_END        0xFF
+
+/* --- Eventos simples acordados com o módulo Python de áudio --- */
+#define UART_EVENT_GAME_START  0x01  /* Início de jogo / tocar música */
+#define UART_EVENT_HIT         0x0A  /* Nota acertada */
+#define UART_EVENT_MISS        0x0E  /* Erro / nota falhada */
 
 /* -----------------------------------------------------------------------
  * Interface pública
@@ -46,6 +51,12 @@ int uart_init(void);
 
 /**
  * @brief Envia um byte via polling (aguarda THRE antes de escrever no THR).
+ *
+ * Usado pelo Membro 3 para enviar eventos simples ao Python:
+ *  - UART_EVENT_GAME_START (0x01) no início do jogo;
+ *  - UART_EVENT_HIT        (0x0A) quando a nota é acertada;
+ *  - UART_EVENT_MISS       (0x0E) quando há erro/miss.
+ *
  * @param byte Byte a enviar.
  * @return 0 em sucesso, 1 em erro.
  */
