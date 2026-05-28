@@ -5,7 +5,7 @@
 #include <stdarg.h>
 #include "devices/video/video.h"
 
-/*static void write_log(const char *format, ...) {
+static void write_log(const char *format, ...) {
   FILE *fp = fopen("/tmp/log.txt", "a");
   if (fp != NULL) {
     va_list args;
@@ -15,7 +15,6 @@
     fclose(fp);
   }
 }
-  */
 
 // Assets Visuais
 #include "devices/video/assets/fundo_plateia.xpm"
@@ -59,6 +58,8 @@ static int miss_effect_frames[5] = {0, 0, 0, 0, 0};
 // Estado Global e Coordenadas do Rato
 GameState current_state = MENU;
 bool music_started = false;
+uint32_t play_start_tick = 0;
+int song_id = 1;
 
 int mouse_x = 400;
 int mouse_y = 300;
@@ -151,64 +152,10 @@ int (proj_main_loop)(int argc, char *argv[]) {
     return 1;
   }
 
-  /* --- SELECÇÃO DA MÚSICA & CARREGAMENTO DE BEATMAP DINÂMICO --- */
-  int song_id = 2;
-
-  char rel_path[64];
-  char tmp_path1[128];
-  char tmp_path2[128];
-  char abs_path1[128];
-  char abs_path2[128];
-  char abs_path3[128];
-  char abs_path4[128];
-  char abs_path5[128];
-  char abs_path6[128];
-
-  snprintf(rel_path, sizeof(rel_path), "beatmaps/song%d.txt", song_id);
-  snprintf(tmp_path1, sizeof(tmp_path1), "/tmp/beatmaps/song%d.txt", song_id);
-  snprintf(tmp_path2, sizeof(tmp_path2), "/tmp/song%d.txt", song_id);
-  snprintf(abs_path1, sizeof(abs_path1), "/shares/lcom/grupo_2leic02_2/Project/beatmaps/song%d.txt", song_id);
-  snprintf(abs_path2, sizeof(abs_path2), "/home/lcom/labs/shared/grupo_2leic02_2/Project/beatmaps/song%d.txt", song_id);
-  snprintf(abs_path3, sizeof(abs_path3), "/home/lcom/labs/Project/beatmaps/song%d.txt", song_id);
-  snprintf(abs_path4, sizeof(abs_path4), "/home/lcom/labs/g2/Project/beatmaps/song%d.txt", song_id);
-  snprintf(abs_path5, sizeof(abs_path5), "/home/lcom/labs/shared/Project/beatmaps/song%d.txt", song_id);
-  snprintf(abs_path6, sizeof(abs_path6), "/home/lcom/shared/grupo_2leic02_2/Project/beatmaps/song%d.txt", song_id);
-
-  const char *candidate_paths[] = {
-    tmp_path1,
-    tmp_path2,
-    rel_path,
-    abs_path1,
-    abs_path2,
-    abs_path3,
-    abs_path4,
-    abs_path5,
-    abs_path6
-  };
-  int num_candidates = sizeof(candidate_paths) / sizeof(candidate_paths[0]);
-
-  beatmap_count = 0;
-  current_note_idx = 0;
   for (int i = 0; i < 5; i++) {
     hit_effect_frames[i] = 0;
     miss_effect_frames[i] = 0;
   }
-
-  write_log("[BEATMAP] A tentar carregar beatmap para musica %d...\n", song_id);
-  for (int i = 0; i < num_candidates; i++) {
-    if (beatmap_load(candidate_paths[i], beatmap, &beatmap_count) == 0 && beatmap_count > 0) {
-      write_log("[BEATMAP] SUCESSO! Carregado a partir de: %s\n", candidate_paths[i]);
-      break;
-    }
-  }
-
-  if (beatmap_count == 0) {
-    write_log("[BEATMAP] ERRO CRITICO: Nao foi possivel carregar o beatmap de nenhum caminho candidato!\n");
-  } else {
-    write_log("[BEATMAP] %d notas carregadas com sucesso. Jogo pronto.\n", beatmap_count);
-  }
-
-  init_notes();
   extern Note notes[]; 
 
   // --- PRÉ-CARREGAMENTO DO XPM NA RAM ---
@@ -287,6 +234,11 @@ int (proj_main_loop)(int argc, char *argv[]) {
   }
   uint32_t kbd_irq_set = BIT(kbd_bit_no);
 
+  int ipc_status;
+  message msg;
+  int r;
+  bool game_running = true;
+
   uint8_t mouse_bytes[3];
   uint8_t mouse_byte_index = 0;
   struct packet mouse_packet;
@@ -315,8 +267,6 @@ int (proj_main_loop)(int argc, char *argv[]) {
                    }
                  }
               }
-
-              }
             }
           }
 
@@ -338,6 +288,10 @@ int (proj_main_loop)(int argc, char *argv[]) {
 
                 if (current_state == MENU) {
                   check_menu_clicks(mouse_x, mouse_y, mouse_packet.lb, &current_state, &game_running);
+                } else if (current_state == SONG_SELECT) {
+                  check_song_select_clicks(mouse_x, mouse_y, mouse_packet.lb, &current_state);
+                  /* Ao entrar em PLAY a partir de SONG_SELECT, reset da musica */
+                  if (current_state == PLAY) music_started = false;
                 }
                 mouse_byte_index = 0;
               }
@@ -350,9 +304,66 @@ int (proj_main_loop)(int argc, char *argv[]) {
 
             if (current_state == MENU) {
               draw_main_menu(mouse_x, mouse_y);
+            } else if (current_state == SONG_SELECT) {
+              draw_song_select(mouse_x, mouse_y);
             } 
             else if (current_state == PLAY) {
               if (!music_started) {
+                play_start_tick = no_interrupts;
+
+                // --- CARREGAMENTO DO BEATMAP DINÂMICO AO INICIAR ---
+                char rel_path[64];
+                char tmp_path1[128];
+                char tmp_path2[128];
+                char abs_path1[128];
+                char abs_path2[128];
+                char abs_path3[128];
+                char abs_path4[128];
+                char abs_path5[128];
+                char abs_path6[128];
+
+                snprintf(rel_path, sizeof(rel_path), "beatmaps/song%d.txt", song_id);
+                snprintf(tmp_path1, sizeof(tmp_path1), "/tmp/beatmaps/song%d.txt", song_id);
+                snprintf(tmp_path2, sizeof(tmp_path2), "/tmp/song%d.txt", song_id);
+                snprintf(abs_path1, sizeof(abs_path1), "/shares/lcom/grupo_2leic02_2/Project/beatmaps/song%d.txt", song_id);
+                snprintf(abs_path2, sizeof(abs_path2), "/home/lcom/labs/shared/grupo_2leic02_2/Project/beatmaps/song%d.txt", song_id);
+                snprintf(abs_path3, sizeof(abs_path3), "/home/lcom/labs/Project/beatmaps/song%d.txt", song_id);
+                snprintf(abs_path4, sizeof(abs_path4), "/home/lcom/labs/g2/Project/beatmaps/song%d.txt", song_id);
+                snprintf(abs_path5, sizeof(abs_path5), "/home/lcom/labs/shared/Project/beatmaps/song%d.txt", song_id);
+                snprintf(abs_path6, sizeof(abs_path6), "/home/lcom/shared/grupo_2leic02_2/Project/beatmaps/song%d.txt", song_id);
+
+                const char *candidate_paths[] = {
+                  tmp_path1,
+                  tmp_path2,
+                  rel_path,
+                  abs_path1,
+                  abs_path2,
+                  abs_path3,
+                  abs_path4,
+                  abs_path5,
+                  abs_path6
+                };
+                int num_candidates = sizeof(candidate_paths) / sizeof(candidate_paths[0]);
+
+                beatmap_count = 0;
+                current_note_idx = 0;
+
+                write_log("[BEATMAP] A tentar carregar beatmap para musica %d...\n", song_id);
+                for (int i = 0; i < num_candidates; i++) {
+                  if (beatmap_load(candidate_paths[i], beatmap, &beatmap_count) == 0 && beatmap_count > 0) {
+                    write_log("[BEATMAP] SUCESSO! Carregado a partir de: %s\n", candidate_paths[i]);
+                    break;
+                  }
+                }
+
+                if (beatmap_count == 0) {
+                  write_log("[BEATMAP] ERRO CRITICO: Nao foi possivel carregar o beatmap de nenhum caminho candidato!\n");
+                } else {
+                  write_log("[BEATMAP] %d notas carregadas com sucesso. Jogo pronto.\n", beatmap_count);
+                }
+
+                init_notes();
+
                 uint8_t start_event = (song_id == 2) ? UART_EVENT_GAME_START_SONG2 : UART_EVENT_GAME_START_SONG1;
                 if (uart_send_audio_event(uart_ready, start_event, "INICIO_JOGO")) {
                   printf("[UART] Evento INICIO_JOGO (0x%02x) enviado pelo Menu para musica %d.\n", start_event, song_id);
@@ -361,7 +372,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
               }
 
               while (current_note_idx < beatmap_count) {
-                if (no_interrupts < beatmap[current_note_idx].spawn_tick) break;
+                if ((no_interrupts - play_start_tick) < beatmap[current_note_idx].spawn_tick) break;
                 beatmap[current_note_idx].spawned = true;
                 for (int j = 0; j < MAX_NOTES; j++) {
                   if (!notes[j].active) {
@@ -426,11 +437,48 @@ int (proj_main_loop)(int argc, char *argv[]) {
               // --- 2.5. OS TRASTES (Scrolling Infinito com Correção de Limites) ---
               int distancia_trastes = 150; 
               int velocidade_scroll = 4; 
-              int offset = (no_interrupts * velocidade_scroll) % distancia_trastes;
+              int offset = ((no_interrupts - play_start_tick) * velocidade_scroll) % distancia_trastes;
 
               for (int i = -1; i <= 4; i++) {
                   int traste_y = (i * distancia_trastes) + offset;
                   if (traste_y >= 0 && traste_y < 596) {
+                      vg_draw_rectangle(200, traste_y + 2, 400, 3, 0x111111); // Sombra 3D projetada
+                      vg_draw_rectangle(200, traste_y, 400, 2, 0x999999);     // Metal do traste
+                  }
+              }
+
+              // --- 3. A ZONA DE ACERTO ---
+              vg_draw_rectangle(200, 498, 400, 2, 0x555555); // Brilho superior
+              vg_draw_rectangle(200, 500, 400, 20, 0x222222); // Base
+              vg_draw_rectangle(200, 520, 400, 4, 0x000000); // Sombra inferior
+
+              for (int i = 0; i < 5; i++) {
+                int lane_x_center = 200 + i * 80 + 40;
+                uint32_t lane_colors[5] = {0x00FF00, 0xFF0000, 0x0000FF, 0x800080, 0xFFFF00}; // Verde, Vermelho, Azul, Roxo, Amarelo
+
+                // Desenhar MISS FLASH (Vermelho)
+                if (miss_effect_frames[i] > 0) {
+                  // Flash vermelho que cobre a zona de toque da pista
+                  vg_draw_rectangle(200 + i * 80 + 10, 500, 60, 20, 0xFF0000);
+                  miss_effect_frames[i]--;
+                }
+
+                // Desenhar HIT GLOW (Brilho Expansivo)
+                if (hit_effect_frames[i] > 0) {
+                  int frame_diff = 12 - hit_effect_frames[i];
+                  int w = 20 + frame_diff * 4;   // Expande horizontalmente
+                  int h = 8 + frame_diff * 2;    // Expande verticalmente
+                  
+                  // Desenhar halo de cor da pista
+                  vg_draw_rectangle(lane_x_center - w / 2, 510 - h / 2, w, h, lane_colors[i]);
+                  
+                  int iw = w / 2;
+                  int ih = h / 2;
+                  vg_draw_rectangle(lane_x_center - iw / 2, 510 - ih / 2, iw, ih, 0xFFFFFF);
+                  
+                  hit_effect_frames[i]--;
+                }
+              }
 
               for (int i = 0; i < MAX_NOTES; i++) {
                 if (notes[i].active) {
@@ -457,7 +505,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
                   }
                 }
               }
-            }
+            } // fecho do else if (current_state == PLAY)
             vg_draw_rectangle(mouse_x, mouse_y, 10, 10, 0xFFFFFF);
             vg_swap_buffers();
           }
