@@ -35,9 +35,13 @@
 #define UART_PKT_END        0xFF
 
 /* --- Eventos simples acordados com o módulo Python de áudio --- */
-#define UART_EVENT_GAME_START  0x01  /* Início de jogo / tocar música */
-#define UART_EVENT_HIT         0x0A  /* Nota acertada */
-#define UART_EVENT_MISS        0x0E  /* Erro / nota falhada */
+#define UART_EVENT_GAME_START_SONG1 0x01  /* Iniciar Música 1 */
+#define UART_EVENT_GAME_START_SONG2 0x02  /* Iniciar Música 2 */
+#define UART_EVENT_GAME_END         0x03  /* Parar Música / Fim de Jogo */
+#define UART_EVENT_HIT              0x0A  /* Nota acertada */
+#define UART_EVENT_MISS             0x0E  /* Erro / nota falhada */
+
+
 
 /* -----------------------------------------------------------------------
  * Interface pública

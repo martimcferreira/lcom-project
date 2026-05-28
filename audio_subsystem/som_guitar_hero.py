@@ -18,9 +18,18 @@ BAUD_RATE = 115200
 DEFAULT_SONG = os.path.join("songs", "song2.mp3")  # main.c está com song_id = 2
 DEFAULT_FAIL_WAV = os.path.join("fx", "fail.wav")
 
-EVENT_GAME_START = 0x01
+EVENT_GAME_START_SONG1 = 0x01
+EVENT_GAME_START_SONG2 = 0x02
+EVENT_GAME_END = 0x03
 EVENT_HIT = 0x0A
 EVENT_MISS = 0x0E
+
+SONGS = {
+    1: os.path.join("songs", "song1.mp3"),
+    2: os.path.join("songs", "song2.mp3")
+}
+
+
 
 
 def make_detune_sound(duration=0.35, sample_rate=44100):
@@ -97,8 +106,13 @@ def main():
             event = data[0]
             print(f"[UART] Recebi {event:#04x}")
 
-            if event == EVENT_GAME_START:
-                play_song(args.song)
+            if event == EVENT_GAME_START_SONG1:
+                play_song(SONGS[1])
+            elif event == EVENT_GAME_START_SONG2:
+                play_song(SONGS[2])
+            elif event == EVENT_GAME_END:
+                pygame.mixer.music.stop()
+                print("🛑 [MÚSICA] Parada imediatamente (Fim de Jogo).")
             elif event == EVENT_HIT:
                 print("✅ [HIT] Nota acertada.")
             elif event == EVENT_MISS:
@@ -106,6 +120,8 @@ def main():
                 fail_sound.play()
             else:
                 print(f"[UART] Byte ignorado: {event:#04x}")
+
+
 
     except KeyboardInterrupt:
         print("\n[INFO] Script terminado pelo utilizador.")

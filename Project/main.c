@@ -167,7 +167,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
   write_log("[SYSTEM] Motor de fisica e video iniciados a 60 Hz.\n");
 
   /* --- SELECÇÃO DA MÚSICA & CARREGAMENTO DE BEATMAP DINÂMICO --- */
-  int song_id = 1;
+  int song_id = 2;
 
   char rel_path[64];
   char tmp_path1[128];
@@ -258,9 +258,11 @@ int (proj_main_loop)(int argc, char *argv[]) {
   int r;
   bool game_running = true;
 
-  if (uart_send_audio_event(uart_ready, UART_EVENT_GAME_START, "INICIO_JOGO")) {
-    printf("[UART] Evento INICIO_JOGO (0x%02x) enviado.\n", UART_EVENT_GAME_START);
+  uint8_t start_event = (song_id == 2) ? UART_EVENT_GAME_START_SONG2 : UART_EVENT_GAME_START_SONG1;
+  if (uart_send_audio_event(uart_ready, start_event, "INICIO_JOGO")) {
+    printf("[UART] Evento INICIO_JOGO (0x%02x) enviado para musica %d.\n", start_event, song_id);
   }
+
 
   while (game_running) {
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
@@ -484,8 +486,12 @@ int (proj_main_loop)(int argc, char *argv[]) {
     }
   }
 
-  /* O protocolo simples pedido para o Membro 3 só define início, acerto e erro. */
-  printf("[UART] Jogo terminado. Sem evento UART extra no shutdown.\n");
+  /* Envia o evento de fecho/paragem de música para o script Python */
+  if (uart_ready) {
+    uart_send_audio_event(uart_ready, UART_EVENT_GAME_END, "FIM_JOGO");
+    printf("[UART] Evento FIM_JOGO (0x%02x) enviado.\n", UART_EVENT_GAME_END);
+  }
+
 
   if (kbd_unsubscribe_int() != 0) {
     vg_exit();
