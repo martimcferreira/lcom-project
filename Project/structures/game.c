@@ -18,7 +18,7 @@ int update_notes() {
 
             // Se a nota ultrapassar o limite inferior do ecrã (530px)
             // sem ter sido acertada pelo jogador -> miss passivo
-            if (notes[i].y > 530) {
+            if (notes[i].y > 500) {
                 notes[i].active = false;
                 misses++;
             }

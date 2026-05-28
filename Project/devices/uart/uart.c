@@ -38,15 +38,21 @@ int uart_init(void) {
  * ----------------------------------------------------------------------- */
 int uart_send_byte(uint8_t byte) {
   uint32_t lsr;
+  int retry_limit = 10000; // safety limit to prevent deadlocks
 
-  /* Polling até ao THRE: aguarda o transmissor estar livre */
+  /* Polling até ao THRE com limite de segurança */
   do {
     if (sys_inb(UART_COM1_BASE + UART_LSR, &lsr) != OK) return 1;
+    if (--retry_limit <= 0) {
+      // UART congested or receiver not listening, abort to prevent freezing the entire game
+      return 1;
+    }
   } while ((lsr & UART_THRE_BIT) == 0);
 
   /* Escreve o byte no Transmit Holding Register */
   return (sys_outb(UART_COM1_BASE + UART_THR, (uint32_t)byte) != OK) ? 1 : 0;
 }
+
 
 /* -----------------------------------------------------------------------
  * uart_send_packet
