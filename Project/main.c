@@ -35,6 +35,8 @@ extern Note notes[];
 static BeatmapEntry beatmap[BEATMAP_MAX_NOTES];
 static int beatmap_count = 0;
 static int current_note_idx = 0;
+static int hit_effect_frames[5] = {0, 0, 0, 0, 0};
+static int miss_effect_frames[5] = {0, 0, 0, 0, 0};
 
 #define HIT_ZONE_TOP 490
 #define HIT_ZONE_BOTTOM 530
@@ -165,7 +167,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
   write_log("[SYSTEM] Motor de fisica e video iniciados a 60 Hz.\n");
 
   /* --- SELECÇÃO DA MÚSICA & CARREGAMENTO DE BEATMAP DINÂMICO --- */
-  int song_id = 2;
+  int song_id = 1;
 
   char rel_path[64];
   char tmp_path1[128];
@@ -202,6 +204,10 @@ int (proj_main_loop)(int argc, char *argv[]) {
 
   beatmap_count = 0;
   current_note_idx = 0;
+  for (int i = 0; i < 5; i++) {
+    hit_effect_frames[i] = 0;
+    miss_effect_frames[i] = 0;
+  }
 
   write_log("[BEATMAP] A tentar carregar beatmap para musica %d...\n", song_id);
   for (int i = 0; i < num_candidates; i++) {
@@ -278,12 +284,18 @@ int (proj_main_loop)(int argc, char *argv[]) {
                  *   == -2 : tecla valida mas miss  -> envia byte 0x0E
                  *   == -1 : tecla nao e de jogo   -> ignora
                  */
-                int hit_result = try_hit_note(scancode_byte);
-                if (hit_result >= 0) {
-                  uart_send_audio_event(uart_ready, UART_EVENT_HIT, "ACERTOU");
-                } else if (hit_result == -2) {
-                  uart_send_audio_event(uart_ready, UART_EVENT_MISS, "ERRO");  /* Miss ativo */
-                }
+                 int lane = lane_from_make_code(scancode_byte);
+                 int hit_result = try_hit_note(scancode_byte);
+                 if (hit_result >= 0) {
+                   uart_send_audio_event(uart_ready, UART_EVENT_HIT, "ACERTOU");
+                   hit_effect_frames[hit_result] = 12; // Trigger expanding color halo!
+                 } else if (hit_result == -2) {
+                   uart_send_audio_event(uart_ready, UART_EVENT_MISS, "ERRO");  /* Miss ativo */
+                   if (lane >= 0 && lane < 5) {
+                     miss_effect_frames[lane] = 8; // Trigger red flash in this lane!
+                   }
+                 }
+
               }
             }
           }
@@ -316,6 +328,16 @@ int (proj_main_loop)(int argc, char *argv[]) {
              }
 
             {
+              // --- TRIGGER PASSIVE MISS VISUAL FEEDBACK ---
+              for (int i = 0; i < MAX_NOTES; i++) {
+                if (notes[i].active && notes[i].y + notes[i].speed > 500) {
+                  int lane = (notes[i].x - 200) / 80;
+                  if (lane >= 0 && lane < 5) {
+                    miss_effect_frames[lane] = 8; // Trigger red flash on passive miss!
+                  }
+                }
+              }
+
               int passive_misses = update_notes();
               if (passive_misses > 0) {
                 for (int m = 0; m < passive_misses; m++) {
@@ -376,6 +398,36 @@ int (proj_main_loop)(int argc, char *argv[]) {
             vg_draw_rectangle(200, 498, 400, 2, 0x555555); // Brilho superior
             vg_draw_rectangle(200, 500, 400, 20, 0x222222); // Base
             vg_draw_rectangle(200, 520, 400, 4, 0x000000); // Sombra inferior profunda
+
+            // --- 3.5. EFEITOS VISUAIS: HIT GLOW E MISS FLASH ---
+            for (int i = 0; i < 5; i++) {
+              int lane_x_center = 200 + i * 80 + 40;
+              uint32_t lane_colors[5] = {0x00FF00, 0xFF0000, 0x0000FF, 0x800080, 0xFFFF00}; // Verde, Vermelho, Azul, Roxo, Amarelo
+
+              // Desenhar MISS FLASH (Vermelho)
+              if (miss_effect_frames[i] > 0) {
+                // Flash vermelho que cobre a zona de toque da pista
+                vg_draw_rectangle(200 + i * 80 + 10, 500, 60, 20, 0xFF0000);
+                miss_effect_frames[i]--;
+              }
+
+              // Desenhar HIT GLOW (Brilho Expansivo)
+              if (hit_effect_frames[i] > 0) {
+                int frame_diff = 12 - hit_effect_frames[i];
+                int w = 20 + frame_diff * 4;   // Expande horizontalmente
+                int h = 8 + frame_diff * 2;    // Expande verticalmente
+                
+                // Desenhar halo de cor da pista
+                vg_draw_rectangle(lane_x_center - w / 2, 510 - h / 2, w, h, lane_colors[i]);
+                
+                // Desenhar centro branco brilhante (hot-spot 3D)
+                int iw = w / 2;
+                int ih = h / 2;
+                vg_draw_rectangle(lane_x_center - iw / 2, 510 - ih / 2, iw, ih, 0xFFFFFF);
+                
+                hit_effect_frames[i]--;
+              }
+            }
 
             // --- 4. AS NOTAS A CAIR (COM DROP SHADOWS PARA PROFUNDIDADE) ---
             for (int i = 0; i < MAX_NOTES; i++) {

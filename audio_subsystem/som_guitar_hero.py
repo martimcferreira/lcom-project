@@ -5,6 +5,7 @@ import serial
 import pygame
 import sys
 from array import array
+import time
 
 # -----------------------------------------------------------------------------
 # Protocolo simples recebido do MINIX pela UART:
@@ -90,6 +91,7 @@ def main():
         while True:
             data = ser.read(1)
             if not data:
+                time.sleep(0.002)
                 continue
 
             event = data[0]
