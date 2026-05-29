@@ -23,7 +23,7 @@ extern bool hover_back;
 extern int song_id;
 
 // Função responsável por desenhar o menu principal
-void draw_main_menu(int mouse_x, int mouse_y);
+void draw_main_menu(int mouse_x, int mouse_y, uint32_t *bg_map, xpm_image_t bg_img,uint32_t *btn_play_map, xpm_image_t btn_play_img );
 
 // Função que verifica cliques no menu principal
 void check_menu_clicks(int mouse_x, int mouse_y, bool left_click, GameState *current_state, bool *game_running);

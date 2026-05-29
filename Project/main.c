@@ -23,6 +23,8 @@ static void write_log(const char *format, ...) {
 #include "devices/video/assets/nota_azul.xpm"
 #include "devices/video/assets/nota_roxa.xpm"
 #include "devices/video/assets/nota_amarela.xpm"
+#include "devices/video/assets/menu.xpm"
+#include "devices/video/assets/btn_play.xpm"
 
 // Módulos do Grupo
 #include "structures/includes/menu.h"
@@ -162,6 +164,11 @@ int (proj_main_loop)(int argc, char *argv[]) {
   xpm_image_t bg_img;
   uint8_t *bg_map_bytes = xpm_load((xpm_map_t)fundo_plateia_xpm, XPM_8_8_8_8, &bg_img);
   uint32_t *bg_map = (uint32_t *) bg_map_bytes; 
+  xpm_image_t menu_img;
+  uint8_t *menu_map_bytes = xpm_load((xpm_map_t)menu_xpm, XPM_8_8_8_8, &menu_img);
+  uint32_t *menu_map = (uint32_t *) menu_map_bytes;
+  xpm_image_t img_btn_play;
+  uint32_t *map_btn_play = (uint32_t *)xpm_load((xpm_map_t)btn_play_menu, XPM_8_8_8_8, &img_btn_play);
 
   if (bg_map == NULL) {
     printf("Aviso: Falha ao pré-carregar o XPM de fundo!\n");
@@ -303,7 +310,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
             vg_draw_rectangle(0, 0, 800, 600, 0x000000); 
 
             if (current_state == MENU) {
-              draw_main_menu(mouse_x, mouse_y);
+              draw_main_menu(mouse_x, mouse_y, menu_map, menu_img, map_btn_play, img_btn_play);
             } else if (current_state == SONG_SELECT) {
               draw_song_select(mouse_x, mouse_y);
             } 

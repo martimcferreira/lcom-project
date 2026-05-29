@@ -14,5 +14,6 @@ void(vg_swap_buffers)();
 void(vg_free_buffers)();
 uint16_t(vg_get_h_res)();
 uint16_t(vg_get_v_res)();
+void (vg_draw_sprite)(uint32_t *map, xpm_image_t img, int x, int y);
 
 #endif /* _LCOM_VIDEO_H_ */

@@ -147,3 +147,17 @@ uint16_t(vg_get_h_res)() {
 uint16_t(vg_get_v_res)() {
   return v_res;
 }
+
+void (vg_draw_sprite)(uint32_t *map, xpm_image_t img, int x, int y) {
+    if (map == NULL) return;
+    
+    for (int i = 0; i < img.height; i++) {
+        for (int j = 0; j < img.width; j++) {
+            uint32_t cor_pixel = map[i * img.width + j];
+            
+            if (cor_pixel != 0xFF00FF) { 
+                vg_draw_pixel(x + j, y + i, cor_pixel);
+            }
+        }
+    }
+}

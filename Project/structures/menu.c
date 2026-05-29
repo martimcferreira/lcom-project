@@ -20,31 +20,32 @@ bool hover_back  = false;
 #define BTN_EXIT_X  300
 #define BTN_EXIT_Y  310
 
-void draw_main_menu(int mouse_x, int mouse_y) {
+void draw_main_menu(int mouse_x, int mouse_y, uint32_t *bg_map, xpm_image_t bg_img,uint32_t *btn_play_map, xpm_image_t btn_play_img ) {
+    
     hover_play = (mouse_x >= BTN_PLAY_X && mouse_x <= BTN_PLAY_X + BTN_WIDTH &&
                   mouse_y >= BTN_PLAY_Y && mouse_y <= BTN_PLAY_Y + BTN_HEIGHT);
 
     hover_exit = (mouse_x >= BTN_EXIT_X && mouse_x <= BTN_EXIT_X + BTN_WIDTH &&
                   mouse_y >= BTN_EXIT_Y && mouse_y <= BTN_EXIT_Y + BTN_HEIGHT);
 
+    // Agora o C já sabe o que é o bg_map e a bg_img porque vieram nos parênteses acima!
+    // (Usa vg_draw_sprite se passaste a função para o video.c no passo anterior)
+    vg_draw_sprite(bg_map, bg_img, 0, 0);
+
     // --- BOTÃO PLAY (verde) ---
-    uint32_t cor_play = hover_play ? 0x00FF00 : 0x007700;
-    vg_draw_rectangle(BTN_PLAY_X, BTN_PLAY_Y, BTN_WIDTH, BTN_HEIGHT, cor_play);
-    // Triângulo branco (ícone play)
-    for (int i = 0; i < 20; i++) {
-        vg_draw_rectangle(390 + i, BTN_PLAY_Y + 10 + i, 2, 40 - 2*i, 0xFFFFFF);
-    }
+
+       vg_draw_sprite(btn_play_map, btn_play_img, BTN_PLAY_X, BTN_PLAY_Y);
+
 
     // --- BOTÃO EXIT (vermelho) ---
     uint32_t cor_exit = hover_exit ? 0xFF3333 : 0x880000;
     vg_draw_rectangle(BTN_EXIT_X, BTN_EXIT_Y, BTN_WIDTH, BTN_HEIGHT, cor_exit);
-    // Cruz branca (ícone exit)
+    
     for (int i = 0; i < 20; i++) {
         vg_draw_rectangle(390 + i, BTN_EXIT_Y + 10 + i, 4, 4, 0xFFFFFF);
         vg_draw_rectangle(410 - i, BTN_EXIT_Y + 10 + i, 4, 4, 0xFFFFFF);
     }
 }
-
 void check_menu_clicks(int mouse_x, int mouse_y, bool left_click,
                        GameState *current_state, bool *game_running) {
     if (!left_click) return;
