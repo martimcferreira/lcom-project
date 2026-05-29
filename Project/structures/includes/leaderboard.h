@@ -5,7 +5,7 @@
 
 #define MAX_SCORES 5
 // AVISO: Muda este caminho para a diretoria real do vosso projeto no MINIX
-#define SCORE_FILE #define SCORE_FILE "/home/lcom/labs/Project/structures/scores.txt"
+#define SCORE_FILE "/home/lcom/labs/Project/structures/scores.txt"
 
 // A estrutura que guarda um recorde
 typedef struct {
