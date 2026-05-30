@@ -42,10 +42,19 @@ static int beatmap_count = 0;
 static int current_note_idx = 0;
 static int hit_effect_frames[5] = {0, 0, 0, 0, 0};
 static int miss_effect_frames[5] = {0, 0, 0, 0, 0};
+static int score = 0;
+static int combo_hits = 0;
+static int best_combo = 0;
 
 #define HIT_ZONE_TOP 490
 #define HIT_ZONE_BOTTOM 530
 #define NOTE_HIT_HEIGHT 60
+
+#define SCORE_BASE_POINTS 10
+#define SCORE_TIER_2_COMBO 4
+#define SCORE_TIER_3_COMBO 12
+#define SCORE_TIER_4_COMBO 24
+#define SCORE_TIER_5_COMBO 40
 
 #define A_MAKE_CODE 0x1E
 #define S_MAKE_CODE 0x1F
@@ -97,6 +106,176 @@ static bool uart_send_audio_event(bool uart_ready, uint8_t event_byte, const cha
   }
 
   return true;
+}
+
+static int points_for_combo_hit(int combo_after_hit) {
+  if (combo_after_hit > SCORE_TIER_5_COMBO) return 50;
+  if (combo_after_hit > SCORE_TIER_4_COMBO) return 40;
+  if (combo_after_hit > SCORE_TIER_3_COMBO) return 30;
+  if (combo_after_hit > SCORE_TIER_2_COMBO) return 20;
+  return SCORE_BASE_POINTS;
+}
+
+static void reset_score(void) {
+  score = 0;
+  combo_hits = 0;
+  best_combo = 0;
+}
+
+static int register_hit_score(void) {
+  combo_hits++;
+  if (combo_hits > best_combo) best_combo = combo_hits;
+
+  int points = points_for_combo_hit(combo_hits);
+  score += points;
+  write_log("[SCORE] Hit #%d da combo: +%d pontos (total=%d).\n", combo_hits, points, score);
+  return points;
+}
+
+static void register_miss_score(void) {
+  if (combo_hits > 0) {
+    write_log("[SCORE] Miss: combo resetada de %d para 0. Pontuacao mantida em %d.\n", combo_hits, score);
+  }
+  combo_hits = 0;
+}
+
+static bool any_active_notes(void) {
+  for (int i = 0; i < MAX_NOTES; i++) {
+    if (notes[i].active) return true;
+  }
+  return false;
+}
+
+static const uint8_t *glyph_for_char(char c) {
+  static const uint8_t glyph_space[7] = {0, 0, 0, 0, 0, 0, 0};
+  static const uint8_t glyph_0[7] = {0x0E, 0x11, 0x13, 0x15, 0x19, 0x11, 0x0E};
+  static const uint8_t glyph_1[7] = {0x04, 0x0C, 0x04, 0x04, 0x04, 0x04, 0x0E};
+  static const uint8_t glyph_2[7] = {0x0E, 0x11, 0x01, 0x02, 0x04, 0x08, 0x1F};
+  static const uint8_t glyph_3[7] = {0x1E, 0x01, 0x01, 0x0E, 0x01, 0x01, 0x1E};
+  static const uint8_t glyph_4[7] = {0x02, 0x06, 0x0A, 0x12, 0x1F, 0x02, 0x02};
+  static const uint8_t glyph_5[7] = {0x1F, 0x10, 0x10, 0x1E, 0x01, 0x01, 0x1E};
+  static const uint8_t glyph_6[7] = {0x0E, 0x10, 0x10, 0x1E, 0x11, 0x11, 0x0E};
+  static const uint8_t glyph_7[7] = {0x1F, 0x01, 0x02, 0x04, 0x08, 0x08, 0x08};
+  static const uint8_t glyph_8[7] = {0x0E, 0x11, 0x11, 0x0E, 0x11, 0x11, 0x0E};
+  static const uint8_t glyph_9[7] = {0x0E, 0x11, 0x11, 0x0F, 0x01, 0x01, 0x0E};
+  static const uint8_t glyph_A[7] = {0x0E, 0x11, 0x11, 0x1F, 0x11, 0x11, 0x11};
+  static const uint8_t glyph_B[7] = {0x1E, 0x11, 0x11, 0x1E, 0x11, 0x11, 0x1E};
+  static const uint8_t glyph_C[7] = {0x0E, 0x11, 0x10, 0x10, 0x10, 0x11, 0x0E};
+  static const uint8_t glyph_E[7] = {0x1F, 0x10, 0x10, 0x1E, 0x10, 0x10, 0x1F};
+  static const uint8_t glyph_F[7] = {0x1F, 0x10, 0x10, 0x1E, 0x10, 0x10, 0x10};
+  static const uint8_t glyph_G[7] = {0x0E, 0x11, 0x10, 0x17, 0x11, 0x11, 0x0F};
+  static const uint8_t glyph_I[7] = {0x0E, 0x04, 0x04, 0x04, 0x04, 0x04, 0x0E};
+  static const uint8_t glyph_K[7] = {0x11, 0x12, 0x14, 0x18, 0x14, 0x12, 0x11};
+  static const uint8_t glyph_L[7] = {0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x1F};
+  static const uint8_t glyph_M[7] = {0x11, 0x1B, 0x15, 0x15, 0x11, 0x11, 0x11};
+  static const uint8_t glyph_N[7] = {0x11, 0x19, 0x15, 0x13, 0x11, 0x11, 0x11};
+  static const uint8_t glyph_O[7] = {0x0E, 0x11, 0x11, 0x11, 0x11, 0x11, 0x0E};
+  static const uint8_t glyph_R[7] = {0x1E, 0x11, 0x11, 0x1E, 0x14, 0x12, 0x11};
+  static const uint8_t glyph_S[7] = {0x0F, 0x10, 0x10, 0x0E, 0x01, 0x01, 0x1E};
+  static const uint8_t glyph_T[7] = {0x1F, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04};
+  static const uint8_t glyph_U[7] = {0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x0E};
+  static const uint8_t glyph_V[7] = {0x11, 0x11, 0x11, 0x11, 0x11, 0x0A, 0x04};
+  static const uint8_t glyph_X[7] = {0x11, 0x11, 0x0A, 0x04, 0x0A, 0x11, 0x11};
+
+  switch (c) {
+    case ' ': return glyph_space;
+    case '0': return glyph_0;
+    case '1': return glyph_1;
+    case '2': return glyph_2;
+    case '3': return glyph_3;
+    case '4': return glyph_4;
+    case '5': return glyph_5;
+    case '6': return glyph_6;
+    case '7': return glyph_7;
+    case '8': return glyph_8;
+    case '9': return glyph_9;
+    case 'A': return glyph_A;
+    case 'B': return glyph_B;
+    case 'C': return glyph_C;
+    case 'E': return glyph_E;
+    case 'F': return glyph_F;
+    case 'G': return glyph_G;
+    case 'I': return glyph_I;
+    case 'K': return glyph_K;
+    case 'L': return glyph_L;
+    case 'M': return glyph_M;
+    case 'N': return glyph_N;
+    case 'O': return glyph_O;
+    case 'R': return glyph_R;
+    case 'S': return glyph_S;
+    case 'T': return glyph_T;
+    case 'U': return glyph_U;
+    case 'V': return glyph_V;
+    case 'X': return glyph_X;
+    default: return glyph_space;
+  }
+}
+
+static int text_width_pixels(const char *text, int scale) {
+  int length = 0;
+  while (text[length] != '\0') length++;
+  if (length == 0) return 0;
+  return (length * 6 - 1) * scale;
+}
+
+static void draw_text(int x, int y, const char *text, int scale, uint32_t color) {
+  for (int i = 0; text[i] != '\0'; i++) {
+    const uint8_t *glyph = glyph_for_char(text[i]);
+    int char_x = x + i * 6 * scale;
+
+    for (int row = 0; row < 7; row++) {
+      for (int col = 0; col < 5; col++) {
+        if (glyph[row] & BIT(4 - col)) {
+          vg_draw_rectangle(char_x + col * scale, y + row * scale, scale, scale, color);
+        }
+      }
+    }
+  }
+}
+
+static void draw_text_centered(int center_x, int y, const char *text, int scale, uint32_t color) {
+  draw_text(center_x - text_width_pixels(text, scale) / 2, y, text, scale, color);
+}
+
+static void draw_score_hud(void) {
+  char value[16];
+
+  draw_text(18, 18, "SCORE", 3, 0xFFFFFF);
+  snprintf(value, sizeof(value), "%d", score);
+  draw_text(18, 44, value, 4, 0xFFFF00);
+
+  draw_text(18, 88, "COMBO", 2, 0xFFFFFF);
+  snprintf(value, sizeof(value), "%dX", combo_hits);
+  draw_text(18, 108, value, 3, 0x00FFFF);
+}
+
+static void draw_game_over_screen(void) {
+  char value[16];
+
+  vg_draw_rectangle(0, 0, 800, 600, 0x000000);
+  draw_text_centered(400, 75, "GAME OVER", 6, 0xFFFFFF);
+
+  draw_text(90, 205, "FINAL SCORE", 3, 0xFFFF00);
+  snprintf(value, sizeof(value), "%d", score);
+  draw_text(90, 245, value, 6, 0x00FF00);
+
+  draw_text(90, 360, "BEST COMBO", 3, 0xFFFFFF);
+  snprintf(value, sizeof(value), "%dX", best_combo);
+  draw_text(90, 400, value, 4, 0x00FFFF);
+
+  draw_text_centered(400, 530, "CLICK TO MENU", 2, 0xAAAAAA);
+}
+
+static void finish_current_run(bool uart_ready) {
+  if (uart_ready && music_started) {
+    uart_send_audio_event(uart_ready, UART_EVENT_GAME_END, "FIM_JOGO");
+    printf("[UART] Evento FIM_JOGO (0x%02x) enviado.\n", UART_EVENT_GAME_END);
+  }
+
+  music_started = false;
+  current_state = GAME_OVER;
+  printf("[GAME] Fim da run. Score final=%d, melhor combo=%d.\n", score, best_combo);
+  write_log("[GAME] Fim da run. Score final=%d, melhor combo=%d.\n", score, best_combo);
 }
 
 /**
@@ -258,9 +437,12 @@ int (proj_main_loop)(int argc, char *argv[]) {
                  int lane = lane_from_make_code(scancode_byte);
                  int hit_result = try_hit_note(scancode_byte);
                  if (hit_result >= 0) {
+                   int points = register_hit_score();
+                   printf("SCORE: +%d (total=%d, combo=%d)\n", points, score, combo_hits);
                    uart_send_audio_event(uart_ready, UART_EVENT_HIT, "ACERTOU");
                    hit_effect_frames[hit_result] = 12; // Trigger expanding color halo!
                  } else if (hit_result == -2) {
+                   register_miss_score();
                    uart_send_audio_event(uart_ready, UART_EVENT_MISS, "ERRO");  /* Miss ativo */
                    if (lane >= 0 && lane < 5) {
                      miss_effect_frames[lane] = 8; // Trigger red flash in this lane!
@@ -292,6 +474,9 @@ int (proj_main_loop)(int argc, char *argv[]) {
                   check_song_select_clicks(mouse_x, mouse_y, mouse_packet.lb, &current_state);
                   /* Ao entrar em PLAY a partir de SONG_SELECT, reset da musica */
                   if (current_state == PLAY) music_started = false;
+                } else if (current_state == GAME_OVER && mouse_packet.lb) {
+                  current_state = MENU;
+                  music_started = false;
                 }
                 mouse_byte_index = 0;
               }
@@ -300,7 +485,15 @@ int (proj_main_loop)(int argc, char *argv[]) {
 
           if (msg.m_notify.interrupts & timer_irq_set) {
             timer_int_handler(); 
-            vg_draw_rectangle(0, 0, 800, 600, 0x000000); 
+
+            /*
+             * Only clear when the current screen does not draw a full background.
+             * In PLAY, the preloaded background covers the whole framebuffer, so
+             * clearing first just burns CPU for no visible benefit. Classic.
+             */
+            if (current_state != PLAY || bg_map == NULL) {
+              vg_clear_back_buffer(0x000000);
+            }
 
             if (current_state == MENU) {
               draw_main_menu(mouse_x, mouse_y);
@@ -363,6 +556,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
                 }
 
                 init_notes();
+                reset_score();
 
                 uint8_t start_event = (song_id == 2) ? UART_EVENT_GAME_START_SONG2 : UART_EVENT_GAME_START_SONG1;
                 if (uart_send_audio_event(uart_ready, start_event, "INICIO_JOGO")) {
@@ -398,6 +592,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
 
               int passive_misses = update_notes();
               if (passive_misses > 0) {
+                register_miss_score();
                 for (int m = 0; m < passive_misses; m++) {
                   uart_send_audio_event(uart_ready, UART_EVENT_MISS, "ERRO");
                 }
@@ -405,13 +600,9 @@ int (proj_main_loop)(int argc, char *argv[]) {
 
               // --- 1. CAMADA DE FUNDO OTIMIZADA ---
               if (bg_map != NULL) {
-                for (int y = 0; y < bg_img.height; y++) {
-                  for (int x = 0; x < bg_img.width; x++) {
-                    vg_draw_pixel(x, y, bg_map[y * bg_img.width + x]);
-                  }
-                }
+                vg_draw_xpm_image(bg_map, bg_img.width, bg_img.height, 0, 0, 0, false);
               } else {
-                vg_draw_rectangle(0, 0, 800, 600, 0x000000); 
+                vg_clear_back_buffer(0x000000);
               }
 
               // --- 1.5. O BRAÇO DE MADEIRA REALISTA ---
@@ -488,24 +679,25 @@ int (proj_main_loop)(int argc, char *argv[]) {
                   uint32_t *mapa_atual = mapas_notas[pista];
 
                   if (mapa_atual != NULL) {
-                    for (int y = 0; y < img_notas[pista].height; y++) {
-                      for (int x = 0; x < img_notas[pista].width; x++) {
-                          uint32_t cor_pixel = mapa_atual[y * img_notas[pista].width + x];
-                          if (cor_pixel != 0xFF00FF) vg_draw_pixel(notes[i].x + 10 + x + 8, notes[i].y + y + 8, 0x1A1A1A);
-                      }
-                    }
-                    for (int y = 0; y < img_notas[pista].height; y++) {
-                      for (int x = 0; x < img_notas[pista].width; x++) {
-                          uint32_t cor_pixel = mapa_atual[y * img_notas[pista].width + x];
-                          if (cor_pixel != 0xFF00FF) vg_draw_pixel(notes[i].x + 10 + x, notes[i].y + y, cor_pixel);
-                      }
-                    }
+                    vg_draw_xpm_image_tinted(mapa_atual, img_notas[pista].width, img_notas[pista].height,
+                                             notes[i].x + 18, notes[i].y + 8, 0xFF00FF, 0x1A1A1A);
+                    vg_draw_xpm_image(mapa_atual, img_notas[pista].width, img_notas[pista].height,
+                                      notes[i].x + 10, notes[i].y, 0xFF00FF, true);
                   } else {
                     vg_draw_rectangle(notes[i].x + 15, notes[i].y, 50, 20, cores_pistas[pista]);
                   }
                 }
               }
+
+              draw_score_hud();
+
+              if (beatmap_count > 0 && current_note_idx >= beatmap_count && !any_active_notes()) {
+                finish_current_run(uart_ready);
+              }
             } // fecho do else if (current_state == PLAY)
+            else if (current_state == GAME_OVER) {
+              draw_game_over_screen();
+            }
             vg_draw_rectangle(mouse_x, mouse_y, 10, 10, 0xFFFFFF);
             vg_swap_buffers();
           }
@@ -517,7 +709,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
   }
 
   /* Envia o evento de fecho/paragem de música para o script Python */
-  if (uart_ready) {
+  if (uart_ready && music_started) {
     uart_send_audio_event(uart_ready, UART_EVENT_GAME_END, "FIM_JOGO");
     printf("[UART] Evento FIM_JOGO (0x%02x) enviado.\n", UART_EVENT_GAME_END);
   }
@@ -534,6 +726,8 @@ int (proj_main_loop)(int argc, char *argv[]) {
   if (rtc_read_time(&tempo_atual) == 0) {
       printf("\n=========================================\n");
       printf("              GAME OVER                  \n");
+      printf("=========================================\n");
+      printf("Score final: %d | Melhor combo: %d\n", score, best_combo);
       printf("=========================================\n");
       printf("Sessao terminada a: %02d/%02d/20%02d as %02d:%02d:%02d\n", 
              tempo_atual.day, tempo_atual.month, tempo_atual.year,
