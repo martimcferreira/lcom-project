@@ -26,7 +26,7 @@
 /** Estrutura de uma nota do beatmap (identica a BeatmapNote em main.c). */
 typedef struct {
   uint32_t spawn_tick; /**< Tick MINIX (60 Hz) em que a nota deve surgir. */
-  uint8_t  lane;       /**< Pista: 0=Verde 1=Vermelho 2=Amarelo 3=Azul 4=Laranja. */
+  uint8_t  lane;       /**< Pista: 0=Verde 1=Vermelho 2=Azul 3=Roxo 4=Amarelo. */
   bool     spawned;    /**< Controlo interno: true quando ja foi accionada. */
 } BeatmapEntry;
 

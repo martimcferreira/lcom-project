@@ -1,81 +1,43 @@
-# Template
+# Guitar Hero LCOM - Grupo 2LEIC02_2
 
+Projeto de LCOM inspirado em Guitar Hero, com vídeo em modo gráfico, teclado, rato, timer, RTC, UART para áudio externo e leaderboard persistente.
 
+## Como compilar
 
-## Getting started
-
-Welcome to your LCOM code repository. This is where your team should deliver all the required artifacts, including code.
-Please take your time to get acquainted with GitLab and its functionalities. The way your team uses Git and GitLab to collaborate will be evaluated. 
-
-## Boilerplate
-
-In this repository, you will find some pre-loaded files and an initial setup of your team's project board. 
-Along the semester, you will be adding files and folders to this repository.
-Make sure you expand on the issues and milestones for your project, helping your team to coordinate and meet all the deadlines. Major deadlines are already setup but you should add your own sub-issues, additional issues, and deadlines. 
-
-## GitLab Setup 
-
-### Add your files
-
-* [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://gitlab.up.pt/lcom-26/template.git
-git branch -M main
-git push -uf origin main
+```bash
+cd Project
+make
+lcom_run proj
 ```
 
-### Integrate with your tools
+Durante o `make`, os beatmaps em `Project/beatmaps` são copiados para `/tmp/beatmaps`, o que torna o carregamento das músicas menos dependente do caminho absoluto usado na VM.
 
-* [Set up project integrations](https://gitlab.up.pt/lcom-26/template/-/settings/integrations)
+## Controlos
 
-### Collaborate with your team
+- Rato: navegar nos menus.
+- A, S, D, F, G: acertar nas cinco pistas.
+- ESC: sair. Se estiveres numa run, o score atual é guardado antes de fechar.
 
-* [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+## Funcionalidades principais
 
-### Test and Deploy
+- Menu principal e seleção de música.
+- Carregamento dinâmico de beatmaps.
+- Sistema de score e combo.
+- Feedback visual para hits e misses.
+- Comunicação UART com o script Python de áudio.
+- Leaderboard Top 5 guardada em `scores.txt`, com fallback para `/tmp/guitar_hero_scores.txt`.
 
-Use the built-in continuous integration in GitLab.
+## Áudio
 
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+Ver `Project/SETUP_AUDIO.md` para configurar o par de portas série virtuais e executar `audio_subsystem/som_guitar_hero.py`.
 
-***
+## Autores
 
-## License
-For open source projects, say how it is licensed.
+- Guilherme Pinho (up202406596@up.pt)
+- Martim Ferreira (up202403764@up.pt)
+- Andre Rocha (up202407636@up.pt)
+- 4.º elemento: preencher antes da submissão
 
 ## Declaration of Responsible AI Use
 
-We declare that:
-
-1. We are responsible for all code and documentation in this repository, and we understand that we must be able to explain and justify any part of it on request.  
-2. We have used AI-based tools (e.g., code assistants, chatbots, or generators) only to support my learning, not to bypass the intended learning outcomes or any assessment rules.  
-3. Wherever AI tools contributed to this work, we have:  
-   - Used them within the limits set by the course policies and institutional regulations.  
-   - Reviewed, tested, and, where necessary, edited the outputs, taking full responsibility for their correctness, originality, and legality.  
-   - Ensured that no confidential, personal, or sensitive data were shared with AI tools.  
-4. We have not used AI tools to generate complete solutions that we present as entirely our own unaided work, and we have avoided plagiarism, whether from AI outputs or other sources.  
-5. If asked, we will provide details of which tools we used, for which files or parts of the project, and how we verified and adapted their outputs.
-
-Signed: `Andre Rocha`, `Guilherme Pinho`, `Martim Ferreira`, `<student name>`  
-Date: `<date>`
-
-## Authors and acknowledgment
-
-LCOM Project for group GRUPO_2LEIC<m><n>_<p>.
-Group members:
-
-Guilherme Pinho (up202406596@up.pt)
-Martim Ferreira (up202403764@up.pt)
-<first name> <family name> (<email address>)
-Andre Rocha (up202407636@up.pt)
+We declare that we are responsible for all code and documentation in this repository and that any AI-based assistance used during development was reviewed, tested and adapted by the group before submission.

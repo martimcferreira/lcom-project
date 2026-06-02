@@ -33,6 +33,8 @@ static void write_log(const char *format, ...) {
 #include "devices/uart/uart.h"
 #include "structures/includes/beatmap_loader.h"
 #include "structures/includes/drivers/rtc.h" // Relógio integrado!
+#include "structures/includes/drivers/timer.h"
+#include "structures/includes/leaderboard.h"
 
 extern uint32_t no_interrupts;
 extern Note notes[];
@@ -45,10 +47,6 @@ static int miss_effect_frames[5] = {0, 0, 0, 0, 0};
 static int score = 0;
 static int combo_hits = 0;
 static int best_combo = 0;
-
-#define HIT_ZONE_TOP 490
-#define HIT_ZONE_BOTTOM 530
-#define NOTE_HIT_HEIGHT 60
 
 #define SCORE_BASE_POINTS 10
 #define SCORE_TIER_2_COMBO 4
@@ -161,21 +159,27 @@ static const uint8_t *glyph_for_char(char c) {
   static const uint8_t glyph_A[7] = {0x0E, 0x11, 0x11, 0x1F, 0x11, 0x11, 0x11};
   static const uint8_t glyph_B[7] = {0x1E, 0x11, 0x11, 0x1E, 0x11, 0x11, 0x1E};
   static const uint8_t glyph_C[7] = {0x0E, 0x11, 0x10, 0x10, 0x10, 0x11, 0x0E};
+  static const uint8_t glyph_D[7] = {0x1E, 0x11, 0x11, 0x11, 0x11, 0x11, 0x1E};
   static const uint8_t glyph_E[7] = {0x1F, 0x10, 0x10, 0x1E, 0x10, 0x10, 0x1F};
   static const uint8_t glyph_F[7] = {0x1F, 0x10, 0x10, 0x1E, 0x10, 0x10, 0x10};
   static const uint8_t glyph_G[7] = {0x0E, 0x11, 0x10, 0x17, 0x11, 0x11, 0x0F};
+  static const uint8_t glyph_H[7] = {0x11, 0x11, 0x11, 0x1F, 0x11, 0x11, 0x11};
   static const uint8_t glyph_I[7] = {0x0E, 0x04, 0x04, 0x04, 0x04, 0x04, 0x0E};
   static const uint8_t glyph_K[7] = {0x11, 0x12, 0x14, 0x18, 0x14, 0x12, 0x11};
   static const uint8_t glyph_L[7] = {0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x1F};
   static const uint8_t glyph_M[7] = {0x11, 0x1B, 0x15, 0x15, 0x11, 0x11, 0x11};
   static const uint8_t glyph_N[7] = {0x11, 0x19, 0x15, 0x13, 0x11, 0x11, 0x11};
   static const uint8_t glyph_O[7] = {0x0E, 0x11, 0x11, 0x11, 0x11, 0x11, 0x0E};
+  static const uint8_t glyph_P[7] = {0x1E, 0x11, 0x11, 0x1E, 0x10, 0x10, 0x10};
   static const uint8_t glyph_R[7] = {0x1E, 0x11, 0x11, 0x1E, 0x14, 0x12, 0x11};
   static const uint8_t glyph_S[7] = {0x0F, 0x10, 0x10, 0x0E, 0x01, 0x01, 0x1E};
   static const uint8_t glyph_T[7] = {0x1F, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04};
   static const uint8_t glyph_U[7] = {0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x0E};
   static const uint8_t glyph_V[7] = {0x11, 0x11, 0x11, 0x11, 0x11, 0x0A, 0x04};
   static const uint8_t glyph_X[7] = {0x11, 0x11, 0x0A, 0x04, 0x0A, 0x11, 0x11};
+  static const uint8_t glyph_Y[7] = {0x11, 0x11, 0x0A, 0x04, 0x04, 0x04, 0x04};
+  static const uint8_t glyph_slash[7] = {0x01, 0x01, 0x02, 0x04, 0x08, 0x10, 0x10};
+  static const uint8_t glyph_dash[7] = {0x00, 0x00, 0x00, 0x1F, 0x00, 0x00, 0x00};
 
   switch (c) {
     case ' ': return glyph_space;
@@ -192,21 +196,27 @@ static const uint8_t *glyph_for_char(char c) {
     case 'A': return glyph_A;
     case 'B': return glyph_B;
     case 'C': return glyph_C;
+    case 'D': return glyph_D;
     case 'E': return glyph_E;
     case 'F': return glyph_F;
     case 'G': return glyph_G;
+    case 'H': return glyph_H;
     case 'I': return glyph_I;
     case 'K': return glyph_K;
     case 'L': return glyph_L;
     case 'M': return glyph_M;
     case 'N': return glyph_N;
     case 'O': return glyph_O;
+    case 'P': return glyph_P;
     case 'R': return glyph_R;
     case 'S': return glyph_S;
     case 'T': return glyph_T;
     case 'U': return glyph_U;
     case 'V': return glyph_V;
     case 'X': return glyph_X;
+    case 'Y': return glyph_Y;
+    case '/': return glyph_slash;
+    case '-': return glyph_dash;
     default: return glyph_space;
   }
 }
@@ -249,6 +259,29 @@ static void draw_score_hud(void) {
   draw_text(18, 108, value, 3, 0x00FFFF);
 }
 
+static void draw_leaderboard_summary(void) {
+  char row[32];
+  LeaderboardEntry *scores = leaderboard_get_scores();
+  int count = leaderboard_get_count();
+
+  draw_text(470, 185, "TOP 5", 3, 0xFFFFFF);
+
+  if (count == 0) {
+    draw_text(470, 230, "NO SCORES", 2, 0xAAAAAA);
+    return;
+  }
+
+  for (int i = 0; i < count && i < MAX_SCORES; i++) {
+    snprintf(row, sizeof(row), "%d %d %02d/%02d/%02d",
+             i + 1,
+             scores[i].score,
+             scores[i].date.day,
+             scores[i].date.month,
+             scores[i].date.year);
+    draw_text(470, 230 + i * 34, row, 2, 0xDDDDDD);
+  }
+}
+
 static void draw_game_over_screen(void) {
   char value[16];
 
@@ -263,7 +296,28 @@ static void draw_game_over_screen(void) {
   snprintf(value, sizeof(value), "%dX", best_combo);
   draw_text(90, 400, value, 4, 0x00FFFF);
 
+  draw_leaderboard_summary();
+
   draw_text_centered(400, 530, "CLICK TO MENU", 2, 0xAAAAAA);
+}
+
+static void save_final_score(void) {
+  rtc_timestamp timestamp;
+
+  if (rtc_read_time(&timestamp) != 0) {
+    write_log("[LEADERBOARD] Nao foi possivel ler o RTC. Score nao guardado.\n");
+    return;
+  }
+
+  leaderboard_add_score(score, timestamp);
+  write_log("[LEADERBOARD] Score %d guardado em %02d/%02d/20%02d %02d:%02d:%02d.\n",
+            score,
+            timestamp.day,
+            timestamp.month,
+            timestamp.year,
+            timestamp.hours,
+            timestamp.minutes,
+            timestamp.seconds);
 }
 
 static void finish_current_run(bool uart_ready) {
@@ -271,6 +325,8 @@ static void finish_current_run(bool uart_ready) {
     uart_send_audio_event(uart_ready, UART_EVENT_GAME_END, "FIM_JOGO");
     printf("[UART] Evento FIM_JOGO (0x%02x) enviado.\n", UART_EVENT_GAME_END);
   }
+
+  save_final_score();
 
   music_started = false;
   current_state = GAME_OVER;
@@ -291,7 +347,7 @@ static int try_hit_note(uint8_t make_code) {
   for (int i = 0; i < MAX_NOTES; i++) {
     if (!notes[i].active) continue;
 
-    int note_lane = (notes[i].x - 200) / 80;
+    int note_lane = (notes[i].x - LANE_BASE_X) / LANE_WIDTH;
     if (note_lane == lane && note_collides_with_hit_zone(&notes[i])) {
       notes[i].active = false;
       printf("ACERTOU! (pista %d)\n", lane);
@@ -335,8 +391,6 @@ int (proj_main_loop)(int argc, char *argv[]) {
     hit_effect_frames[i] = 0;
     miss_effect_frames[i] = 0;
   }
-  extern Note notes[]; 
-
   // --- PRÉ-CARREGAMENTO DO XPM NA RAM ---
   xpm_image_t bg_img;
   uint8_t *bg_map_bytes = xpm_load((xpm_map_t)fundo_plateia_xpm, XPM_8_8_8_8, &bg_img);
@@ -364,6 +418,8 @@ int (proj_main_loop)(int argc, char *argv[]) {
     }
   }
   write_log("[SYSTEM] Motor de fisica e video iniciados a 60 Hz.\n");
+  leaderboard_init();
+  write_log("[LEADERBOARD] %d scores carregados.\n", leaderboard_get_count());
 
   /* --- INSCRIÇÃO NAS INTERRUPÇÕES DE HARDWARE --- */
   uint8_t timer_bit_no;
@@ -432,7 +488,12 @@ int (proj_main_loop)(int argc, char *argv[]) {
           if (msg.m_notify.interrupts & kbd_irq_set) {
             kbc_ih();
             if (!ih_error) {
-              if (scancode_byte == ESC_BREAKCODE) game_running = false;
+              if (scancode_byte == ESC_BREAKCODE) {
+                if (current_state == PLAY && music_started) {
+                  finish_current_run(uart_ready);
+                }
+                game_running = false;
+              }
               else if (current_state == PLAY && (scancode_byte & BIT(7)) == 0) {
                  int lane = lane_from_make_code(scancode_byte);
                  int hit_result = try_hit_note(scancode_byte);
@@ -570,7 +631,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
                 beatmap[current_note_idx].spawned = true;
                 for (int j = 0; j < MAX_NOTES; j++) {
                   if (!notes[j].active) {
-                    notes[j].x = 200 + (beatmap[current_note_idx].lane * 80);
+                    notes[j].x = LANE_BASE_X + (beatmap[current_note_idx].lane * LANE_WIDTH);
                     notes[j].y = 0;
                     notes[j].speed = 4;
                     notes[j].active = true;
@@ -582,8 +643,8 @@ int (proj_main_loop)(int argc, char *argv[]) {
 
               // --- TRIGGER PASSIVE MISS VISUAL FEEDBACK ---
               for (int i = 0; i < MAX_NOTES; i++) {
-                if (notes[i].active && notes[i].y + notes[i].speed > 500) {
-                  int lane = (notes[i].x - 200) / 80;
+                if (notes[i].active && notes[i].y + notes[i].speed > HIT_ZONE_BOTTOM) {
+                  int lane = (notes[i].x - LANE_BASE_X) / LANE_WIDTH;
                   if (lane >= 0 && lane < 5) {
                     miss_effect_frames[lane] = 8; // Trigger red flash on passive miss!
                   }
@@ -639,18 +700,18 @@ int (proj_main_loop)(int argc, char *argv[]) {
               }
 
               // --- 3. A ZONA DE ACERTO ---
-              vg_draw_rectangle(200, 498, 400, 2, 0x555555); // Brilho superior
-              vg_draw_rectangle(200, 500, 400, 20, 0x222222); // Base
-              vg_draw_rectangle(200, 520, 400, 4, 0x000000); // Sombra inferior
+              vg_draw_rectangle(LANE_BASE_X, HIT_ZONE_TOP - 2, NUM_LANES * LANE_WIDTH, 2, 0x555555); // Brilho superior
+              vg_draw_rectangle(LANE_BASE_X, HIT_ZONE_TOP, NUM_LANES * LANE_WIDTH, HIT_ZONE_BOTTOM - HIT_ZONE_TOP, 0x222222); // Base
+              vg_draw_rectangle(LANE_BASE_X, HIT_ZONE_BOTTOM, NUM_LANES * LANE_WIDTH, 4, 0x000000); // Sombra inferior
 
               for (int i = 0; i < 5; i++) {
-                int lane_x_center = 200 + i * 80 + 40;
+                int lane_x_center = LANE_BASE_X + i * LANE_WIDTH + LANE_WIDTH / 2;
                 uint32_t lane_colors[5] = {0x00FF00, 0xFF0000, 0x0000FF, 0x800080, 0xFFFF00}; // Verde, Vermelho, Azul, Roxo, Amarelo
 
                 // Desenhar MISS FLASH (Vermelho)
                 if (miss_effect_frames[i] > 0) {
                   // Flash vermelho que cobre a zona de toque da pista
-                  vg_draw_rectangle(200 + i * 80 + 10, 500, 60, 20, 0xFF0000);
+                  vg_draw_rectangle(LANE_BASE_X + i * LANE_WIDTH + 10, HIT_ZONE_TOP, LANE_WIDTH - 20, HIT_ZONE_BOTTOM - HIT_ZONE_TOP, 0xFF0000);
                   miss_effect_frames[i]--;
                 }
 
@@ -661,11 +722,11 @@ int (proj_main_loop)(int argc, char *argv[]) {
                   int h = 8 + frame_diff * 2;    // Expande verticalmente
                   
                   // Desenhar halo de cor da pista
-                  vg_draw_rectangle(lane_x_center - w / 2, 510 - h / 2, w, h, lane_colors[i]);
+                  vg_draw_rectangle(lane_x_center - w / 2, (HIT_ZONE_TOP + HIT_ZONE_BOTTOM) / 2 - h / 2, w, h, lane_colors[i]);
                   
                   int iw = w / 2;
                   int ih = h / 2;
-                  vg_draw_rectangle(lane_x_center - iw / 2, 510 - ih / 2, iw, ih, 0xFFFFFF);
+                  vg_draw_rectangle(lane_x_center - iw / 2, (HIT_ZONE_TOP + HIT_ZONE_BOTTOM) / 2 - ih / 2, iw, ih, 0xFFFFFF);
                   
                   hit_effect_frames[i]--;
                 }
@@ -673,7 +734,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
 
               for (int i = 0; i < MAX_NOTES; i++) {
                 if (notes[i].active) {
-                  int pista = (notes[i].x - 200) / 80;
+                  int pista = (notes[i].x - LANE_BASE_X) / LANE_WIDTH;
                   if (pista < 0) pista = 0;
                   if (pista > 4) pista = 4;
                   uint32_t *mapa_atual = mapas_notas[pista];

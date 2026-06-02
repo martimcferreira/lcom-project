@@ -1,41 +1,54 @@
-#include "includes/leaderboard.h"
+#include "leaderboard.h"
 #include <stdio.h>
-
 
 static LeaderboardEntry entries[MAX_SCORES];
 static int num_scores = 0;
+static const char *active_score_file = SCORE_FILE;
 
-void leaderboard_init() {
-    FILE *file = fopen(SCORE_FILE, "r");
+static FILE *open_score_file(const char *mode) {
+    FILE *file = fopen(active_score_file, mode);
+    if (file != NULL) return file;
+
+    file = fopen(SCORE_FILE, mode);
+    if (file != NULL) {
+        active_score_file = SCORE_FILE;
+        return file;
+    }
+
+    file = fopen(SCORE_FILE_FALLBACK, mode);
+    if (file != NULL) {
+        active_score_file = SCORE_FILE_FALLBACK;
+    }
+    return file;
+}
+
+void leaderboard_init(void) {
+    FILE *file = open_score_file("r");
     if (file == NULL) {
-        // Ficheiro não existe ainda, começa vazio.
         num_scores = 0;
-        return; 
+        return;
     }
 
     num_scores = 0;
-    // Lemos linha a linha (Pontuação, Dia, Mês, Ano, Horas, Minutos, Segundos)
-    while (num_scores < MAX_SCORES && fscanf(file, "%d %hhu %hhu %hhu %hhu %hhu %hhu",
-           &entries[num_scores].score,
-           &entries[num_scores].date.day,
-           &entries[num_scores].date.month,
-           &entries[num_scores].date.year,
-           &entries[num_scores].date.hours,
-           &entries[num_scores].date.minutes,
-           &entries[num_scores].date.seconds) == 7) {
-        
+    while (num_scores < MAX_SCORES &&
+           fscanf(file, "%d %hhu %hhu %hhu %hhu %hhu %hhu",
+                  &entries[num_scores].score,
+                  &entries[num_scores].date.day,
+                  &entries[num_scores].date.month,
+                  &entries[num_scores].date.year,
+                  &entries[num_scores].date.hours,
+                  &entries[num_scores].date.minutes,
+                  &entries[num_scores].date.seconds) == 7) {
         num_scores++;
     }
-    
+
     fclose(file);
 }
 
-// Função privada: O teu colega não precisa de saber que isto existe.
-// Guarda o estado atual do array de volta no ficheiro de texto.
-static void leaderboard_save() {
-    FILE *file = fopen(SCORE_FILE, "w");
+static void leaderboard_save(void) {
+    FILE *file = open_score_file("w");
     if (file == NULL) {
-        printf("Erro fatal: Nao foi possivel escrever os scores!\n");
+        printf("[LEADERBOARD] Erro: nao foi possivel escrever os scores.\n");
         return;
     }
 
@@ -49,27 +62,25 @@ static void leaderboard_save() {
                 entries[i].date.minutes,
                 entries[i].date.seconds);
     }
-    
+
     fclose(file);
 }
 
 void leaderboard_add_score(int score, rtc_timestamp current_time) {
-    // 1. Procurar em que posição este novo score deve entrar
+    if (score <= 0) return;
+
     int pos = 0;
     while (pos < num_scores && entries[pos].score >= score) {
         pos++;
     }
 
-    // 2. Se a posição for fora do Top (ex: 6º lugar) e a lista já está cheia, ignoramos
     if (pos >= MAX_SCORES) return;
 
-    // 3. Deslocar os scores piores uma casa para baixo para abrir espaço
     int shift_end = (num_scores < MAX_SCORES) ? num_scores : MAX_SCORES - 1;
     for (int i = shift_end; i > pos; i--) {
         entries[i] = entries[i - 1];
     }
 
-    // 4. Inserir o novo campeão
     entries[pos].score = score;
     entries[pos].date = current_time;
 
@@ -77,14 +88,13 @@ void leaderboard_add_score(int score, rtc_timestamp current_time) {
         num_scores++;
     }
 
-    // 5. Guardar as alterações permanentemente
     leaderboard_save();
 }
 
-LeaderboardEntry* leaderboard_get_scores() {
+LeaderboardEntry* leaderboard_get_scores(void) {
     return entries;
 }
 
-int leaderboard_get_count() {
+int leaderboard_get_count(void) {
     return num_scores;
 }
