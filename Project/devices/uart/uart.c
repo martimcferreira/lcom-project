@@ -36,21 +36,35 @@ int uart_init(void) {
  * Envia um único byte por polling: aguarda que o bit THRE (bit 5) do LSR
  * esteja a 1 (THR vazio e pronto a aceitar dados) antes de escrever no THR.
  * ----------------------------------------------------------------------- */
-int uart_send_byte(uint8_t byte) {
+int uart_try_send_byte(uint8_t byte) {
   uint32_t lsr;
+
+  if (sys_inb(UART_COM1_BASE + UART_LSR, &lsr) != OK) {
+    return UART_SEND_ERROR;
+  }
+
+  if ((lsr & UART_THRE_BIT) == 0) {
+    return UART_SEND_BUSY;
+  }
+
+  return (sys_outb(UART_COM1_BASE + UART_THR, (uint32_t)byte) == OK)
+           ? UART_SEND_OK
+           : UART_SEND_ERROR;
+}
+
+int uart_send_byte(uint8_t byte) {
   int retry_limit = 10000; // safety limit to prevent deadlocks
 
   /* Polling até ao THRE com limite de segurança */
-  do {
-    if (sys_inb(UART_COM1_BASE + UART_LSR, &lsr) != OK) return 1;
-    if (--retry_limit <= 0) {
-      // UART congested or receiver not listening, abort to prevent freezing the entire game
-      return 1;
-    }
-  } while ((lsr & UART_THRE_BIT) == 0);
+  while (retry_limit-- > 0) {
+    int result = uart_try_send_byte(byte);
 
-  /* Escreve o byte no Transmit Holding Register */
-  return (sys_outb(UART_COM1_BASE + UART_THR, (uint32_t)byte) != OK) ? 1 : 0;
+    if (result == UART_SEND_OK) return 0;
+    if (result == UART_SEND_ERROR) return 1;
+  }
+
+  // UART congested or receiver not listening, abort to prevent freezing the entire game
+  return 1;
 }
 
 

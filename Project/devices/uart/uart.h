@@ -41,6 +41,11 @@
 #define UART_EVENT_HIT              0x0A  /* Nota acertada */
 #define UART_EVENT_MISS             0x0E  /* Erro / nota falhada */
 
+/* --- Resultado de envio nao-bloqueante --- */
+#define UART_SEND_OK                0
+#define UART_SEND_ERROR             1
+#define UART_SEND_BUSY              2
+
 
 
 /* -----------------------------------------------------------------------
@@ -65,6 +70,17 @@ int uart_init(void);
  * @return 0 em sucesso, 1 em erro.
  */
 int uart_send_byte(uint8_t byte);
+
+/**
+ * @brief Tenta enviar um byte sem bloquear o ciclo de jogo.
+ *
+ * Verifica o bit THRE uma vez. Se a UART estiver ocupada, devolve
+ * UART_SEND_BUSY para o chamador tentar novamente mais tarde.
+ *
+ * @param byte Byte a enviar.
+ * @return UART_SEND_OK, UART_SEND_ERROR ou UART_SEND_BUSY.
+ */
+int uart_try_send_byte(uint8_t byte);
 
 /**
  * @brief Envia um pacote de 4 bytes: [0xAA] [cmd] [arg] [0xFF].

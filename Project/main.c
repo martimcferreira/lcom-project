@@ -5,7 +5,18 @@
 #include <stdarg.h>
 #include "devices/video/video.h"
 
+/*
+ * Logging/printf inside the game loop is expensive on MINIX/LCF, especially
+ * when it opens and closes a file on every hit/miss. Keep it disabled by
+ * default and enable it only while debugging with:
+ *   CFLAGS += -DDEBUG_GAME_LOG=1
+ */
+#ifndef DEBUG_GAME_LOG
+#define DEBUG_GAME_LOG 0
+#endif
+
 static void write_log(const char *format, ...) {
+#if DEBUG_GAME_LOG
   FILE *fp = fopen("/tmp/log.txt", "a");
   if (fp != NULL) {
     va_list args;
@@ -14,7 +25,16 @@ static void write_log(const char *format, ...) {
     va_end(args);
     fclose(fp);
   }
+#else
+  (void) format;
+#endif
 }
+
+#if DEBUG_GAME_LOG
+#define DEBUG_PRINTF(...) printf(__VA_ARGS__)
+#else
+#define DEBUG_PRINTF(...) ((void) 0)
+#endif
 
 // Assets Visuais
 #include "devices/video/assets/fundo_plateia.xpm"
@@ -47,6 +67,15 @@ static int miss_effect_frames[5] = {0, 0, 0, 0, 0};
 static int score = 0;
 static int combo_hits = 0;
 static int best_combo = 0;
+static char score_text[16] = "0";
+static char combo_text[16] = "0X";
+static bool score_hud_dirty = true;
+static bool lane_key_down[NUM_LANES] = {false};
+
+#define AUDIO_QUEUE_SIZE 32
+static uint8_t audio_queue[AUDIO_QUEUE_SIZE];
+static int audio_q_head = 0;
+static int audio_q_tail = 0;
 
 #define SCORE_BASE_POINTS 10
 #define SCORE_TIER_2_COMBO 4
@@ -99,11 +128,56 @@ static bool uart_send_audio_event(bool uart_ready, uint8_t event_byte, const cha
   if (!uart_ready) return false;
 
   if (uart_send_byte(event_byte) != 0) {
-    printf("[UART] Falha ao enviar evento %s (0x%02x).\n", event_name, event_byte);
+    write_log("[UART] Falha ao enviar evento %s (0x%02x).\n", event_name, event_byte);
     return false;
   }
 
   return true;
+}
+
+static bool audio_queue_empty(void) {
+  return audio_q_head == audio_q_tail;
+}
+
+static bool audio_queue_full(void) {
+  return ((audio_q_tail + 1) % AUDIO_QUEUE_SIZE) == audio_q_head;
+}
+
+static void clear_audio_queue(void) {
+  audio_q_head = 0;
+  audio_q_tail = 0;
+}
+
+static bool queue_audio_event(uint8_t event_byte) {
+  if (audio_queue_full()) {
+    write_log("[UART] Fila de audio cheia. Evento 0x%02x descartado.\n", event_byte);
+    return false;
+  }
+
+  audio_queue[audio_q_tail] = event_byte;
+  audio_q_tail = (audio_q_tail + 1) % AUDIO_QUEUE_SIZE;
+  return true;
+}
+
+static void flush_audio_events(bool uart_ready) {
+  if (!uart_ready || audio_queue_empty()) return;
+
+  uint8_t event_byte = audio_queue[audio_q_head];
+  int result = uart_try_send_byte(event_byte);
+
+  if (result == UART_SEND_OK) {
+    audio_q_head = (audio_q_head + 1) % AUDIO_QUEUE_SIZE;
+  } else if (result == UART_SEND_ERROR) {
+    write_log("[UART] Erro ao enviar evento 0x%02x. Evento descartado.\n", event_byte);
+    audio_q_head = (audio_q_head + 1) % AUDIO_QUEUE_SIZE;
+  }
+  /* UART_SEND_BUSY: nao bloqueia. Tenta outra vez no proximo tick. */
+}
+
+static void reset_lane_key_state(void) {
+  for (int i = 0; i < NUM_LANES; i++) {
+    lane_key_down[i] = false;
+  }
 }
 
 static int points_for_combo_hit(int combo_after_hit) {
@@ -118,6 +192,7 @@ static void reset_score(void) {
   score = 0;
   combo_hits = 0;
   best_combo = 0;
+  score_hud_dirty = true;
 }
 
 static int register_hit_score(void) {
@@ -126,15 +201,18 @@ static int register_hit_score(void) {
 
   int points = points_for_combo_hit(combo_hits);
   score += points;
+  score_hud_dirty = true;
+
   write_log("[SCORE] Hit #%d da combo: +%d pontos (total=%d).\n", combo_hits, points, score);
   return points;
 }
 
 static void register_miss_score(void) {
-  if (combo_hits > 0) {
-    write_log("[SCORE] Miss: combo resetada de %d para 0. Pontuacao mantida em %d.\n", combo_hits, score);
-  }
+  if (combo_hits == 0) return;
+
+  write_log("[SCORE] Miss: combo resetada de %d para 0. Pontuacao mantida em %d.\n", combo_hits, score);
   combo_hits = 0;
+  score_hud_dirty = true;
 }
 
 static bool any_active_notes(void) {
@@ -247,16 +325,22 @@ static void draw_text_centered(int center_x, int y, const char *text, int scale,
   draw_text(center_x - text_width_pixels(text, scale) / 2, y, text, scale, color);
 }
 
+static void update_score_hud_cache(void) {
+  if (!score_hud_dirty) return;
+
+  snprintf(score_text, sizeof(score_text), "%d", score);
+  snprintf(combo_text, sizeof(combo_text), "%dX", combo_hits);
+  score_hud_dirty = false;
+}
+
 static void draw_score_hud(void) {
-  char value[16];
+  update_score_hud_cache();
 
   draw_text(18, 18, "SCORE", 3, 0xFFFFFF);
-  snprintf(value, sizeof(value), "%d", score);
-  draw_text(18, 44, value, 4, 0xFFFF00);
+  draw_text(18, 44, score_text, 4, 0xFFFF00);
 
   draw_text(18, 88, "COMBO", 2, 0xFFFFFF);
-  snprintf(value, sizeof(value), "%dX", combo_hits);
-  draw_text(18, 108, value, 3, 0x00FFFF);
+  draw_text(18, 108, combo_text, 3, 0x00FFFF);
 }
 
 static void draw_leaderboard_summary(void) {
@@ -326,6 +410,7 @@ static void finish_current_run(bool uart_ready) {
     printf("[UART] Evento FIM_JOGO (0x%02x) enviado.\n", UART_EVENT_GAME_END);
   }
 
+  clear_audio_queue();
   save_final_score();
 
   music_started = false;
@@ -350,13 +435,45 @@ static int try_hit_note(uint8_t make_code) {
     int note_lane = (notes[i].x - LANE_BASE_X) / LANE_WIDTH;
     if (note_lane == lane && note_collides_with_hit_zone(&notes[i])) {
       notes[i].active = false;
-      printf("ACERTOU! (pista %d)\n", lane);
+      DEBUG_PRINTF("ACERTOU! (pista %d)\n", lane);
       return lane;
     }
   }
 
-  printf("MISS! (pista %d)\n", lane);
+  DEBUG_PRINTF("MISS! (pista %d)\n", lane);
   return -2;
+}
+
+static void handle_play_key(uint8_t scancode) {
+  bool is_break = (scancode & BIT(7)) != 0;
+  uint8_t make_code = scancode & ~BIT(7);
+  int lane = lane_from_make_code(make_code);
+
+  if (lane < 0) return;
+
+  if (is_break) {
+    lane_key_down[lane] = false;
+    return;
+  }
+
+  /* Evita auto-repeat: uma tecla segurada nao deve gerar hits/misses infinitos. */
+  if (lane_key_down[lane]) return;
+  lane_key_down[lane] = true;
+
+  int hit_result = try_hit_note(make_code);
+  if (hit_result >= 0) {
+    int points = register_hit_score();
+    (void) points;
+    DEBUG_PRINTF("SCORE: +%d (total=%d, combo=%d)\n", points, score, combo_hits);
+    queue_audio_event(UART_EVENT_HIT);
+    hit_effect_frames[hit_result] = 12;
+  } else if (hit_result == -2) {
+    register_miss_score();
+    queue_audio_event(UART_EVENT_MISS);
+    if (lane >= 0 && lane < NUM_LANES) {
+      miss_effect_frames[lane] = 8;
+    }
+  }
 }
 
 int main(int argc, char *argv[]) {
@@ -494,21 +611,8 @@ int (proj_main_loop)(int argc, char *argv[]) {
                 }
                 game_running = false;
               }
-              else if (current_state == PLAY && (scancode_byte & BIT(7)) == 0) {
-                 int lane = lane_from_make_code(scancode_byte);
-                 int hit_result = try_hit_note(scancode_byte);
-                 if (hit_result >= 0) {
-                   int points = register_hit_score();
-                   printf("SCORE: +%d (total=%d, combo=%d)\n", points, score, combo_hits);
-                   uart_send_audio_event(uart_ready, UART_EVENT_HIT, "ACERTOU");
-                   hit_effect_frames[hit_result] = 12; // Trigger expanding color halo!
-                 } else if (hit_result == -2) {
-                   register_miss_score();
-                   uart_send_audio_event(uart_ready, UART_EVENT_MISS, "ERRO");  /* Miss ativo */
-                   if (lane >= 0 && lane < 5) {
-                     miss_effect_frames[lane] = 8; // Trigger red flash in this lane!
-                   }
-                 }
+              else if (current_state == PLAY) {
+                handle_play_key(scancode_byte);
               }
             }
           }
@@ -545,7 +649,8 @@ int (proj_main_loop)(int argc, char *argv[]) {
           }
 
           if (msg.m_notify.interrupts & timer_irq_set) {
-            timer_int_handler(); 
+            timer_int_handler();
+            flush_audio_events(uart_ready);
 
             /*
              * Only clear when the current screen does not draw a full background.
@@ -618,6 +723,8 @@ int (proj_main_loop)(int argc, char *argv[]) {
 
                 init_notes();
                 reset_score();
+                reset_lane_key_state();
+                clear_audio_queue();
 
                 uint8_t start_event = (song_id == 2) ? UART_EVENT_GAME_START_SONG2 : UART_EVENT_GAME_START_SONG1;
                 if (uart_send_audio_event(uart_ready, start_event, "INICIO_JOGO")) {
@@ -655,7 +762,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
               if (passive_misses > 0) {
                 register_miss_score();
                 for (int m = 0; m < passive_misses; m++) {
-                  uart_send_audio_event(uart_ready, UART_EVENT_MISS, "ERRO");
+                  queue_audio_event(UART_EVENT_MISS);
                 }
               }
 
