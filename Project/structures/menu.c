@@ -6,23 +6,29 @@
 // ============================================================
 bool hover_play  = false;
 bool hover_exit  = false;
+bool hover_leaderboard = false;
 bool hover_song1 = false;
 bool hover_song2 = false;
 bool hover_back  = false;
 
 // ============================================================
-// MENU PRINCIPAL  (PLAY + EXIT)
+// MENU PRINCIPAL  (PLAY + LEADERBOARD + EXIT)
 // ============================================================
 #define BTN_WIDTH   200
 #define BTN_HEIGHT   60
 #define BTN_PLAY_X  300
-#define BTN_PLAY_Y  220
+#define BTN_PLAY_Y  170
+#define BTN_LEADERBOARD_X 300
+#define BTN_LEADERBOARD_Y 260
 #define BTN_EXIT_X  300
-#define BTN_EXIT_Y  310
+#define BTN_EXIT_Y  350
 
 void draw_main_menu(int mouse_x, int mouse_y) {
     hover_play = (mouse_x >= BTN_PLAY_X && mouse_x <= BTN_PLAY_X + BTN_WIDTH &&
                   mouse_y >= BTN_PLAY_Y && mouse_y <= BTN_PLAY_Y + BTN_HEIGHT);
+
+    hover_leaderboard = (mouse_x >= BTN_LEADERBOARD_X && mouse_x <= BTN_LEADERBOARD_X + BTN_WIDTH &&
+                         mouse_y >= BTN_LEADERBOARD_Y && mouse_y <= BTN_LEADERBOARD_Y + BTN_HEIGHT);
 
     hover_exit = (mouse_x >= BTN_EXIT_X && mouse_x <= BTN_EXIT_X + BTN_WIDTH &&
                   mouse_y >= BTN_EXIT_Y && mouse_y <= BTN_EXIT_Y + BTN_HEIGHT);
@@ -34,6 +40,15 @@ void draw_main_menu(int mouse_x, int mouse_y) {
     for (int i = 0; i < 20; i++) {
         vg_draw_rectangle(390 + i, BTN_PLAY_Y + 10 + i, 2, 40 - 2*i, 0xFFFFFF);
     }
+
+    // --- BOTÃO LEADERBOARD (azul) ---
+    uint32_t cor_leaderboard = hover_leaderboard ? 0x3399FF : 0x004488;
+    vg_draw_rectangle(BTN_LEADERBOARD_X, BTN_LEADERBOARD_Y, BTN_WIDTH, BTN_HEIGHT, cor_leaderboard);
+    // Troféu simples
+    vg_draw_rectangle(318, BTN_LEADERBOARD_Y + 12, 38, 8, 0xFFFFFF);
+    vg_draw_rectangle(325, BTN_LEADERBOARD_Y + 20, 24, 20, 0xFFFFFF);
+    vg_draw_rectangle(333, BTN_LEADERBOARD_Y + 40, 8, 9, 0xFFFFFF);
+    vg_draw_rectangle(323, BTN_LEADERBOARD_Y + 49, 28, 4, 0xFFFFFF);
 
     // --- BOTÃO EXIT (vermelho) ---
     uint32_t cor_exit = hover_exit ? 0xFF3333 : 0x880000;
@@ -51,7 +66,10 @@ void check_menu_clicks(int mouse_x, int mouse_y, bool left_click,
 
     if (mouse_x >= BTN_PLAY_X && mouse_x <= BTN_PLAY_X + BTN_WIDTH &&
         mouse_y >= BTN_PLAY_Y && mouse_y <= BTN_PLAY_Y + BTN_HEIGHT) {
-        *current_state = SONG_SELECT;   /* vai para o ecrã de escolha */
+        *current_state = USERNAME_ENTRY;   /* primeiro pede o nome do jogador */
+    } else if (mouse_x >= BTN_LEADERBOARD_X && mouse_x <= BTN_LEADERBOARD_X + BTN_WIDTH &&
+               mouse_y >= BTN_LEADERBOARD_Y && mouse_y <= BTN_LEADERBOARD_Y + BTN_HEIGHT) {
+        *current_state = LEADERBOARD;
     } else if (mouse_x >= BTN_EXIT_X && mouse_x <= BTN_EXIT_X + BTN_WIDTH &&
                mouse_y >= BTN_EXIT_Y && mouse_y <= BTN_EXIT_Y + BTN_HEIGHT) {
         *game_running = false;

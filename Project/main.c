@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include <string.h>
 #include "devices/video/video.h"
 
 /*
@@ -71,6 +72,9 @@ static char score_text[16] = "0";
 static char combo_text[16] = "0X";
 static bool score_hud_dirty = true;
 static bool lane_key_down[NUM_LANES] = {false};
+static char current_username[LEADERBOARD_USERNAME_MAX] = "PLAYER";
+static char username_edit_buffer[LEADERBOARD_USERNAME_MAX] = "";
+static int username_edit_length = 0;
 
 #define AUDIO_QUEUE_SIZE 32
 static uint8_t audio_queue[AUDIO_QUEUE_SIZE];
@@ -87,6 +91,8 @@ static int audio_q_tail = 0;
 #define S_MAKE_CODE 0x1F
 #define D_MAKE_CODE 0x20
 #define F_MAKE_CODE 0x21
+#define ENTER_MAKE_CODE 0x1C
+#define BACKSPACE_MAKE_CODE 0x0E
 #ifndef G_MAKE_CODE
 #define G_MAKE_CODE 0x22
 #endif
@@ -243,19 +249,23 @@ static const uint8_t *glyph_for_char(char c) {
   static const uint8_t glyph_G[7] = {0x0E, 0x11, 0x10, 0x17, 0x11, 0x11, 0x0F};
   static const uint8_t glyph_H[7] = {0x11, 0x11, 0x11, 0x1F, 0x11, 0x11, 0x11};
   static const uint8_t glyph_I[7] = {0x0E, 0x04, 0x04, 0x04, 0x04, 0x04, 0x0E};
+  static const uint8_t glyph_J[7] = {0x07, 0x02, 0x02, 0x02, 0x12, 0x12, 0x0C};
   static const uint8_t glyph_K[7] = {0x11, 0x12, 0x14, 0x18, 0x14, 0x12, 0x11};
   static const uint8_t glyph_L[7] = {0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x1F};
   static const uint8_t glyph_M[7] = {0x11, 0x1B, 0x15, 0x15, 0x11, 0x11, 0x11};
   static const uint8_t glyph_N[7] = {0x11, 0x19, 0x15, 0x13, 0x11, 0x11, 0x11};
   static const uint8_t glyph_O[7] = {0x0E, 0x11, 0x11, 0x11, 0x11, 0x11, 0x0E};
   static const uint8_t glyph_P[7] = {0x1E, 0x11, 0x11, 0x1E, 0x10, 0x10, 0x10};
+  static const uint8_t glyph_Q[7] = {0x0E, 0x11, 0x11, 0x11, 0x15, 0x12, 0x0D};
   static const uint8_t glyph_R[7] = {0x1E, 0x11, 0x11, 0x1E, 0x14, 0x12, 0x11};
   static const uint8_t glyph_S[7] = {0x0F, 0x10, 0x10, 0x0E, 0x01, 0x01, 0x1E};
   static const uint8_t glyph_T[7] = {0x1F, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04};
   static const uint8_t glyph_U[7] = {0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x0E};
   static const uint8_t glyph_V[7] = {0x11, 0x11, 0x11, 0x11, 0x11, 0x0A, 0x04};
+  static const uint8_t glyph_W[7] = {0x11, 0x11, 0x11, 0x15, 0x15, 0x15, 0x0A};
   static const uint8_t glyph_X[7] = {0x11, 0x11, 0x0A, 0x04, 0x0A, 0x11, 0x11};
   static const uint8_t glyph_Y[7] = {0x11, 0x11, 0x0A, 0x04, 0x04, 0x04, 0x04};
+  static const uint8_t glyph_Z[7] = {0x1F, 0x01, 0x02, 0x04, 0x08, 0x10, 0x1F};
   static const uint8_t glyph_slash[7] = {0x01, 0x01, 0x02, 0x04, 0x08, 0x10, 0x10};
   static const uint8_t glyph_dash[7] = {0x00, 0x00, 0x00, 0x1F, 0x00, 0x00, 0x00};
 
@@ -280,19 +290,23 @@ static const uint8_t *glyph_for_char(char c) {
     case 'G': return glyph_G;
     case 'H': return glyph_H;
     case 'I': return glyph_I;
+    case 'J': return glyph_J;
     case 'K': return glyph_K;
     case 'L': return glyph_L;
     case 'M': return glyph_M;
     case 'N': return glyph_N;
     case 'O': return glyph_O;
     case 'P': return glyph_P;
+    case 'Q': return glyph_Q;
     case 'R': return glyph_R;
     case 'S': return glyph_S;
     case 'T': return glyph_T;
     case 'U': return glyph_U;
     case 'V': return glyph_V;
+    case 'W': return glyph_W;
     case 'X': return glyph_X;
     case 'Y': return glyph_Y;
+    case 'Z': return glyph_Z;
     case '/': return glyph_slash;
     case '-': return glyph_dash;
     default: return glyph_space;
@@ -344,7 +358,7 @@ static void draw_score_hud(void) {
 }
 
 static void draw_leaderboard_summary(void) {
-  char row[32];
+  char row[48];
   LeaderboardEntry *scores = leaderboard_get_scores();
   int count = leaderboard_get_count();
 
@@ -355,13 +369,11 @@ static void draw_leaderboard_summary(void) {
     return;
   }
 
-  for (int i = 0; i < count && i < MAX_SCORES; i++) {
-    snprintf(row, sizeof(row), "%d %d %02d/%02d/%02d",
+  for (int i = 0; i < count && i < 5; i++) {
+    snprintf(row, sizeof(row), "%d %s %d",
              i + 1,
-             scores[i].score,
-             scores[i].date.day,
-             scores[i].date.month,
-             scores[i].date.year);
+             scores[i].username,
+             scores[i].score);
     draw_text(470, 230 + i * 34, row, 2, 0xDDDDDD);
   }
 }
@@ -385,6 +397,147 @@ static void draw_game_over_screen(void) {
   draw_text_centered(400, 530, "CLICK TO MENU", 2, 0xAAAAAA);
 }
 
+static void reset_username_entry(void) {
+  username_edit_buffer[0] = '\0';
+  username_edit_length = 0;
+}
+
+static void accept_username_entry(void) {
+  if (username_edit_length == 0) {
+    strncpy(current_username, "PLAYER", sizeof(current_username));
+  } else {
+    strncpy(current_username, username_edit_buffer, sizeof(current_username));
+  }
+
+  current_username[sizeof(current_username) - 1] = '\0';
+  current_state = SONG_SELECT;
+}
+
+static char username_char_from_make_code(uint8_t make_code) {
+  switch (make_code) {
+    case 0x02: return '1';
+    case 0x03: return '2';
+    case 0x04: return '3';
+    case 0x05: return '4';
+    case 0x06: return '5';
+    case 0x07: return '6';
+    case 0x08: return '7';
+    case 0x09: return '8';
+    case 0x0A: return '9';
+    case 0x0B: return '0';
+    case 0x10: return 'Q';
+    case 0x11: return 'W';
+    case 0x12: return 'E';
+    case 0x13: return 'R';
+    case 0x14: return 'T';
+    case 0x15: return 'Y';
+    case 0x16: return 'U';
+    case 0x17: return 'I';
+    case 0x18: return 'O';
+    case 0x19: return 'P';
+    case A_MAKE_CODE: return 'A';
+    case S_MAKE_CODE: return 'S';
+    case D_MAKE_CODE: return 'D';
+    case F_MAKE_CODE: return 'F';
+    case G_MAKE_CODE: return 'G';
+    case 0x23: return 'H';
+    case 0x24: return 'J';
+    case 0x25: return 'K';
+    case 0x26: return 'L';
+    case 0x2C: return 'Z';
+    case 0x2D: return 'X';
+    case 0x2E: return 'C';
+    case 0x2F: return 'V';
+    case 0x30: return 'B';
+    case 0x31: return 'N';
+    case 0x32: return 'M';
+    case 0x0C: return '-';
+    default: return '\0';
+  }
+}
+
+static void handle_username_key(uint8_t scancode) {
+  if (scancode & BIT(7)) return;
+
+  if (scancode == ENTER_MAKE_CODE) {
+    accept_username_entry();
+    return;
+  }
+
+  if (scancode == BACKSPACE_MAKE_CODE) {
+    if (username_edit_length > 0) {
+      username_edit_length--;
+      username_edit_buffer[username_edit_length] = '\0';
+    }
+    return;
+  }
+
+  char next_char = username_char_from_make_code(scancode);
+  if (next_char == '\0') return;
+
+  if (username_edit_length < LEADERBOARD_USERNAME_MAX - 1) {
+    username_edit_buffer[username_edit_length++] = next_char;
+    username_edit_buffer[username_edit_length] = '\0';
+  }
+}
+
+static void draw_username_entry_screen(void) {
+  const char *visible_name = (username_edit_length == 0) ? "PLAYER" : username_edit_buffer;
+
+  vg_draw_rectangle(0, 0, 800, 600, 0x000000);
+  draw_text_centered(400, 90, "USERNAME", 6, 0xFFFFFF);
+  draw_text_centered(400, 175, "TYPE YOUR NAME", 3, 0xAAAAAA);
+
+  vg_draw_rectangle(170, 245, 460, 80, 0x222222);
+  vg_draw_rectangle(170, 245, 460, 4, 0x00FFFF);
+  vg_draw_rectangle(170, 321, 460, 4, 0x00FFFF);
+  vg_draw_rectangle(170, 245, 4, 80, 0x00FFFF);
+  vg_draw_rectangle(626, 245, 4, 80, 0x00FFFF);
+  draw_text_centered(400, 270, visible_name, 4, username_edit_length == 0 ? 0x777777 : 0xFFFF00);
+
+  draw_text_centered(400, 390, "ENTER TO CONTINUE", 2, 0xFFFFFF);
+  draw_text_centered(400, 425, "BACKSPACE TO DELETE", 2, 0xAAAAAA);
+  draw_text_centered(400, 500, "ESC TO MENU", 2, 0x777777);
+}
+
+static void draw_leaderboard_screen(void) {
+  LeaderboardEntry *scores = leaderboard_get_scores();
+  int count = leaderboard_get_count();
+  char row[64];
+
+  vg_draw_rectangle(0, 0, 800, 600, 0x000000);
+  draw_text_centered(400, 55, "LEADERBOARD", 5, 0xFFFFFF);
+
+  draw_text(125, 130, "RANK", 2, 0x00FFFF);
+  draw_text(235, 130, "NAME", 2, 0x00FFFF);
+  draw_text(430, 130, "SCORE", 2, 0x00FFFF);
+  draw_text(560, 130, "DATE", 2, 0x00FFFF);
+  vg_draw_rectangle(110, 160, 580, 3, 0x333333);
+
+  if (count == 0) {
+    draw_text_centered(400, 280, "NO SCORES YET", 3, 0xAAAAAA);
+  } else {
+    int rows = (count < MAX_SCORES) ? count : MAX_SCORES;
+    for (int i = 0; i < rows; i++) {
+      snprintf(row, sizeof(row), "%d", i + 1);
+      draw_text(140, 190 + i * 34, row, 2, 0xFFFFFF);
+
+      draw_text(235, 190 + i * 34, scores[i].username, 2, 0xFFFF00);
+
+      snprintf(row, sizeof(row), "%d", scores[i].score);
+      draw_text(430, 190 + i * 34, row, 2, 0x00FF00);
+
+      snprintf(row, sizeof(row), "%02d/%02d/%02d",
+               scores[i].date.day,
+               scores[i].date.month,
+               scores[i].date.year);
+      draw_text(560, 190 + i * 34, row, 2, 0xAAAAAA);
+    }
+  }
+
+  draw_text_centered(400, 545, "CLICK OR ESC TO MENU", 2, 0xAAAAAA);
+}
+
 static void save_final_score(void) {
   rtc_timestamp timestamp;
 
@@ -393,9 +546,10 @@ static void save_final_score(void) {
     return;
   }
 
-  leaderboard_add_score(score, timestamp);
-  write_log("[LEADERBOARD] Score %d guardado em %02d/%02d/20%02d %02d:%02d:%02d.\n",
+  leaderboard_add_score(current_username, score, timestamp);
+  write_log("[LEADERBOARD] Score %d de %s guardado em %02d/%02d/20%02d %02d:%02d:%02d.\n",
             score,
+            current_username,
             timestamp.day,
             timestamp.month,
             timestamp.year,
@@ -608,8 +762,18 @@ int (proj_main_loop)(int argc, char *argv[]) {
               if (scancode_byte == ESC_BREAKCODE) {
                 if (current_state == PLAY && music_started) {
                   finish_current_run(uart_ready);
+                } else if (current_state == USERNAME_ENTRY ||
+                           current_state == SONG_SELECT ||
+                           current_state == GAME_OVER ||
+                           current_state == LEADERBOARD) {
+                  current_state = MENU;
+                  music_started = false;
+                } else {
+                  game_running = false;
                 }
-                game_running = false;
+              }
+              else if (current_state == USERNAME_ENTRY) {
+                handle_username_key(scancode_byte);
               }
               else if (current_state == PLAY) {
                 handle_play_key(scancode_byte);
@@ -634,12 +798,16 @@ int (proj_main_loop)(int argc, char *argv[]) {
                 clamp_mouse_position();
 
                 if (current_state == MENU) {
+                  GameState previous_state = current_state;
                   check_menu_clicks(mouse_x, mouse_y, mouse_packet.lb, &current_state, &game_running);
+                  if (previous_state == MENU && current_state == USERNAME_ENTRY) {
+                    reset_username_entry();
+                  }
                 } else if (current_state == SONG_SELECT) {
                   check_song_select_clicks(mouse_x, mouse_y, mouse_packet.lb, &current_state);
                   /* Ao entrar em PLAY a partir de SONG_SELECT, reset da musica */
                   if (current_state == PLAY) music_started = false;
-                } else if (current_state == GAME_OVER && mouse_packet.lb) {
+                } else if ((current_state == GAME_OVER || current_state == LEADERBOARD) && mouse_packet.lb) {
                   current_state = MENU;
                   music_started = false;
                 }
@@ -663,8 +831,12 @@ int (proj_main_loop)(int argc, char *argv[]) {
 
             if (current_state == MENU) {
               draw_main_menu(mouse_x, mouse_y);
+              draw_text_centered(400, 282, "LEADERBOARD", 2, 0xFFFFFF);
+            } else if (current_state == USERNAME_ENTRY) {
+              draw_username_entry_screen();
             } else if (current_state == SONG_SELECT) {
               draw_song_select(mouse_x, mouse_y);
+              draw_text_centered(400, 135, current_username, 3, 0xFFFF00);
             } 
             else if (current_state == PLAY) {
               if (!music_started) {
@@ -865,6 +1037,9 @@ int (proj_main_loop)(int argc, char *argv[]) {
             } // fecho do else if (current_state == PLAY)
             else if (current_state == GAME_OVER) {
               draw_game_over_screen();
+            }
+            else if (current_state == LEADERBOARD) {
+              draw_leaderboard_screen();
             }
             vg_draw_rectangle(mouse_x, mouse_y, 10, 10, 0xFFFFFF);
             vg_swap_buffers();

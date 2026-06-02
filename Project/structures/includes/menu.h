@@ -8,14 +8,17 @@
 // Enumeração global dos estados do jogo
 typedef enum {
   MENU,
+  USERNAME_ENTRY,
   SONG_SELECT,
   PLAY,
-  GAME_OVER
+  GAME_OVER,
+  LEADERBOARD
 } GameState;
 
 // Declaração das variáveis de hover para estarem acessíveis
 extern bool hover_play;
 extern bool hover_exit;
+extern bool hover_leaderboard;
 extern bool hover_song1;
 extern bool hover_song2;
 extern bool hover_back;

@@ -3,7 +3,8 @@
 #include <lcom/lcf.h>
 #include "rtc.h"
 
-#define MAX_SCORES 5
+#define MAX_SCORES 10
+#define LEADERBOARD_USERNAME_MAX 16
 
 /*
  * Ficheiro principal usado quando o jogo é executado a partir da pasta Project.
@@ -14,11 +15,12 @@
 #define SCORE_FILE_FALLBACK "/tmp/guitar_hero_scores.txt"
 
 typedef struct {
+    char username[LEADERBOARD_USERNAME_MAX];
     int score;
     rtc_timestamp date;
 } LeaderboardEntry;
 
 void leaderboard_init(void);
-void leaderboard_add_score(int score, rtc_timestamp current_time);
+void leaderboard_add_score(const char *username, int score, rtc_timestamp current_time);
 LeaderboardEntry* leaderboard_get_scores(void);
 int leaderboard_get_count(void);
