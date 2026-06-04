@@ -16,23 +16,21 @@ static uint16_t v_res = 0;
 static uint8_t bits_per_pixel = 0;
 static unsigned int bytes_per_pixel = 0;
 
-static inline void write_pixel_raw(uint8_t *pixel, uint32_t color) {
-  switch (bytes_per_pixel) {
-    case 4:
-      *((uint32_t *) pixel) = color;
-      break;
-    case 3:
-      pixel[0] = color & 0xFF;
-      pixel[1] = (color >> 8) & 0xFF;
-      pixel[2] = (color >> 16) & 0xFF;
-      break;
-    case 2:
-      pixel[0] = color & 0xFF;
-      pixel[1] = (color >> 8) & 0xFF;
-      break;
-    default:
-      pixel[0] = color & 0xFF;
-      break;
+static void write_pixel_raw(uint8_t *pixel, uint32_t color) {
+  if (bytes_per_pixel == 4) {
+    pixel[0] = color & 0xFF;
+    pixel[1] = (color >> 8) & 0xFF;
+    pixel[2] = (color >> 16) & 0xFF;
+    pixel[3] = (color >> 24) & 0xFF;
+  } else if (bytes_per_pixel == 3) {
+    pixel[0] = color & 0xFF;
+    pixel[1] = (color >> 8) & 0xFF;
+    pixel[2] = (color >> 16) & 0xFF;
+  } else if (bytes_per_pixel == 2) {
+    pixel[0] = color & 0xFF;
+    pixel[1] = (color >> 8) & 0xFF;
+  } else {
+    pixel[0] = color & 0xFF;
   }
 }
 
@@ -111,13 +109,28 @@ int(vg_draw_rectangle)(uint16_t x, uint16_t y, uint16_t width, uint16_t height, 
   if (y + height > v_res) height = v_res - y;
   if (width == 0 || height == 0) return 0;
 
-  for (uint16_t row = 0; row < height; row++) {
-    uint8_t *dst = back_buffer + ((y + row) * h_res + x) * bytes_per_pixel;
-
-    if (bytes_per_pixel == 4) {
-      uint32_t *dst32 = (uint32_t *) dst;
-      for (uint16_t col = 0; col < width; col++) dst32[col] = color;
-    } else {
+  if (bytes_per_pixel == 4) {
+    for (uint16_t row = 0; row < height; row++) {
+      uint8_t *dst = back_buffer + ((y + row) * h_res + x) * 4;
+      for (uint16_t col = 0; col < width; col++) {
+        dst[col*4 + 0] = color & 0xFF;
+        dst[col*4 + 1] = (color >> 8) & 0xFF;
+        dst[col*4 + 2] = (color >> 16) & 0xFF;
+        dst[col*4 + 3] = (color >> 24) & 0xFF;
+      }
+    }
+  } else if (bytes_per_pixel == 3) {
+    for (uint16_t row = 0; row < height; row++) {
+      uint8_t *dst = back_buffer + ((y + row) * h_res + x) * 3;
+      for (uint16_t col = 0; col < width; col++) {
+        dst[col*3 + 0] = color & 0xFF;
+        dst[col*3 + 1] = (color >> 8) & 0xFF;
+        dst[col*3 + 2] = (color >> 16) & 0xFF;
+      }
+    }
+  } else {
+    for (uint16_t row = 0; row < height; row++) {
+      uint8_t *dst = back_buffer + ((y + row) * h_res + x) * bytes_per_pixel;
       for (uint16_t col = 0; col < width; col++) {
         write_pixel_raw(dst + col * bytes_per_pixel, color);
       }
@@ -127,41 +140,62 @@ int(vg_draw_rectangle)(uint16_t x, uint16_t y, uint16_t width, uint16_t height, 
   return 0;
 }
 
-int(vg_draw_xpm_image)(const uint32_t *pixmap, uint16_t width, uint16_t height, int x, int y, uint32_t transparent_color, bool use_transparency) {
+int(vg_draw_xpm_image)(const uint32_t *pixmap, uint16_t width, uint16_t height, int x, int y, uint32_t transparent_color, int use_transparency) {
   if (back_buffer == NULL || pixmap == NULL || width == 0 || height == 0) return 1;
 
   int src_x = 0;
   int src_y = 0;
-  int draw_w = width;
-  int draw_h = height;
+  int draw_w = (int)width;
+  int draw_h = (int)height;
 
-  if (x < 0) {
-    src_x = -x;
-    draw_w -= src_x;
-    x = 0;
-  }
-  if (y < 0) {
-    src_y = -y;
-    draw_h -= src_y;
-    y = 0;
-  }
-  if (x >= h_res || y >= v_res || draw_w <= 0 || draw_h <= 0) return 0;
-  if (x + draw_w > h_res) draw_w = h_res - x;
-  if (y + draw_h > v_res) draw_h = v_res - y;
+  if (x < 0) { src_x = -x; draw_w -= src_x; x = 0; }
+  if (y < 0) { src_y = -y; draw_h -= src_y; y = 0; }
+  if (x >= (int)h_res || y >= (int)v_res || draw_w <= 0 || draw_h <= 0) return 0;
+  if (x + draw_w > (int)h_res) draw_w = (int)h_res - x;
+  if (y + draw_h > (int)v_res) draw_h = (int)v_res - y;
 
-  for (int row = 0; row < draw_h; row++) {
-    const uint32_t *src = pixmap + (src_y + row) * width + src_x;
-    uint8_t *dst = back_buffer + ((y + row) * h_res + x) * bytes_per_pixel;
-
-    if (bytes_per_pixel == 4 && !use_transparency) {
-      memcpy(dst, src, draw_w * sizeof(uint32_t));
-      continue;
+  if (bytes_per_pixel == 4 && !use_transparency) {
+    for (int row = 0; row < draw_h; row++) {
+      const uint32_t *src = pixmap + (src_y + row) * (int)width + src_x;
+      uint8_t *dst = back_buffer + ((y + row) * (int)h_res + x) * 4;
+      memcpy(dst, src, (unsigned)draw_w * 4u);
     }
-
-    for (int col = 0; col < draw_w; col++) {
-      uint32_t color = src[col];
-      if (!use_transparency || color != transparent_color) {
-        write_pixel_raw(dst + col * bytes_per_pixel, color);
+  } else if (bytes_per_pixel == 4) {
+    for (int row = 0; row < draw_h; row++) {
+      const uint32_t *src = pixmap + (src_y + row) * (int)width + src_x;
+      uint8_t *dst = back_buffer + ((y + row) * (int)h_res + x) * 4;
+      for (int col = 0; col < draw_w; col++) {
+        uint32_t color = src[col];
+        if (!use_transparency || color != transparent_color) {
+          dst[col*4 + 0] = color & 0xFF;
+          dst[col*4 + 1] = (color >> 8) & 0xFF;
+          dst[col*4 + 2] = (color >> 16) & 0xFF;
+          dst[col*4 + 3] = (color >> 24) & 0xFF;
+        }
+      }
+    }
+  } else if (bytes_per_pixel == 3) {
+    for (int row = 0; row < draw_h; row++) {
+      const uint32_t *src = pixmap + (src_y + row) * (int)width + src_x;
+      uint8_t *dst = back_buffer + ((y + row) * (int)h_res + x) * 3;
+      for (int col = 0; col < draw_w; col++) {
+        uint32_t color = src[col];
+        if (!use_transparency || color != transparent_color) {
+          dst[col*3 + 0] = color & 0xFF;
+          dst[col*3 + 1] = (color >> 8) & 0xFF;
+          dst[col*3 + 2] = (color >> 16) & 0xFF;
+        }
+      }
+    }
+  } else {
+    for (int row = 0; row < draw_h; row++) {
+      const uint32_t *src = pixmap + (src_y + row) * (int)width + src_x;
+      uint8_t *dst = back_buffer + ((y + row) * (int)h_res + x) * (int)bytes_per_pixel;
+      for (int col = 0; col < draw_w; col++) {
+        uint32_t color = src[col];
+        if (!use_transparency || color != transparent_color) {
+          write_pixel_raw(dst + col * (int)bytes_per_pixel, color);
+        }
       }
     }
   }
@@ -174,30 +208,48 @@ int(vg_draw_xpm_image_tinted)(const uint32_t *pixmap, uint16_t width, uint16_t h
 
   int src_x = 0;
   int src_y = 0;
-  int draw_w = width;
-  int draw_h = height;
+  int draw_w = (int)width;
+  int draw_h = (int)height;
 
-  if (x < 0) {
-    src_x = -x;
-    draw_w -= src_x;
-    x = 0;
-  }
-  if (y < 0) {
-    src_y = -y;
-    draw_h -= src_y;
-    y = 0;
-  }
-  if (x >= h_res || y >= v_res || draw_w <= 0 || draw_h <= 0) return 0;
-  if (x + draw_w > h_res) draw_w = h_res - x;
-  if (y + draw_h > v_res) draw_h = v_res - y;
+  if (x < 0) { src_x = -x; draw_w -= src_x; x = 0; }
+  if (y < 0) { src_y = -y; draw_h -= src_y; y = 0; }
+  if (x >= (int)h_res || y >= (int)v_res || draw_w <= 0 || draw_h <= 0) return 0;
+  if (x + draw_w > (int)h_res) draw_w = (int)h_res - x;
+  if (y + draw_h > (int)v_res) draw_h = (int)v_res - y;
 
-  for (int row = 0; row < draw_h; row++) {
-    const uint32_t *src = pixmap + (src_y + row) * width + src_x;
-    uint8_t *dst = back_buffer + ((y + row) * h_res + x) * bytes_per_pixel;
-
-    for (int col = 0; col < draw_w; col++) {
-      if (src[col] != transparent_color) {
-        write_pixel_raw(dst + col * bytes_per_pixel, tint_color);
+  if (bytes_per_pixel == 4) {
+    for (int row = 0; row < draw_h; row++) {
+      const uint32_t *src = pixmap + (src_y + row) * (int)width + src_x;
+      uint8_t *dst = back_buffer + ((y + row) * (int)h_res + x) * 4;
+      for (int col = 0; col < draw_w; col++) {
+        if (src[col] != transparent_color) {
+          dst[col*4 + 0] = tint_color & 0xFF;
+          dst[col*4 + 1] = (tint_color >> 8) & 0xFF;
+          dst[col*4 + 2] = (tint_color >> 16) & 0xFF;
+          dst[col*4 + 3] = (tint_color >> 24) & 0xFF;
+        }
+      }
+    }
+  } else if (bytes_per_pixel == 3) {
+    for (int row = 0; row < draw_h; row++) {
+      const uint32_t *src = pixmap + (src_y + row) * (int)width + src_x;
+      uint8_t *dst = back_buffer + ((y + row) * (int)h_res + x) * 3;
+      for (int col = 0; col < draw_w; col++) {
+        if (src[col] != transparent_color) {
+          dst[col*3 + 0] = tint_color & 0xFF;
+          dst[col*3 + 1] = (tint_color >> 8) & 0xFF;
+          dst[col*3 + 2] = (tint_color >> 16) & 0xFF;
+        }
+      }
+    }
+  } else {
+    for (int row = 0; row < draw_h; row++) {
+      const uint32_t *src = pixmap + (src_y + row) * (int)width + src_x;
+      uint8_t *dst = back_buffer + ((y + row) * (int)h_res + x) * (int)bytes_per_pixel;
+      for (int col = 0; col < draw_w; col++) {
+        if (src[col] != transparent_color) {
+          write_pixel_raw(dst + col * (int)bytes_per_pixel, tint_color);
+        }
       }
     }
   }
@@ -252,4 +304,18 @@ uint16_t(vg_get_h_res)() {
 
 uint16_t(vg_get_v_res)() {
   return v_res;
+}
+
+void (vg_draw_sprite)(uint32_t *map, xpm_image_t img, int x, int y) {
+    if (map == NULL) return;
+    
+    for (int i = 0; i < img.height; i++) {
+        for (int j = 0; j < img.width; j++) {
+            uint32_t cor_pixel = map[i * img.width + j];
+            
+            if (cor_pixel != 0xFF00FF) { 
+                vg_draw_pixel(x + j, y + i, cor_pixel);
+            }
+        }
+    }
 }
