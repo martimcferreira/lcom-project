@@ -11,6 +11,7 @@ typedef enum {
   USERNAME_ENTRY,
   SONG_SELECT,
   PLAY,
+  PAUSE,
   GAME_OVER,
   LEADERBOARD
 } GameState;

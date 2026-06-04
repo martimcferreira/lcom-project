@@ -75,6 +75,10 @@ static bool lane_key_down[NUM_LANES] = {false};
 static char current_username[LEADERBOARD_USERNAME_MAX] = "PLAYER";
 static char username_edit_buffer[LEADERBOARD_USERNAME_MAX] = "";
 static int username_edit_length = 0;
+static uint32_t pause_start_tick = 0;
+static uint32_t pause_elapsed_ticks = 0;
+static bool hover_pause_resume = false;
+static bool hover_pause_quit = false;
 
 #define AUDIO_QUEUE_SIZE 32
 static uint8_t audio_queue[AUDIO_QUEUE_SIZE];
@@ -91,8 +95,21 @@ static int audio_q_tail = 0;
 #define S_MAKE_CODE 0x1F
 #define D_MAKE_CODE 0x20
 #define F_MAKE_CODE 0x21
+#define ESC_MAKE_CODE 0x01
 #define ENTER_MAKE_CODE 0x1C
 #define BACKSPACE_MAKE_CODE 0x0E
+
+#define PAUSE_PANEL_X 230
+#define PAUSE_PANEL_Y 140
+#define PAUSE_PANEL_W 340
+#define PAUSE_PANEL_H 310
+#define PAUSE_BTN_W 220
+#define PAUSE_BTN_H 60
+#define PAUSE_RESUME_X 290
+#define PAUSE_RESUME_Y 260
+#define PAUSE_QUIT_X 290
+#define PAUSE_QUIT_Y 340
+
 #ifndef G_MAKE_CODE
 #define G_MAKE_CODE 0x22
 #endif
@@ -538,6 +555,145 @@ static void draw_leaderboard_screen(void) {
   draw_text_centered(400, 545, "CLICK OR ESC TO MENU", 2, 0xAAAAAA);
 }
 
+
+static void draw_play_frame(const uint32_t *bg_map,
+                            xpm_image_t bg_img,
+                            xpm_image_t img_notas[NUM_LANES],
+                            uint32_t *mapas_notas[NUM_LANES],
+                            const uint32_t cores_pistas[NUM_LANES],
+                            uint32_t elapsed_ticks,
+                            bool animate_effects) {
+  // --- 1. CAMADA DE FUNDO OTIMIZADA ---
+  if (bg_map != NULL) {
+    vg_draw_xpm_image(bg_map, bg_img.width, bg_img.height, 0, 0, 0, false);
+  } else {
+    vg_clear_back_buffer(0x000000);
+  }
+
+  // --- 1.5. O BRAÇO DE MADEIRA REALISTA ---
+  vg_draw_rectangle(200, 0, 400, 600, 0x30190E);
+
+  // Veios da madeira dinâmicos
+  for (int v = 205; v < 595; v += 15) {
+    vg_draw_rectangle(v, 0, 3, 600, 0x241109);
+  }
+
+  // Bordas 3D do braço
+  vg_draw_rectangle(200, 0, 10, 600, 0x110804);
+  vg_draw_rectangle(590, 0, 10, 600, 0x110804);
+
+  // --- 2. AS CORDAS DA GUITARRA (Efeito Metálico 3D) ---
+  for (int i = 0; i <= 5; i++) {
+    int linha_x = 200 + (i * 80);
+    vg_draw_rectangle(linha_x - 1, 0, 1, 600, 0x111111); // Sombra esquerda
+    vg_draw_rectangle(linha_x, 0, 2, 600, 0xEEEEEE);     // Brilho central
+    vg_draw_rectangle(linha_x + 2, 0, 1, 600, 0x444444); // Sombra direita
+  }
+
+  // --- 2.5. OS TRASTES ---
+  int distancia_trastes = 150;
+  int velocidade_scroll = 4;
+  int offset = (elapsed_ticks * velocidade_scroll) % distancia_trastes;
+
+  for (int i = -1; i <= 4; i++) {
+    int traste_y = (i * distancia_trastes) + offset;
+    if (traste_y >= 0 && traste_y < 596) {
+      vg_draw_rectangle(200, traste_y + 2, 400, 3, 0x111111);
+      vg_draw_rectangle(200, traste_y, 400, 2, 0x999999);
+    }
+  }
+
+  // --- 3. A ZONA DE ACERTO ---
+  vg_draw_rectangle(LANE_BASE_X, HIT_ZONE_TOP - 2, NUM_LANES * LANE_WIDTH, 2, 0x555555);
+  vg_draw_rectangle(LANE_BASE_X, HIT_ZONE_TOP, NUM_LANES * LANE_WIDTH, HIT_ZONE_BOTTOM - HIT_ZONE_TOP, 0x222222);
+  vg_draw_rectangle(LANE_BASE_X, HIT_ZONE_BOTTOM, NUM_LANES * LANE_WIDTH, 4, 0x000000);
+
+  for (int i = 0; i < NUM_LANES; i++) {
+    int lane_x_center = LANE_BASE_X + i * LANE_WIDTH + LANE_WIDTH / 2;
+    uint32_t lane_colors[NUM_LANES] = {0x00FF00, 0xFF0000, 0x0000FF, 0x800080, 0xFFFF00};
+
+    if (miss_effect_frames[i] > 0) {
+      vg_draw_rectangle(LANE_BASE_X + i * LANE_WIDTH + 10, HIT_ZONE_TOP,
+                        LANE_WIDTH - 20, HIT_ZONE_BOTTOM - HIT_ZONE_TOP, 0xFF0000);
+      if (animate_effects) miss_effect_frames[i]--;
+    }
+
+    if (hit_effect_frames[i] > 0) {
+      int frame_diff = 12 - hit_effect_frames[i];
+      int w = 20 + frame_diff * 4;
+      int h = 8 + frame_diff * 2;
+
+      vg_draw_rectangle(lane_x_center - w / 2,
+                        (HIT_ZONE_TOP + HIT_ZONE_BOTTOM) / 2 - h / 2,
+                        w, h, lane_colors[i]);
+
+      int iw = w / 2;
+      int ih = h / 2;
+      vg_draw_rectangle(lane_x_center - iw / 2,
+                        (HIT_ZONE_TOP + HIT_ZONE_BOTTOM) / 2 - ih / 2,
+                        iw, ih, 0xFFFFFF);
+
+      if (animate_effects) hit_effect_frames[i]--;
+    }
+  }
+
+  for (int i = 0; i < MAX_NOTES; i++) {
+    if (notes[i].active) {
+      int pista = (notes[i].x - LANE_BASE_X) / LANE_WIDTH;
+      if (pista < 0) pista = 0;
+      if (pista > 4) pista = 4;
+      uint32_t *mapa_atual = mapas_notas[pista];
+
+      if (mapa_atual != NULL) {
+        vg_draw_xpm_image_tinted(mapa_atual, img_notas[pista].width, img_notas[pista].height,
+                                 notes[i].x + 18, notes[i].y + 8, 0xFF00FF, 0x1A1A1A);
+        vg_draw_xpm_image(mapa_atual, img_notas[pista].width, img_notas[pista].height,
+                          notes[i].x + 10, notes[i].y, 0xFF00FF, true);
+      } else {
+        vg_draw_rectangle(notes[i].x + 15, notes[i].y, 50, 20, cores_pistas[pista]);
+      }
+    }
+  }
+
+  draw_score_hud();
+}
+
+static void draw_pause_menu(int mouse_x, int mouse_y) {
+  hover_pause_resume = (mouse_x >= PAUSE_RESUME_X && mouse_x <= PAUSE_RESUME_X + PAUSE_BTN_W &&
+                        mouse_y >= PAUSE_RESUME_Y && mouse_y <= PAUSE_RESUME_Y + PAUSE_BTN_H);
+  hover_pause_quit = (mouse_x >= PAUSE_QUIT_X && mouse_x <= PAUSE_QUIT_X + PAUSE_BTN_W &&
+                      mouse_y >= PAUSE_QUIT_Y && mouse_y <= PAUSE_QUIT_Y + PAUSE_BTN_H);
+
+  // Caixa central desenhada por cima do jogo congelado.
+  vg_draw_rectangle(PAUSE_PANEL_X, PAUSE_PANEL_Y, PAUSE_PANEL_W, PAUSE_PANEL_H, 0x101010);
+  vg_draw_rectangle(PAUSE_PANEL_X, PAUSE_PANEL_Y, PAUSE_PANEL_W, 4, 0xFFFFFF);
+  vg_draw_rectangle(PAUSE_PANEL_X, PAUSE_PANEL_Y + PAUSE_PANEL_H - 4, PAUSE_PANEL_W, 4, 0xFFFFFF);
+  vg_draw_rectangle(PAUSE_PANEL_X, PAUSE_PANEL_Y, 4, PAUSE_PANEL_H, 0xFFFFFF);
+  vg_draw_rectangle(PAUSE_PANEL_X + PAUSE_PANEL_W - 4, PAUSE_PANEL_Y, 4, PAUSE_PANEL_H, 0xFFFFFF);
+
+  draw_text_centered(400, 175, "PAUSED", 6, 0xFFFFFF);
+  draw_text_centered(400, 225, "ESC TO RESUME", 2, 0xAAAAAA);
+
+  uint32_t resume_color = hover_pause_resume ? 0x00CC66 : 0x007744;
+  uint32_t quit_color = hover_pause_quit ? 0xCC3333 : 0x772222;
+
+  vg_draw_rectangle(PAUSE_RESUME_X, PAUSE_RESUME_Y, PAUSE_BTN_W, PAUSE_BTN_H, resume_color);
+  draw_text_centered(400, PAUSE_RESUME_Y + 20, "RESUME", 3, 0xFFFFFF);
+
+  vg_draw_rectangle(PAUSE_QUIT_X, PAUSE_QUIT_Y, PAUSE_BTN_W, PAUSE_BTN_H, quit_color);
+  draw_text_centered(400, PAUSE_QUIT_Y + 20, "QUIT SONG", 3, 0xFFFFFF);
+}
+
+static bool pause_resume_clicked(int mouse_x, int mouse_y) {
+  return mouse_x >= PAUSE_RESUME_X && mouse_x <= PAUSE_RESUME_X + PAUSE_BTN_W &&
+         mouse_y >= PAUSE_RESUME_Y && mouse_y <= PAUSE_RESUME_Y + PAUSE_BTN_H;
+}
+
+static bool pause_quit_clicked(int mouse_x, int mouse_y) {
+  return mouse_x >= PAUSE_QUIT_X && mouse_x <= PAUSE_QUIT_X + PAUSE_BTN_W &&
+         mouse_y >= PAUSE_QUIT_Y && mouse_y <= PAUSE_QUIT_Y + PAUSE_BTN_H;
+}
+
 static void save_final_score(void) {
   rtc_timestamp timestamp;
 
@@ -573,11 +729,64 @@ static void finish_current_run(bool uart_ready) {
   write_log("[GAME] Fim da run. Score final=%d, melhor combo=%d.\n", score, best_combo);
 }
 
+static void enter_pause(bool uart_ready) {
+  if (current_state != PLAY || !music_started) return;
+
+  pause_start_tick = no_interrupts;
+  pause_elapsed_ticks = no_interrupts - play_start_tick;
+  reset_lane_key_state();
+  clear_audio_queue();
+
+  if (uart_send_audio_event(uart_ready, UART_EVENT_MUSIC_PAUSE, "PAUSA_MUSICA")) {
+    printf("[UART] Evento PAUSA_MUSICA (0x%02x) enviado.\n", UART_EVENT_MUSIC_PAUSE);
+  }
+
+  current_state = PAUSE;
+}
+
+static void resume_paused_run(bool uart_ready) {
+  if (current_state != PAUSE) return;
+
+  play_start_tick += no_interrupts - pause_start_tick;
+  reset_lane_key_state();
+
+  if (uart_send_audio_event(uart_ready, UART_EVENT_MUSIC_RESUME, "RETOMAR_MUSICA")) {
+    printf("[UART] Evento RETOMAR_MUSICA (0x%02x) enviado.\n", UART_EVENT_MUSIC_RESUME);
+  }
+
+  current_state = PLAY;
+}
+
+static void quit_paused_run(bool uart_ready) {
+  if (uart_ready && music_started) {
+    uart_send_audio_event(uart_ready, UART_EVENT_GAME_END, "SAIR_MUSICA");
+    printf("[UART] Evento SAIR_MUSICA (0x%02x) enviado.\n", UART_EVENT_GAME_END);
+  }
+
+  clear_audio_queue();
+  init_notes();
+  reset_score();
+  reset_lane_key_state();
+
+  for (int i = 0; i < NUM_LANES; i++) {
+    hit_effect_frames[i] = 0;
+    miss_effect_frames[i] = 0;
+  }
+
+  beatmap_count = 0;
+  current_note_idx = 0;
+  pause_start_tick = 0;
+  pause_elapsed_ticks = 0;
+  music_started = false;
+  current_state = MENU;
+}
+
 /**
  * Tenta acertar numa nota na pista correspondente ao make_code premido.
  * @return A pista acertada (0-4) em caso de hit; -1 se a pista for invalida
  *         ou se nao houver nota na hit zone (miss ativo).
  */
+
 
 static int try_hit_note(uint8_t make_code) {
   int lane = lane_from_make_code(make_code);
@@ -759,16 +968,21 @@ int (proj_main_loop)(int argc, char *argv[]) {
           if (msg.m_notify.interrupts & kbd_irq_set) {
             kbc_ih();
             if (!ih_error) {
-              if (scancode_byte == ESC_BREAKCODE) {
+              if (scancode_byte == ESC_MAKE_CODE) {
                 if (current_state == PLAY && music_started) {
-                  finish_current_run(uart_ready);
-                } else if (current_state == USERNAME_ENTRY ||
-                           current_state == SONG_SELECT ||
-                           current_state == GAME_OVER ||
-                           current_state == LEADERBOARD) {
+                  enter_pause(uart_ready);
+                } else if (current_state == PAUSE) {
+                  resume_paused_run(uart_ready);
+                }
+              }
+              else if (scancode_byte == ESC_BREAKCODE) {
+                if (current_state == USERNAME_ENTRY ||
+                    current_state == SONG_SELECT ||
+                    current_state == GAME_OVER ||
+                    current_state == LEADERBOARD) {
                   current_state = MENU;
                   music_started = false;
-                } else {
+                } else if (current_state == MENU) {
                   game_running = false;
                 }
               }
@@ -807,6 +1021,12 @@ int (proj_main_loop)(int argc, char *argv[]) {
                   check_song_select_clicks(mouse_x, mouse_y, mouse_packet.lb, &current_state);
                   /* Ao entrar em PLAY a partir de SONG_SELECT, reset da musica */
                   if (current_state == PLAY) music_started = false;
+                } else if (current_state == PAUSE && mouse_packet.lb) {
+                  if (pause_resume_clicked(mouse_x, mouse_y)) {
+                    resume_paused_run(uart_ready);
+                  } else if (pause_quit_clicked(mouse_x, mouse_y)) {
+                    quit_paused_run(uart_ready);
+                  }
                 } else if ((current_state == GAME_OVER || current_state == LEADERBOARD) && mouse_packet.lb) {
                   current_state = MENU;
                   music_started = false;
@@ -825,7 +1045,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
              * In PLAY, the preloaded background covers the whole framebuffer, so
              * clearing first just burns CPU for no visible benefit. Classic.
              */
-            if (current_state != PLAY || bg_map == NULL) {
+            if ((current_state != PLAY && current_state != PAUSE) || bg_map == NULL) {
               vg_clear_back_buffer(0x000000);
             }
 
@@ -938,103 +1158,18 @@ int (proj_main_loop)(int argc, char *argv[]) {
                 }
               }
 
-              // --- 1. CAMADA DE FUNDO OTIMIZADA ---
-              if (bg_map != NULL) {
-                vg_draw_xpm_image(bg_map, bg_img.width, bg_img.height, 0, 0, 0, false);
-              } else {
-                vg_clear_back_buffer(0x000000);
-              }
-
-              // --- 1.5. O BRAÇO DE MADEIRA REALISTA ---
-              vg_draw_rectangle(200, 0, 400, 600, 0x30190E); 
-
-              // Veios da madeira dinâmicos
-              for (int v = 205; v < 595; v += 15) {
-                  vg_draw_rectangle(v, 0, 3, 600, 0x241109);
-              }
-
-              // Bordas 3D do braço
-              vg_draw_rectangle(200, 0, 10, 600, 0x110804); 
-              vg_draw_rectangle(590, 0, 10, 600, 0x110804); 
-
-              // --- 2. AS CORDAS DA GUITARRA (Efeito Metálico 3D) ---
-              for (int i = 0; i <= 5; i++) {
-                  int linha_x = 200 + (i * 80);
-                  vg_draw_rectangle(linha_x - 1, 0, 1, 600, 0x111111); // Sombra esquerda
-                  vg_draw_rectangle(linha_x, 0, 2, 600, 0xEEEEEE);     // Brilho central
-                  vg_draw_rectangle(linha_x + 2, 0, 1, 600, 0x444444); // Sombra direita
-              }
-
-              // --- 2.5. OS TRASTES (Scrolling Infinito com Correção de Limites) ---
-              int distancia_trastes = 150; 
-              int velocidade_scroll = 4; 
-              int offset = ((no_interrupts - play_start_tick) * velocidade_scroll) % distancia_trastes;
-
-              for (int i = -1; i <= 4; i++) {
-                  int traste_y = (i * distancia_trastes) + offset;
-                  if (traste_y >= 0 && traste_y < 596) {
-                      vg_draw_rectangle(200, traste_y + 2, 400, 3, 0x111111); // Sombra 3D projetada
-                      vg_draw_rectangle(200, traste_y, 400, 2, 0x999999);     // Metal do traste
-                  }
-              }
-
-              // --- 3. A ZONA DE ACERTO ---
-              vg_draw_rectangle(LANE_BASE_X, HIT_ZONE_TOP - 2, NUM_LANES * LANE_WIDTH, 2, 0x555555); // Brilho superior
-              vg_draw_rectangle(LANE_BASE_X, HIT_ZONE_TOP, NUM_LANES * LANE_WIDTH, HIT_ZONE_BOTTOM - HIT_ZONE_TOP, 0x222222); // Base
-              vg_draw_rectangle(LANE_BASE_X, HIT_ZONE_BOTTOM, NUM_LANES * LANE_WIDTH, 4, 0x000000); // Sombra inferior
-
-              for (int i = 0; i < 5; i++) {
-                int lane_x_center = LANE_BASE_X + i * LANE_WIDTH + LANE_WIDTH / 2;
-                uint32_t lane_colors[5] = {0x00FF00, 0xFF0000, 0x0000FF, 0x800080, 0xFFFF00}; // Verde, Vermelho, Azul, Roxo, Amarelo
-
-                // Desenhar MISS FLASH (Vermelho)
-                if (miss_effect_frames[i] > 0) {
-                  // Flash vermelho que cobre a zona de toque da pista
-                  vg_draw_rectangle(LANE_BASE_X + i * LANE_WIDTH + 10, HIT_ZONE_TOP, LANE_WIDTH - 20, HIT_ZONE_BOTTOM - HIT_ZONE_TOP, 0xFF0000);
-                  miss_effect_frames[i]--;
-                }
-
-                // Desenhar HIT GLOW (Brilho Expansivo)
-                if (hit_effect_frames[i] > 0) {
-                  int frame_diff = 12 - hit_effect_frames[i];
-                  int w = 20 + frame_diff * 4;   // Expande horizontalmente
-                  int h = 8 + frame_diff * 2;    // Expande verticalmente
-                  
-                  // Desenhar halo de cor da pista
-                  vg_draw_rectangle(lane_x_center - w / 2, (HIT_ZONE_TOP + HIT_ZONE_BOTTOM) / 2 - h / 2, w, h, lane_colors[i]);
-                  
-                  int iw = w / 2;
-                  int ih = h / 2;
-                  vg_draw_rectangle(lane_x_center - iw / 2, (HIT_ZONE_TOP + HIT_ZONE_BOTTOM) / 2 - ih / 2, iw, ih, 0xFFFFFF);
-                  
-                  hit_effect_frames[i]--;
-                }
-              }
-
-              for (int i = 0; i < MAX_NOTES; i++) {
-                if (notes[i].active) {
-                  int pista = (notes[i].x - LANE_BASE_X) / LANE_WIDTH;
-                  if (pista < 0) pista = 0;
-                  if (pista > 4) pista = 4;
-                  uint32_t *mapa_atual = mapas_notas[pista];
-
-                  if (mapa_atual != NULL) {
-                    vg_draw_xpm_image_tinted(mapa_atual, img_notas[pista].width, img_notas[pista].height,
-                                             notes[i].x + 18, notes[i].y + 8, 0xFF00FF, 0x1A1A1A);
-                    vg_draw_xpm_image(mapa_atual, img_notas[pista].width, img_notas[pista].height,
-                                      notes[i].x + 10, notes[i].y, 0xFF00FF, true);
-                  } else {
-                    vg_draw_rectangle(notes[i].x + 15, notes[i].y, 50, 20, cores_pistas[pista]);
-                  }
-                }
-              }
-
-              draw_score_hud();
+              draw_play_frame(bg_map, bg_img, img_notas, mapas_notas, cores_pistas,
+                              no_interrupts - play_start_tick, true);
 
               if (beatmap_count > 0 && current_note_idx >= beatmap_count && !any_active_notes()) {
                 finish_current_run(uart_ready);
               }
             } // fecho do else if (current_state == PLAY)
+            else if (current_state == PAUSE) {
+              draw_play_frame(bg_map, bg_img, img_notas, mapas_notas, cores_pistas,
+                              pause_elapsed_ticks, false);
+              draw_pause_menu(mouse_x, mouse_y);
+            }
             else if (current_state == GAME_OVER) {
               draw_game_over_screen();
             }

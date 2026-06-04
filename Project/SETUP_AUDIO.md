@@ -92,6 +92,8 @@ O MINIX envia pela UART um evento diferente para cada música:
 * `0x01` -> inicia a música 1;
 * `0x02` -> inicia a música 2;
 * `0x03` -> termina/paragem da música;
+* `0x04` -> pausa a música;
+* `0x05` -> retoma a música;
 * `0x0A` -> hit;
 * `0x0E` -> miss.
 
