@@ -45,7 +45,9 @@ static void write_log(const char *format, ...) {
 #include "devices/video/assets/nota_roxa.xpm"
 #include "devices/video/assets/nota_amarela.xpm"
 #include "devices/video/assets/menu.xpm"
-#include "devices/video/assets/btn_play.xpm"
+#include "devices/video/assets/graffiti_song_select.xpm"
+#include "devices/video/assets/graffiti_username_entry.xpm"
+
 
 // Módulos do Grupo
 #include "structures/includes/menu.h"
@@ -123,7 +125,7 @@ uint32_t play_start_tick = 0;
 int song_id = 1;
 
 int mouse_x = 400;
-int mouse_y = 300;
+int mouse_y = 500;
 
 static void clamp_mouse_position(void) {
   if (mouse_x < 0) mouse_x = 0;
@@ -397,23 +399,43 @@ static void draw_leaderboard_summary(void) {
   }
 }
 
+static void draw_border_main(int x, int y, int w, int h, uint32_t color, int thickness) {
+  vg_draw_rectangle(x - thickness, y - thickness, w + 2*thickness, thickness, color);
+  vg_draw_rectangle(x - thickness, y + h, w + 2*thickness, thickness, color);
+  vg_draw_rectangle(x - thickness, y, thickness, h, color);
+  vg_draw_rectangle(x + w, y, thickness, h, color);
+}
+
 static void draw_game_over_screen(void) {
   char value[16];
 
-  vg_draw_rectangle(0, 0, 800, 600, 0x000000);
-  draw_text_centered(400, 75, "GAME OVER", 6, 0xFFFFFF);
+  vg_clear_back_buffer(0x050510); // Fundo azul super escuro
 
-  draw_text(90, 205, "FINAL SCORE", 3, 0xFFFF00);
+  // Título com sublinhado neon
+  draw_text_centered(400, 50, "MISSION FAILED", 6, 0xFF0055);
+  vg_draw_rectangle(150, 110, 500, 2, 0xFF0055);
+
+  // Caixa do Score
+  draw_border_main(80, 180, 280, 120, 0x00FF00, 2);
+  vg_draw_rectangle(80, 180, 280, 120, 0x0A220A);
+  draw_text(100, 200, "FINAL SCORE", 3, 0x00FF00);
   snprintf(value, sizeof(value), "%d", score);
-  draw_text(90, 245, value, 6, 0x00FF00);
+  draw_text(100, 240, value, 5, 0xFFFFFF);
 
-  draw_text(90, 360, "BEST COMBO", 3, 0xFFFFFF);
+  // Caixa do Combo
+  draw_border_main(80, 340, 280, 120, 0x00FFFF, 2);
+  vg_draw_rectangle(80, 340, 280, 120, 0x0A2222);
+  draw_text(100, 360, "MAX COMBO", 3, 0x00FFFF);
   snprintf(value, sizeof(value), "%dX", best_combo);
-  draw_text(90, 400, value, 4, 0x00FFFF);
+  draw_text(100, 400, value, 5, 0xFFFFFF);
 
+  // Leaderboard resumo desenha-se a si próprio
   draw_leaderboard_summary();
 
-  draw_text_centered(400, 530, "CLICK TO MENU", 2, 0xAAAAAA);
+  // Botão "PRESS ENTER" no fundo (parece selecionado)
+  draw_border_main(200, 520, 400, 50, 0xFFFFFF, 3);
+  vg_draw_rectangle(200, 520, 400, 50, 0x222222);
+  draw_text_centered(400, 535, "[ENTER] MAIN MENU", 3, 0xFFFFFF);
 }
 
 static void reset_username_entry(void) {
@@ -431,6 +453,11 @@ static void accept_username_entry(void) {
   current_username[sizeof(current_username) - 1] = '\0';
   current_state = SONG_SELECT;
 }
+
+extern void draw_neo_btn(int x, int y, int w, int h, uint32_t bg_color, bool hovered);
+
+int kbd_username_idx = 2; // 1: BACK, 2: DONE
+int kbd_leaderboard_idx = 1; // 1: BACK
 
 static char username_char_from_make_code(uint8_t make_code) {
   switch (make_code) {
@@ -479,7 +506,22 @@ static void handle_username_key(uint8_t scancode) {
   if (scancode & BIT(7)) return;
 
   if (scancode == ENTER_MAKE_CODE) {
-    accept_username_entry();
+    if (kbd_username_idx == 1) { // BACK
+      current_state = MENU;
+      music_started = false;
+    } else { // DONE
+      accept_username_entry();
+    }
+    return;
+  }
+
+  // Handle arrow keys for navigation
+  if (scancode == 0x4B) { // Left arrow
+    kbd_username_idx = 1; // BACK
+    return;
+  }
+  if (scancode == 0x4D) { // Right arrow
+    kbd_username_idx = 2; // DONE
     return;
   }
 
@@ -500,23 +542,36 @@ static void handle_username_key(uint8_t scancode) {
   }
 }
 
-static void draw_username_entry_screen(void) {
+static void draw_username_entry_screen(const uint32_t *bg_map, xpm_image_t bg_img) {
   const char *visible_name = (username_edit_length == 0) ? "PLAYER" : username_edit_buffer;
 
-  vg_draw_rectangle(0, 0, 800, 600, 0x000000);
-  draw_text_centered(400, 90, "USERNAME", 6, 0xFFFFFF);
-  draw_text_centered(400, 175, "TYPE YOUR NAME", 3, 0xAAAAAA);
+  if (bg_map != NULL) {
+    vg_draw_xpm_image(bg_map, bg_img.width, bg_img.height, 0, 0, 0, false);
+  } else {
+    vg_clear_back_buffer(0xCCCCCC); // Neo-brutalism light background fallback
+  }
+  
+  // Cabeçalho (move up to fit the background better)
+  draw_text_centered(400 + 4, 40 + 4, "NEW SINGER", 5, 0x000000); // 3D Black Shadow
+  draw_text_centered(400, 40, "NEW SINGER", 5, 0x00FFFF); // Cyan Main
+  
+  draw_text_centered(400 + 2, 100 + 2, "ENTER NAME", 3, 0x000000); // 3D Black Shadow
+  draw_text_centered(400, 100, "ENTER NAME", 3, 0xFFFFFF); // White Main
 
-  vg_draw_rectangle(170, 245, 460, 80, 0x222222);
-  vg_draw_rectangle(170, 245, 460, 4, 0x00FFFF);
-  vg_draw_rectangle(170, 321, 460, 4, 0x00FFFF);
-  vg_draw_rectangle(170, 245, 4, 80, 0x00FFFF);
-  vg_draw_rectangle(626, 245, 4, 80, 0x00FFFF);
-  draw_text_centered(400, 270, visible_name, 4, username_edit_length == 0 ? 0x777777 : 0xFFFF00);
+  // Caixa de Input Neo-brutalism (Positioned to fit inside the "Hello My Name Is" sticker)
+  // The sticker in the image is roughly centered. Let's place it at 200, 270
+  draw_border_main(200, 270, 400, 80, 0xFFFFFF, 4); // White border
+  vg_draw_rectangle(200, 270, 400, 80, 0x000000); // Black fill
+  draw_text_centered(400, 295, visible_name, 4, 0x00FFFF); // Cyan text
 
-  draw_text_centered(400, 390, "ENTER TO CONTINUE", 2, 0xFFFFFF);
-  draw_text_centered(400, 425, "BACKSPACE TO DELETE", 2, 0xAAAAAA);
-  draw_text_centered(400, 500, "ESC TO MENU", 2, 0x777777);
+  // Botões
+  bool hover_bk = (mouse_x >= 140 && mouse_x <= 300 && mouse_y >= 460 && mouse_y <= 520) || (kbd_username_idx == 1);
+  draw_neo_btn(140, 460, 160, 60, 0xFF5555, hover_bk);
+  draw_text_centered(220, 480, "BACK", 3, 0x000000);
+
+  bool hover_dn = (mouse_x >= 500 && mouse_x <= 660 && mouse_y >= 460 && mouse_y <= 520) || (kbd_username_idx == 2);
+  draw_neo_btn(500, 460, 160, 60, 0x55FF55, hover_dn);
+  draw_text_centered(580, 480, "DONE", 3, 0x000000);
 }
 
 static void draw_leaderboard_screen(void) {
@@ -524,39 +579,52 @@ static void draw_leaderboard_screen(void) {
   int count = leaderboard_get_count();
   char row[64];
 
-  vg_draw_rectangle(0, 0, 800, 600, 0x000000);
-  draw_text_centered(400, 55, "LEADERBOARD", 5, 0xFFFFFF);
+  vg_clear_back_buffer(0xDDDDDD); // Fundo cinzento claro
+  
+  // Título e sublinhado
+  draw_text_centered(400, 40, "HALL OF FAME", 5, 0x000000);
+  vg_draw_rectangle(100, 90, 600, 4, 0x000000);
 
-  draw_text(125, 130, "RANK", 2, 0x00FFFF);
-  draw_text(235, 130, "NAME", 2, 0x00FFFF);
-  draw_text(430, 130, "SCORE", 2, 0x00FFFF);
-  draw_text(560, 130, "DATE", 2, 0x00FFFF);
-  vg_draw_rectangle(110, 160, 580, 3, 0x333333);
+  // Cabeçalhos
+  draw_text(125, 120, "RANK", 2, 0x000000);
+  draw_text(235, 120, "NAME", 2, 0x000000);
+  draw_text(430, 120, "SCORE", 2, 0x000000);
+  draw_text(560, 120, "DATE", 2, 0x000000);
+  vg_draw_rectangle(110, 150, 580, 4, 0x000000);
+
+  // Fundo Tabela Neobrutalism
+  vg_draw_rectangle(108, 168, 600, 340, 0x000000); // Sombra
+  vg_draw_rectangle(100, 160, 600, 340, 0xFFFFFF); // Fundo Tabela
+  draw_border_main(100, 160, 600, 340, 0x000000, 4);
 
   if (count == 0) {
-    draw_text_centered(400, 280, "NO SCORES YET", 3, 0xAAAAAA);
+    draw_text_centered(400, 300, "NO SCORES FOUND", 3, 0x000000);
   } else {
     int rows = (count < MAX_SCORES) ? count : MAX_SCORES;
     for (int i = 0; i < rows; i++) {
-      snprintf(row, sizeof(row), "%d", i + 1);
-      draw_text(140, 190 + i * 34, row, 2, 0xFFFFFF);
-
-      draw_text(235, 190 + i * 34, scores[i].username, 2, 0xFFFF00);
-
+      uint32_t color = 0xAAAA00; // Dark Yellow to be readable on white
+      
+      snprintf(row, sizeof(row), "#%d", i + 1);
+      draw_text(130, 180 + i * 32, row, 2, color);
+      
+      draw_text(235, 180 + i * 32, scores[i].username, 2, color);
+      
       snprintf(row, sizeof(row), "%d", scores[i].score);
-      draw_text(430, 190 + i * 34, row, 2, 0x00FF00);
-
+      draw_text(430, 180 + i * 32, row, 2, color);
+      
       snprintf(row, sizeof(row), "%02d/%02d/%02d",
                scores[i].date.day,
                scores[i].date.month,
                scores[i].date.year);
-      draw_text(560, 190 + i * 34, row, 2, 0xAAAAAA);
+      draw_text(560, 180 + i * 32, row, 2, color);
     }
   }
 
-  draw_text_centered(400, 545, "CLICK OR ESC TO MENU", 2, 0xAAAAAA);
+  // Botão "BACK" em baixo
+  bool hover_lb_bk = (mouse_x >= 300 && mouse_x <= 500 && mouse_y >= 530 && mouse_y <= 580) || (kbd_leaderboard_idx == 1);
+  draw_neo_btn(300, 530, 200, 50, 0xFF5555, hover_lb_bk);
+  draw_text_centered(400, 545, "BACK", 3, 0x000000);
 }
-
 
 static void draw_play_frame(const uint32_t *bg_map,
                             xpm_image_t bg_img,
@@ -662,26 +730,25 @@ static void draw_play_frame(const uint32_t *bg_map,
 
 static void draw_pause_menu(int mouse_x, int mouse_y) {
   hover_pause_resume = (mouse_x >= PAUSE_RESUME_X && mouse_x <= PAUSE_RESUME_X + PAUSE_BTN_W &&
-                        mouse_y >= PAUSE_RESUME_Y && mouse_y <= PAUSE_RESUME_Y + PAUSE_BTN_H);
+                        mouse_y >= PAUSE_RESUME_Y && mouse_y <= PAUSE_RESUME_Y + PAUSE_BTN_H) || (kbd_pause_idx == 1);
   hover_pause_quit = (mouse_x >= PAUSE_QUIT_X && mouse_x <= PAUSE_QUIT_X + PAUSE_BTN_W &&
-                      mouse_y >= PAUSE_QUIT_Y && mouse_y <= PAUSE_QUIT_Y + PAUSE_BTN_H);
+                      mouse_y >= PAUSE_QUIT_Y && mouse_y <= PAUSE_QUIT_Y + PAUSE_BTN_H) || (kbd_pause_idx == 2);
 
-  // Caixa central desenhada por cima do jogo congelado.
-  vg_draw_rectangle(PAUSE_PANEL_X, PAUSE_PANEL_Y, PAUSE_PANEL_W, PAUSE_PANEL_H, 0x101010);
-  vg_draw_rectangle(PAUSE_PANEL_X, PAUSE_PANEL_Y, PAUSE_PANEL_W, 4, 0xFFFFFF);
-  vg_draw_rectangle(PAUSE_PANEL_X, PAUSE_PANEL_Y + PAUSE_PANEL_H - 4, PAUSE_PANEL_W, 4, 0xFFFFFF);
-  vg_draw_rectangle(PAUSE_PANEL_X, PAUSE_PANEL_Y, 4, PAUSE_PANEL_H, 0xFFFFFF);
-  vg_draw_rectangle(PAUSE_PANEL_X + PAUSE_PANEL_W - 4, PAUSE_PANEL_Y, 4, PAUSE_PANEL_H, 0xFFFFFF);
+  // Caixa central com design Sci-Fi
+  vg_draw_rectangle(PAUSE_PANEL_X, PAUSE_PANEL_Y, PAUSE_PANEL_W, PAUSE_PANEL_H, 0x111122);
+  draw_border_main(PAUSE_PANEL_X, PAUSE_PANEL_Y, PAUSE_PANEL_W, PAUSE_PANEL_H, 0x00FFFF, 2);
 
-  draw_text_centered(400, 175, "PAUSED", 6, 0xFFFFFF);
-  draw_text_centered(400, 225, "ESC TO RESUME", 2, 0xAAAAAA);
+  draw_text_centered(400, 175, "PAUSED", 6, 0x00FFFF);
+  draw_text_centered(400, 225, "ESC TO RESUME", 2, 0x008888);
 
-  uint32_t resume_color = hover_pause_resume ? 0x00CC66 : 0x007744;
-  uint32_t quit_color = hover_pause_quit ? 0xCC3333 : 0x772222;
+  uint32_t resume_color = hover_pause_resume ? 0x00FF88 : 0x008844;
+  uint32_t quit_color = hover_pause_quit ? 0xFF4444 : 0x882222;
 
+  if (hover_pause_resume) draw_border_main(PAUSE_RESUME_X, PAUSE_RESUME_Y, PAUSE_BTN_W, PAUSE_BTN_H, 0x00FF00, 4);
   vg_draw_rectangle(PAUSE_RESUME_X, PAUSE_RESUME_Y, PAUSE_BTN_W, PAUSE_BTN_H, resume_color);
   draw_text_centered(400, PAUSE_RESUME_Y + 20, "RESUME", 3, 0xFFFFFF);
 
+  if (hover_pause_quit) draw_border_main(PAUSE_QUIT_X, PAUSE_QUIT_Y, PAUSE_BTN_W, PAUSE_BTN_H, 0xFF0000, 4);
   vg_draw_rectangle(PAUSE_QUIT_X, PAUSE_QUIT_Y, PAUSE_BTN_W, PAUSE_BTN_H, quit_color);
   draw_text_centered(400, PAUSE_QUIT_Y + 20, "QUIT SONG", 3, 0xFFFFFF);
 }
@@ -875,13 +942,17 @@ int (proj_main_loop)(int argc, char *argv[]) {
   }
   // --- PRÉ-CARREGAMENTO DO XPM NA RAM ---
   xpm_image_t bg_img;
-  uint8_t *bg_map_bytes = xpm_load((xpm_map_t)fundo_plateia_xpm, XPM_8_8_8_8, &bg_img);
-  uint32_t *bg_map = (uint32_t *) bg_map_bytes; 
+  uint32_t *bg_map = (uint32_t *)xpm_load((xpm_map_t)fundo_plateia_xpm, XPM_8_8_8_8, &bg_img);
+
   xpm_image_t menu_img;
-  uint8_t *menu_map_bytes = xpm_load((xpm_map_t)menu_xpm, XPM_8_8_8_8, &menu_img);
+  uint32_t *menu_map_bytes = (uint32_t *)xpm_load((xpm_map_t)menu_xpm, XPM_8_8_8_8, &menu_img);
+
+  xpm_image_t graffiti_song_img;
+  uint32_t *graffiti_song_map = (uint32_t *)xpm_load((xpm_map_t)graffiti_song_select_xpm, XPM_8_8_8_8, &graffiti_song_img);
+
+  xpm_image_t graffiti_user_img;
+  uint32_t *graffiti_user_map = (uint32_t *)xpm_load((xpm_map_t)graffiti_username_entry_xpm, XPM_8_8_8_8, &graffiti_user_img);
   uint32_t *menu_map = (uint32_t *) menu_map_bytes;
-  xpm_image_t img_btn_play;
-  uint32_t *map_btn_play = (uint32_t *)xpm_load((xpm_map_t)btn_play_menu, XPM_8_8_8_8, &img_btn_play);
 
   if (bg_map == NULL) {
     printf("Aviso: Falha ao pré-carregar o XPM de fundo!\n");
@@ -993,6 +1064,50 @@ int (proj_main_loop)(int argc, char *argv[]) {
                   game_running = false;
                 }
               }
+              else if (current_state == MENU) {
+                if (scancode_byte == 0x48) { // UP
+                  kbd_menu_idx--;
+                  if (kbd_menu_idx < 1) kbd_menu_idx = 3;
+                } else if (scancode_byte == 0x50) { // DOWN
+                  kbd_menu_idx++;
+                  if (kbd_menu_idx > 3) kbd_menu_idx = 1;
+                } else if (scancode_byte == 0x1C) { // ENTER
+                  if (kbd_menu_idx == 1) { current_state = USERNAME_ENTRY; reset_username_entry(); }
+                  else if (kbd_menu_idx == 2) current_state = LEADERBOARD;
+                  else if (kbd_menu_idx == 3) game_running = false;
+                }
+              }
+              else if (current_state == SONG_SELECT) {
+                if (scancode_byte == 0x48) { // UP
+                  kbd_song_idx--;
+                  if (kbd_song_idx < 1) kbd_song_idx = 3;
+                } else if (scancode_byte == 0x50) { // DOWN
+                  kbd_song_idx++;
+                  if (kbd_song_idx > 3) kbd_song_idx = 1;
+                } else if (scancode_byte == 0x1C) { // ENTER
+                  if (kbd_song_idx == 1) { song_id = 1; current_state = PLAY; music_started = false; }
+                  else if (kbd_song_idx == 2) { song_id = 2; current_state = PLAY; music_started = false; }
+                  else if (kbd_song_idx == 3) { current_state = MENU; music_started = false; }
+                }
+              }
+              else if (current_state == PAUSE) {
+                if (scancode_byte == 0x48) { // UP
+                  kbd_pause_idx--;
+                  if (kbd_pause_idx < 1) kbd_pause_idx = 2;
+                } else if (scancode_byte == 0x50) { // DOWN
+                  kbd_pause_idx++;
+                  if (kbd_pause_idx > 2) kbd_pause_idx = 1;
+                } else if (scancode_byte == 0x1C) { // ENTER
+                  if (kbd_pause_idx == 1) resume_paused_run(uart_ready);
+                  else if (kbd_pause_idx == 2) quit_paused_run(uart_ready);
+                }
+              }
+              else if (current_state == GAME_OVER || current_state == LEADERBOARD) {
+                if (scancode_byte == 0x1C) { // ENTER
+                  current_state = MENU;
+                  music_started = false;
+                }
+              }
               else if (current_state == USERNAME_ENTRY) {
                 handle_username_key(scancode_byte);
               }
@@ -1024,6 +1139,16 @@ int (proj_main_loop)(int argc, char *argv[]) {
                   if (previous_state == MENU && current_state == USERNAME_ENTRY) {
                     reset_username_entry();
                   }
+                } else if (current_state == USERNAME_ENTRY && mouse_packet.lb) {
+                  // BACK
+                  if (mouse_x >= 140 && mouse_x <= 300 && mouse_y >= 420 && mouse_y <= 480) {
+                    current_state = MENU;
+                    music_started = false;
+                  }
+                  // DONE
+                  else if (mouse_x >= 500 && mouse_x <= 660 && mouse_y >= 420 && mouse_y <= 480) {
+                    accept_username_entry();
+                  }
                 } else if (current_state == SONG_SELECT) {
                   check_song_select_clicks(mouse_x, mouse_y, mouse_packet.lb, &current_state);
                   /* Ao entrar em PLAY a partir de SONG_SELECT, reset da musica */
@@ -1035,7 +1160,11 @@ int (proj_main_loop)(int argc, char *argv[]) {
                     quit_paused_run(uart_ready);
                   }
                 } else if ((current_state == GAME_OVER || current_state == LEADERBOARD) && mouse_packet.lb) {
-                  current_state = MENU;
+                  if (current_state == LEADERBOARD && mouse_x >= 300 && mouse_x <= 500 && mouse_y >= 530 && mouse_y <= 580) {
+                    current_state = MENU;
+                  } else if (current_state == GAME_OVER) {
+                    current_state = MENU;
+                  }
                   music_started = false;
                 }
                 mouse_byte_index = 0;
@@ -1048,22 +1177,42 @@ int (proj_main_loop)(int argc, char *argv[]) {
             flush_audio_events(uart_ready);
 
             /*
-             * Only clear when the current screen does not draw a full background.
-             * In PLAY, the preloaded background covers the whole framebuffer, so
-             * clearing first just burns CPU for no visible benefit. Classic.
+             * Each state's draw function handles clearing the screen or drawing a full background.
+             * This prevents double-clearing and massive memory bandwidth bottlenecks.
              */
-            if ((current_state != PLAY && current_state != PAUSE) || bg_map == NULL) {
-              vg_clear_back_buffer(0x000000);
-            }
 
             if (current_state == MENU) {
-              draw_main_menu(mouse_x, mouse_y, menu_map, menu_img, map_btn_play, img_btn_play);
-              draw_text_centered(400, 282, "LEADERBOARD", 2, 0xFFFFFF);
+              draw_main_menu(mouse_x, mouse_y, menu_map, menu_img);
+              draw_text_centered(400, 260, "PLAY", 3, 0x000000);
+              draw_text_centered(400, 350, "LEADERBOARD", 3, 0x000000);
+              draw_text_centered(400, 440, "EXIT", 3, 0x000000);
             } else if (current_state == USERNAME_ENTRY) {
-              draw_username_entry_screen();
+              draw_username_entry_screen(graffiti_user_map, graffiti_user_img);
             } else if (current_state == SONG_SELECT) {
-              draw_song_select(mouse_x, mouse_y);
-              draw_text_centered(400, 135, current_username, 3, 0xFFFF00);
+              draw_song_select(mouse_x, mouse_y, graffiti_song_map, graffiti_song_img);
+              
+              // Título e User com Efeito 3D (Sombra)
+              draw_text_centered(400 + 4, 40 + 4, "SELECT TRACK", 5, 0x000000);
+              draw_text_centered(400, 40, "SELECT TRACK", 5, 0x00FFFF);
+              
+              draw_text(600 + 2, 20 + 2, current_username, 2, 0x000000);
+              draw_text(600, 20, current_username, 2, 0xFFFF00);
+              
+              // Textos das Músicas (Sombra nas músicas também para destacarem)
+              draw_text_centered(400 + 2, 140 + 2, "SONG 1 - EASY", 3, 0x000000);
+              draw_text_centered(400, 140, "SONG 1 - EASY", 3, 0xFFFFFF);
+              
+              draw_text_centered(400 + 2, 230 + 2, "SONG 2 - HARD", 3, 0x000000);
+              draw_text_centered(400, 230, "SONG 2 - HARD", 3, 0xFFFFFF);
+              
+              draw_text_centered(400 + 2, 320 + 2, "LOCKED", 3, 0x000000);
+              draw_text_centered(400, 320, "LOCKED", 3, 0xFFFFFF);
+              
+              draw_text_centered(400 + 2, 410 + 2, "LOCKED", 3, 0x000000);
+              draw_text_centered(400, 410, "LOCKED", 3, 0xFFFFFF);
+              
+              // Texto Back
+              draw_text_centered(400, 515, "BACK", 3, 0x000000);
             } 
             else if (current_state == PLAY) {
               if (!music_started) {
@@ -1139,7 +1288,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
                   if (!notes[j].active) {
                     notes[j].x = LANE_BASE_X + (beatmap[current_note_idx].lane * LANE_WIDTH);
                     notes[j].y = 0;
-                    notes[j].speed = 4;
+                    notes[j].speed = 8;
                     notes[j].active = true;
                     break;
                   }
@@ -1183,7 +1332,28 @@ int (proj_main_loop)(int argc, char *argv[]) {
             else if (current_state == LEADERBOARD) {
               draw_leaderboard_screen();
             }
-            vg_draw_rectangle(mouse_x, mouse_y, 10, 10, 0xFFFFFF);
+
+            // SCI-FI MOUSE CURSOR (12x15)
+            // T = Transparent (0xFF00FF), C = Cyan (0x00FFFF), D = Dark Cyan (0x008888), W = White (0xFFFFFF)
+            static const uint32_t mouse_cursor_map[12*15] = {
+              0xFF00FF, 0x00FFFF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF,
+              0x00FFFF, 0xFFFFFF, 0x00FFFF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF,
+              0x00FFFF, 0x008888, 0xFFFFFF, 0x00FFFF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF,
+              0x00FFFF, 0x008888, 0x008888, 0xFFFFFF, 0x00FFFF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF,
+              0x00FFFF, 0x008888, 0x008888, 0x008888, 0xFFFFFF, 0x00FFFF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF,
+              0x00FFFF, 0x008888, 0x008888, 0x008888, 0x008888, 0xFFFFFF, 0x00FFFF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF,
+              0x00FFFF, 0x008888, 0x008888, 0x008888, 0x008888, 0x008888, 0xFFFFFF, 0x00FFFF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF,
+              0x00FFFF, 0x008888, 0x008888, 0x008888, 0x008888, 0x008888, 0x008888, 0xFFFFFF, 0x00FFFF, 0xFF00FF, 0xFF00FF, 0xFF00FF,
+              0x00FFFF, 0x008888, 0x008888, 0x008888, 0x008888, 0x00FFFF, 0x00FFFF, 0x00FFFF, 0x00FFFF, 0x00FFFF, 0xFF00FF, 0xFF00FF,
+              0x00FFFF, 0x008888, 0x008888, 0xFFFFFF, 0x008888, 0x00FFFF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF,
+              0x00FFFF, 0x008888, 0x00FFFF, 0xFF00FF, 0xFFFFFF, 0x008888, 0x00FFFF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF,
+              0x00FFFF, 0x00FFFF, 0xFF00FF, 0xFF00FF, 0x00FFFF, 0xFFFFFF, 0x008888, 0x00FFFF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF,
+              0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0x00FFFF, 0xFFFFFF, 0x008888, 0x00FFFF, 0xFF00FF, 0xFF00FF, 0xFF00FF,
+              0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0x00FFFF, 0xFFFFFF, 0x00FFFF, 0xFF00FF, 0xFF00FF, 0xFF00FF,
+              0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0x00FFFF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF
+            };
+
+            vg_draw_xpm_image(mouse_cursor_map, 12, 15, mouse_x, mouse_y, 0xFF00FF, 1);
             vg_swap_buffers();
           }
           break;
@@ -1199,12 +1369,14 @@ int (proj_main_loop)(int argc, char *argv[]) {
     printf("[UART] Evento FIM_JOGO (0x%02x) enviado.\n", UART_EVENT_GAME_END);
   }
 
-  if (mouse_unsubscribe_int() != 0) return 1;
-  if (kbd_unsubscribe_int() != 0) return 1;
-  if (timer_unsubscribe_int() != 0) return 1;
+  mouse_write_command(0xF5); // Disable mouse data reporting
+
+  mouse_unsubscribe_int();
+  kbd_unsubscribe_int();
+  timer_unsubscribe_int();
 
   kbd_enable_interrupts();
-  vg_exit(); 
+  vg_exit();
 
   // --- LOGICA DE GAME OVER COM RTC ---
   rtc_timestamp tempo_atual;

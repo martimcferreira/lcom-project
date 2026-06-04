@@ -97,12 +97,7 @@ int(kbc_read_response)(uint8_t *response) {
 }
 
 int(kbd_enable_interrupts)() {
-  uint8_t command_byte;
-
-  if (kbc_write_command(KBC_READ_CMD) != 0) return 1;
-  if (kbc_read_response(&command_byte) != 0) return 1;
-
-  command_byte |= BIT(0);
+  uint8_t command_byte = minix_get_dflt_kbc_cmd_byte();
 
   if (kbc_write_command(KBC_WRITE_CMD) != 0) return 1;
   if (kbc_write_argument(command_byte) != 0) return 1;

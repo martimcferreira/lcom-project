@@ -11,56 +11,71 @@ bool hover_song1 = false;
 bool hover_song2 = false;
 bool hover_back  = false;
 
+int kbd_menu_idx = 1; // 1: Play, 2: Leaderboard, 3: Exit
+int kbd_song_idx = 1; // 1: Song1, 2: Song2, 3: Back
+int kbd_pause_idx = 1; // 1: Resume, 2: Quit
+
 // ============================================================
 // MENU PRINCIPAL  (PLAY + LEADERBOARD + EXIT)
 // ============================================================
-#define BTN_WIDTH   200
-#define BTN_HEIGHT   60
-#define BTN_PLAY_X  300
-#define BTN_PLAY_Y  170
-#define BTN_LEADERBOARD_X 300
-#define BTN_LEADERBOARD_Y 260
-#define BTN_EXIT_X  300
-#define BTN_EXIT_Y  350
+#define BTN_WIDTH   300
+#define BTN_HEIGHT   70
+#define BTN_PLAY_X  250
+#define BTN_PLAY_Y  240
+#define BTN_LEADERBOARD_X 250
+#define BTN_LEADERBOARD_Y 330
+#define BTN_EXIT_X  250
+#define BTN_EXIT_Y  420
 
-void draw_main_menu(int mouse_x, int mouse_y, uint32_t *bg_map, xpm_image_t bg_img,uint32_t *btn_play_map, xpm_image_t btn_play_img ) {
+static void draw_border(int x, int y, int w, int h, uint32_t color, int thickness) {
+    vg_draw_rectangle(x - thickness, y - thickness, w + 2*thickness, thickness, color);
+    vg_draw_rectangle(x - thickness, y + h, w + 2*thickness, thickness, color);
+    vg_draw_rectangle(x - thickness, y, thickness, h, color);
+    vg_draw_rectangle(x + w, y, thickness, h, color);
+}
+
+void draw_neo_btn(int x, int y, int w, int h, uint32_t bg_color, bool hovered) {
+    int offset = hovered ? 8 : 4;
+    
+    // Sombra Neobrutalism
+    vg_draw_rectangle(x + offset, y + offset, w, h, 0x000000);
+    
+    // Fundo do botão todo
+    uint32_t fill_color = bg_color;
+    if (hovered) {
+        uint8_t r = (bg_color >> 16) & 0xFF;
+        uint8_t g = (bg_color >> 8) & 0xFF;
+        uint8_t b = bg_color & 0xFF;
+        r = r + (255 - r) / 2;
+        g = g + (255 - g) / 2;
+        b = b + (255 - b) / 2;
+        fill_color = (r << 16) | (g << 8) | b;
+    }
+    vg_draw_rectangle(x, y, w, h, fill_color);
+    
+    // Borda exterior
+    uint32_t border_color = hovered ? 0xFFFF00 : 0x000000; // Amarelo vivo quando selecionado
+    int border_thickness = hovered ? 6 : 3;
+    draw_border(x, y, w, h, border_color, border_thickness);
+}
+void draw_main_menu(int mouse_x, int mouse_y, uint32_t *bg_map, xpm_image_t bg_img) {
     
     hover_play = (mouse_x >= BTN_PLAY_X && mouse_x <= BTN_PLAY_X + BTN_WIDTH &&
-                  mouse_y >= BTN_PLAY_Y && mouse_y <= BTN_PLAY_Y + BTN_HEIGHT);
+                  mouse_y >= BTN_PLAY_Y && mouse_y <= BTN_PLAY_Y + BTN_HEIGHT) || (kbd_menu_idx == 1);
 
     hover_leaderboard = (mouse_x >= BTN_LEADERBOARD_X && mouse_x <= BTN_LEADERBOARD_X + BTN_WIDTH &&
-                         mouse_y >= BTN_LEADERBOARD_Y && mouse_y <= BTN_LEADERBOARD_Y + BTN_HEIGHT);
+                         mouse_y >= BTN_LEADERBOARD_Y && mouse_y <= BTN_LEADERBOARD_Y + BTN_HEIGHT) || (kbd_menu_idx == 2);
 
     hover_exit = (mouse_x >= BTN_EXIT_X && mouse_x <= BTN_EXIT_X + BTN_WIDTH &&
-                  mouse_y >= BTN_EXIT_Y && mouse_y <= BTN_EXIT_Y + BTN_HEIGHT);
+                  mouse_y >= BTN_EXIT_Y && mouse_y <= BTN_EXIT_Y + BTN_HEIGHT) || (kbd_menu_idx == 3);
 
-    // Agora o C já sabe o que é o bg_map e a bg_img porque vieram nos parênteses acima!
-    // (Usa vg_draw_sprite se passaste a função para o video.c no passo anterior)
-    vg_draw_sprite(bg_map, bg_img, 0, 0);
+    vg_draw_xpm_image(bg_map, bg_img.width, bg_img.height, 0, 0, 0, 0);
 
-    // --- BOTÃO PLAY (verde) ---
-
-       vg_draw_sprite(btn_play_map, btn_play_img, BTN_PLAY_X, BTN_PLAY_Y);
-
-
-    // --- BOTÃO LEADERBOARD (azul) ---
-    uint32_t cor_leaderboard = hover_leaderboard ? 0x3399FF : 0x004488;
-    vg_draw_rectangle(BTN_LEADERBOARD_X, BTN_LEADERBOARD_Y, BTN_WIDTH, BTN_HEIGHT, cor_leaderboard);
-    // Troféu simples
-    vg_draw_rectangle(318, BTN_LEADERBOARD_Y + 12, 38, 8, 0xFFFFFF);
-    vg_draw_rectangle(325, BTN_LEADERBOARD_Y + 20, 24, 20, 0xFFFFFF);
-    vg_draw_rectangle(333, BTN_LEADERBOARD_Y + 40, 8, 9, 0xFFFFFF);
-    vg_draw_rectangle(323, BTN_LEADERBOARD_Y + 49, 28, 4, 0xFFFFFF);
-
-    // --- BOTÃO EXIT (vermelho) ---
-    uint32_t cor_exit = hover_exit ? 0xFF3333 : 0x880000;
-    vg_draw_rectangle(BTN_EXIT_X, BTN_EXIT_Y, BTN_WIDTH, BTN_HEIGHT, cor_exit);
-    
-    for (int i = 0; i < 20; i++) {
-        vg_draw_rectangle(390 + i, BTN_EXIT_Y + 10 + i, 4, 4, 0xFFFFFF);
-        vg_draw_rectangle(410 - i, BTN_EXIT_Y + 10 + i, 4, 4, 0xFFFFFF);
-    }
+    draw_neo_btn(BTN_PLAY_X, BTN_PLAY_Y, BTN_WIDTH, BTN_HEIGHT, 0x66FF99, hover_play);
+    draw_neo_btn(BTN_LEADERBOARD_X, BTN_LEADERBOARD_Y, BTN_WIDTH, BTN_HEIGHT, 0x66DDFF, hover_leaderboard);
+    draw_neo_btn(BTN_EXIT_X, BTN_EXIT_Y, BTN_WIDTH, BTN_HEIGHT, 0xFF7799, hover_exit);
 }
+
 void check_menu_clicks(int mouse_x, int mouse_y, bool left_click,
                        GameState *current_state, bool *game_running) {
     if (!left_click) return;
@@ -81,73 +96,53 @@ void check_menu_clicks(int mouse_x, int mouse_y, bool left_click,
 // ECRÃ DE SELEÇÃO DE MÚSICA
 // ============================================================
 #define SONG_BTN_W  320
-#define SONG_BTN_H   80
+#define SONG_BTN_H   70
 #define SONG1_X      240
-#define SONG1_Y      180
+#define SONG1_Y      120
 #define SONG2_X      240
-#define SONG2_Y      290
-#define BACK_BTN_W  120
-#define BACK_BTN_H   40
-#define BACK_BTN_X  340
-#define BACK_BTN_Y  400
+#define SONG2_Y      210
+#define SONG3_X      240
+#define SONG3_Y      300
+#define SONG4_X      240
+#define SONG4_Y      390
 
-void draw_song_select(int mouse_x, int mouse_y) {
+#define BACK_BTN_W  250
+#define BACK_BTN_H   70
+#define BACK_BTN_X  275
+#define BACK_BTN_Y  500
+
+void draw_song_select(int mouse_x, int mouse_y, const uint32_t *bg_map, xpm_image_t bg_img) {
+    if (bg_map != NULL) {
+        vg_draw_xpm_image(bg_map, bg_img.width, bg_img.height, 0, 0, 0, false);
+    } else {
+        vg_clear_back_buffer(0x000000);
+    }
+
     hover_song1 = (mouse_x >= SONG1_X && mouse_x <= SONG1_X + SONG_BTN_W &&
-                   mouse_y >= SONG1_Y && mouse_y <= SONG1_Y + SONG_BTN_H);
+                   mouse_y >= SONG1_Y && mouse_y <= SONG1_Y + SONG_BTN_H) || (kbd_song_idx == 1);
 
     hover_song2 = (mouse_x >= SONG2_X && mouse_x <= SONG2_X + SONG_BTN_W &&
-                   mouse_y >= SONG2_Y && mouse_y <= SONG2_Y + SONG_BTN_H);
+                   mouse_y >= SONG2_Y && mouse_y <= SONG2_Y + SONG_BTN_H) || (kbd_song_idx == 2);
 
     hover_back  = (mouse_x >= BACK_BTN_X && mouse_x <= BACK_BTN_X + BACK_BTN_W &&
-                   mouse_y >= BACK_BTN_Y && mouse_y <= BACK_BTN_Y + BACK_BTN_H);
+                   mouse_y >= BACK_BTN_Y && mouse_y <= BACK_BTN_Y + BACK_BTN_H) || (kbd_song_idx == 3);
 
     // --- BOTÃO SONG 1 ---
-    uint32_t s1_base  = (song_id == 1) ? 0x009999 : 0x333333;
-    uint32_t s1_hover = (song_id == 1) ? 0x00FFFF : 0x555555;
-    uint32_t cor_s1   = hover_song1 ? s1_hover : s1_base;
-    vg_draw_rectangle(SONG1_X, SONG1_Y, SONG_BTN_W, SONG_BTN_H, cor_s1);
+    uint32_t s1_base  = (song_id == 1) ? 0x00CC66 : 0x008844;
+    draw_neo_btn(SONG1_X, SONG1_Y, SONG_BTN_W, SONG_BTN_H, s1_base, hover_song1);
 
-    /* Borda brilhante se selecionado */
-    if (song_id == 1) {
-        vg_draw_rectangle(SONG1_X,   SONG1_Y,   SONG_BTN_W, 3,          0x00FFFF);
-        vg_draw_rectangle(SONG1_X,   SONG1_Y+SONG_BTN_H-3, SONG_BTN_W, 3, 0x00FFFF);
-        vg_draw_rectangle(SONG1_X,   SONG1_Y,   3, SONG_BTN_H,          0x00FFFF);
-        vg_draw_rectangle(SONG1_X+SONG_BTN_W-3, SONG1_Y, 3, SONG_BTN_H, 0x00FFFF);
-    }
+    // --- BOTÃO SONG 2 ---
+    uint32_t s2_base  = (song_id == 2) ? 0xCC3333 : 0x882222;
+    draw_neo_btn(SONG2_X, SONG2_Y, SONG_BTN_W, SONG_BTN_H, s2_base, hover_song2);
 
-    /* Dígito "1" */
-    vg_draw_rectangle(SONG1_X + 16, SONG1_Y + 12, 5, 56, 0xFFFFFF); /* barra vertical */
-    vg_draw_rectangle(SONG1_X +  8, SONG1_Y + 12, 8, 5,  0xFFFFFF); /* serifa superior */
+    // --- BOTÃO SONG 3 (LOCKED) ---
+    draw_neo_btn(SONG3_X, SONG3_Y, SONG_BTN_W, SONG_BTN_H, 0x444444, false);
 
-    // --- BOTÃO SONG 2
-    uint32_t s2_base  = (song_id == 2) ? 0x880088 : 0x333333;
-    uint32_t s2_hover = (song_id == 2) ? 0xFF00FF : 0x555555;
-    uint32_t cor_s2   = hover_song2 ? s2_hover : s2_base;
-    vg_draw_rectangle(SONG2_X, SONG2_Y, SONG_BTN_W, SONG_BTN_H, cor_s2);
-
-    if (song_id == 2) {
-        vg_draw_rectangle(SONG2_X,   SONG2_Y,   SONG_BTN_W, 3,           0xFF00FF);
-        vg_draw_rectangle(SONG2_X,   SONG2_Y+SONG_BTN_H-3, SONG_BTN_W, 3, 0xFF00FF);
-        vg_draw_rectangle(SONG2_X,   SONG2_Y,   3, SONG_BTN_H,           0xFF00FF);
-        vg_draw_rectangle(SONG2_X+SONG_BTN_W-3, SONG2_Y, 3, SONG_BTN_H,  0xFF00FF);
-    }
-
-    /* Dígito "2"*/
-    vg_draw_rectangle(SONG2_X +  8, SONG2_Y + 12, 25, 5, 0xFFFFFF); /* topo */
-    vg_draw_rectangle(SONG2_X + 28, SONG2_Y + 12, 5, 19, 0xFFFFFF); /* vertical direita superior */
-    vg_draw_rectangle(SONG2_X +  8, SONG2_Y + 27, 25, 5, 0xFFFFFF); /* meio */
-    vg_draw_rectangle(SONG2_X +  8, SONG2_Y + 27, 5, 18, 0xFFFFFF); /* vertical esquerda inferior */
-    vg_draw_rectangle(SONG2_X +  8, SONG2_Y + 41, 25, 5, 0xFFFFFF); /* fundo */
+    // --- BOTÃO SONG 4 (LOCKED) ---
+    draw_neo_btn(SONG4_X, SONG4_Y, SONG_BTN_W, SONG_BTN_H, 0x444444, false);
 
     // --- BOTÃO BACK ---
-    uint32_t cor_back = hover_back ? 0x888888 : 0x444444;
-    vg_draw_rectangle(BACK_BTN_X, BACK_BTN_Y, BACK_BTN_W, BACK_BTN_H, cor_back);
-    /* Seta para voltar ao menu principal*/
-    for (int i = 0; i < 10; i++) {
-        vg_draw_rectangle(BACK_BTN_X + 10 + i, BACK_BTN_Y + 20 - i, 3, 3, 0xFFFFFF); /* braço superior */
-        vg_draw_rectangle(BACK_BTN_X + 10 + i, BACK_BTN_Y + 20 + i, 3, 3, 0xFFFFFF); /* braço inferior */
-    }
-    vg_draw_rectangle(BACK_BTN_X + 20, BACK_BTN_Y + 18, 60, 4, 0xFFFFFF); /* linha horizontal */
+    draw_neo_btn(BACK_BTN_X, BACK_BTN_Y, BACK_BTN_W, BACK_BTN_H, 0xFFCC00, hover_back);
 }
 
 void check_song_select_clicks(int mouse_x, int mouse_y, bool left_click,
