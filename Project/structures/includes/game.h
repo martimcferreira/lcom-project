@@ -8,7 +8,15 @@ typedef struct {
     bool active;   // Indica se a nota está a cair
 } Note;
 
-#define MAX_NOTES 100 
+#define MAX_NOTES 100
+
+#define LANE_BASE_X 200
+#define LANE_WIDTH 80
+#define NUM_LANES 5
+
+#define HIT_ZONE_TOP 490
+#define HIT_ZONE_BOTTOM 530
+#define NOTE_HIT_HEIGHT 60
 
 void init_notes();
 

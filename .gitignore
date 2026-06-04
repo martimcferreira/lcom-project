@@ -33,3 +33,11 @@ output.txt
 build/
 bin/
 obj/
+
+# --- Projeto LCOM ---
+proj
+Project/proj
+Project/scores.txt
+scores.txt
+/tmp/
+lab1/.minix-src/

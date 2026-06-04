@@ -3,7 +3,7 @@
 # Factor:  (BPM*res)/(60*60) = (165*192)/(3600) = 8.800000
 # Notes:   708 (raw: 709, density filter: min_dist=96)
 # Range:   MINIX tick 87 -> 19200 (~320.0s at 60Hz)
-# Format:  MINIX_TICK LANE  (lanes 0=Verde 1=Vermelho 2=Amarelo 3=Azul 4=Laranja)
+# Format:  MINIX_TICK LANE  (lanes 0=Verde 1=Vermelho 2=Azul 3=Roxo 4=Amarelo)
 #
 87 0
 109 1

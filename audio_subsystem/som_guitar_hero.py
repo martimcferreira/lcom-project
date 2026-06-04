@@ -10,6 +10,8 @@ import time
 # -----------------------------------------------------------------------------
 # Protocolo simples recebido do MINIX pela UART:
 #   0x01 -> início do jogo: tocar música
+#   0x04 -> pausa a música
+#   0x05 -> retoma a música
 #   0x0A -> acerto: só regista/printa o evento
 #   0x0E -> erro/miss: toca efeito de falha/desafinação
 # -----------------------------------------------------------------------------
@@ -21,6 +23,8 @@ DEFAULT_FAIL_WAV = os.path.join("fx", "fail.wav")
 EVENT_GAME_START_SONG1 = 0x01
 EVENT_GAME_START_SONG2 = 0x02
 EVENT_GAME_END = 0x03
+EVENT_MUSIC_PAUSE = 0x04
+EVENT_MUSIC_RESUME = 0x05
 EVENT_HIT = 0x0A
 EVENT_MISS = 0x0E
 
@@ -91,7 +95,7 @@ def main():
 
     print("==================================================")
     print(f" Porta {args.port} aberta a {BAUD_RATE} bps")
-    print(" Protocolo: 0x01=start, 0x0A=hit, 0x0E=miss")
+    print(" Protocolo: 0x01/0x02=start, 0x03=stop, 0x04=pause, 0x05=resume, 0x0A=hit, 0x0E=miss")
     print(f" Música: {args.song}")
     print(" A aguardar bytes do MINIX... Ctrl+C para sair")
     print("==================================================")
@@ -113,6 +117,12 @@ def main():
             elif event == EVENT_GAME_END:
                 pygame.mixer.music.stop()
                 print("🛑 [MÚSICA] Parada imediatamente (Fim de Jogo).")
+            elif event == EVENT_MUSIC_PAUSE:
+                pygame.mixer.music.pause()
+                print("⏸️ [MÚSICA] Pausada.")
+            elif event == EVENT_MUSIC_RESUME:
+                pygame.mixer.music.unpause()
+                print("▶️ [MÚSICA] Retomada.")
             elif event == EVENT_HIT:
                 print("✅ [HIT] Nota acertada.")
             elif event == EVENT_MISS:

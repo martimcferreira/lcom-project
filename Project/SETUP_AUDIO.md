@@ -45,13 +45,17 @@ O script Python é responsável por receber os eventos de hit, miss e início de
    ```bash
    cd audio_subsystem
    ```
-3. Verifica se a porta configurada no topo de `som_guitar_hero.py` (linha 8) coincide com a tua **Porta B** do `com0com`:
+3. Verifica se a porta configurada no topo de `som_guitar_hero.py` coincide com a tua **Porta B** do `com0com`:
    ```python
-   SERIAL_PORT = 'COM6'  # Ajusta se a tua porta do com0com for diferente
+   DEFAULT_SERIAL_PORT = "COM6"  # Ajusta se a tua porta do com0com for diferente
+   ```
+   Também podes passar a porta pela linha de comandos, sem editar o ficheiro:
+   ```bash
+   python som_guitar_hero.py --port COM6
    ```
 4. Corre o script de áudio no Windows:
    ```bash
-   python som_guitar_hero.py
+   python som_guitar_hero.py --port COM6
    ```
    *(Deverá aparecer a mensagem confirmando que a porta COM foi aberta com sucesso e que está a aguardar comandos do MINIX).*
 
@@ -81,13 +85,17 @@ Graças às nossas últimas atualizações, todo o processo de carregamento de b
 
 ## 🎵 Escolha/Troca de Músicas
 
-Para trocar a música de jogo, já não precisas de alterar múltiplos ficheiros. O sistema está agora centralizado e sincronizado:
+A música é escolhida no próprio jogo, no ecrã de seleção depois de carregar em **Play**. Não é preciso alterar `main.c` nem recompilar só para mudar de faixa.
 
-1. Abre o ficheiro **`main.c`**.
-2. Logo no início da inicialização da física (linha 163), altera a variável `song_id`:
-   * `int song_id = 1;` -> Joga a música **Every Time We Touch**
-   * `int song_id = 2;` -> Joga a música **Song 2**
-3. Guarda o ficheiro, corre `make` no MINIX, e o sistema irá carregar o beatmap correspondente e arrancar a faixa certa no Python automaticamente!
+O MINIX envia pela UART um evento diferente para cada música:
+
+* `0x01` -> inicia a música 1;
+* `0x02` -> inicia a música 2;
+* `0x03` -> termina/paragem da música;
+* `0x04` -> pausa a música;
+* `0x05` -> retoma a música;
+* `0x0A` -> hit;
+* `0x0E` -> miss.
 
 ---
 

@@ -1,4 +1,4 @@
-#include "structures/includes/game.h"
+#include "game.h"
 
 Note notes[MAX_NOTES];
 
@@ -16,9 +16,8 @@ int update_notes() {
             // Atualiza a posição vertical
             notes[i].y += notes[i].speed;
 
-            // Se a nota ultrapassar o limite inferior do ecrã (530px)
-            // sem ter sido acertada pelo jogador -> miss passivo
-            if (notes[i].y > 500) {
+            // Se a nota ultrapassar a zona de acerto sem ter sido acertada -> miss passivo
+            if (notes[i].y > HIT_ZONE_BOTTOM) {
                 notes[i].active = false;
                 misses++;
             }
