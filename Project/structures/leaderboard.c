@@ -38,12 +38,35 @@ static void leaderboard_set_username(LeaderboardEntry *entry, const char *userna
 
 static bool parse_score_line(const char *line, LeaderboardEntry *entry) {
     char username[LEADERBOARD_USERNAME_MAX];
-    int score;
+    int score, progress;
     unsigned int day, month, year, hours, minutes, seconds;
 
     if (line == NULL || entry == NULL) return false;
 
-    /* New format: USERNAME SCORE DD MM YY HH MM SS */
+    /* Newest format: USERNAME SCORE PROGRESS DD MM YY HH MM SS */
+    if (sscanf(line, "%15s %d %d %u %u %u %u %u %u",
+               username,
+               &score,
+               &progress,
+               &day,
+               &month,
+               &year,
+               &hours,
+               &minutes,
+               &seconds) == 9) {
+        leaderboard_set_username(entry, username);
+        entry->score = score;
+        entry->progress = progress;
+        entry->date.day = (uint8_t) day;
+        entry->date.month = (uint8_t) month;
+        entry->date.year = (uint8_t) year;
+        entry->date.hours = (uint8_t) hours;
+        entry->date.minutes = (uint8_t) minutes;
+        entry->date.seconds = (uint8_t) seconds;
+        return true;
+    }
+
+    /* Old format: USERNAME SCORE DD MM YY HH MM SS */
     if (sscanf(line, "%15s %d %u %u %u %u %u %u",
                username,
                &score,
@@ -55,6 +78,7 @@ static bool parse_score_line(const char *line, LeaderboardEntry *entry) {
                &seconds) == 8) {
         leaderboard_set_username(entry, username);
         entry->score = score;
+        entry->progress = 100;
         entry->date.day = (uint8_t) day;
         entry->date.month = (uint8_t) month;
         entry->date.year = (uint8_t) year;
@@ -64,7 +88,7 @@ static bool parse_score_line(const char *line, LeaderboardEntry *entry) {
         return true;
     }
 
-    /* Backwards-compatible old format: SCORE DD MM YY HH MM SS */
+    /* Backwards-compatible oldest format: SCORE DD MM YY HH MM SS */
     if (sscanf(line, "%d %u %u %u %u %u %u",
                &score,
                &day,
@@ -75,6 +99,7 @@ static bool parse_score_line(const char *line, LeaderboardEntry *entry) {
                &seconds) == 7) {
         leaderboard_set_username(entry, "PLAYER");
         entry->score = score;
+        entry->progress = 100;
         entry->date.day = (uint8_t) day;
         entry->date.month = (uint8_t) month;
         entry->date.year = (uint8_t) year;
@@ -114,9 +139,10 @@ static void leaderboard_save(void) {
     }
 
     for (int i = 0; i < num_scores; i++) {
-        fprintf(file, "%s %d %u %u %u %u %u %u\n",
+        fprintf(file, "%s %d %d %u %u %u %u %u %u\n",
                 entries[i].username,
                 entries[i].score,
+                entries[i].progress,
                 (unsigned int) entries[i].date.day,
                 (unsigned int) entries[i].date.month,
                 (unsigned int) entries[i].date.year,
@@ -128,7 +154,7 @@ static void leaderboard_save(void) {
     fclose(file);
 }
 
-void leaderboard_add_score(const char *username, int score, rtc_timestamp current_time) {
+void leaderboard_add_score(const char *username, int score, int progress, rtc_timestamp current_time) {
     if (score <= 0) return;
 
     int pos = 0;
@@ -145,6 +171,7 @@ void leaderboard_add_score(const char *username, int score, rtc_timestamp curren
 
     leaderboard_set_username(&entries[pos], username);
     entries[pos].score = score;
+    entries[pos].progress = progress;
     entries[pos].date = current_time;
 
     if (num_scores < MAX_SCORES) {

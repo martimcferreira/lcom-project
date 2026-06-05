@@ -258,10 +258,13 @@ static int register_hit_score(void) {
   return points;
 }
 
+static void save_final_score(void);
+
 static void register_miss_score(void) {
   player_health--;
   if (player_health <= 0) {
     player_health = 0;
+    save_final_score();
     current_state = GAME_OVER;
     music_started = false;
     queue_audio_event(UART_EVENT_GAME_END);
@@ -510,6 +513,14 @@ static void draw_leaderboard_summary(void) {
     // Align score to the right
     int sw = text_width_pixels(score_val, 2);
     draw_text(box_x + box_w - 20 - sw, row_y, score_val, 2, color);
+
+    // Barra de progresso horizontal
+    int pb_x = box_x + 20;
+    int pb_y = row_y + 18;
+    int pb_w = box_w - 40;
+    int pb_h = 4;
+    vg_draw_rectangle(pb_x, pb_y, pb_w, pb_h, 0x333333);
+    vg_draw_rectangle(pb_x, pb_y, (pb_w * scores[i].progress) / 100, pb_h, 0x00FF00);
   }
 }
 
@@ -538,6 +549,31 @@ static void draw_health_bar(void) {
   char text[32];
   snprintf(text, sizeof(text), "HP: %d/%d", player_health, MAX_HEALTH);
   draw_text_centered(400, bar_y + 4, text, 2, 0xFFFFFF);
+}
+
+static void draw_progress_bar(uint32_t elapsed_ticks) {
+  if (beatmap_count == 0) return;
+
+  // Added 120 ticks (approx 2 seconds) to account for final notes reaching the hit zone
+  uint32_t total_ticks = beatmap[beatmap_count - 1].spawn_tick + 120;
+  if (total_ticks == 0) return;
+
+  // Configuração Vertical ao Lado da Guitarra
+  int bar_w = 20;
+  int bar_h = 400;
+  int bar_x = 680; // Movido mais para a direita
+  int bar_y = 100;
+
+  // Borda Amarela
+  draw_border_main(bar_x, bar_y, bar_w, bar_h, 0xFFFF00, 2);
+  // Fundo da barra escuro com um tom de amarelo para se misturar melhor
+  vg_draw_rectangle(bar_x, bar_y, bar_w, bar_h, 0x222200);
+
+  if (elapsed_ticks > total_ticks) elapsed_ticks = total_ticks;
+
+  // Preencher de baixo para cima
+  int fill_h = (bar_h * elapsed_ticks) / total_ticks;
+  vg_draw_rectangle(bar_x, bar_y + bar_h - fill_h, bar_w, fill_h, 0xFFFF00); // Fundo Amarelo
 }
 
 static void draw_game_over_screen(const uint32_t *bg_map, xpm_image_t bg_img) {
@@ -789,6 +825,14 @@ static void draw_leaderboard_screen(const uint32_t *bg_map, xpm_image_t bg_img) 
                scores[i].date.year);
       draw_text(560, 180 + i * 32, row, 2, color);
       
+      // Barra de progresso horizontal
+      int pb_x = 130;
+      int pb_y = 180 + i * 32 + 18;
+      int pb_w = 540;
+      int pb_h = 4;
+      vg_draw_rectangle(pb_x, pb_y, pb_w, pb_h, 0x222222);
+      vg_draw_rectangle(pb_x, pb_y, (pb_w * scores[i].progress) / 100, pb_h, 0x00FF00);
+      
       // Linha separadora subtil por baixo de cada entrada
       vg_draw_rectangle(110, 180 + i * 32 + 25, 580, 1, 0x333333);
     }
@@ -989,6 +1033,9 @@ static void draw_play_frame(const uint32_t *bg_map,
   vg_draw_rectangle(440, 20, 340, 32, 0x111122);
   draw_border_main(440, 20, 340, 32, 0x00FFFF, 2);
   draw_text(450, 28, "PRESS M TO CHANGE BG", 2, 0xFFFFFF);
+
+  // Barra de progresso da música
+  draw_progress_bar(elapsed_ticks);
 }
 
 static void draw_pause_menu(int mouse_x, int mouse_y) {
@@ -1038,10 +1085,16 @@ static void save_final_score(void) {
     return;
   }
 
-  leaderboard_add_score(current_username, score, timestamp);
-  write_log("[LEADERBOARD] Score %d de %s guardado em %02d/%02d/20%02d %02d:%02d:%02d.\n",
+  uint32_t total_ticks = (beatmap_count > 0) ? beatmap[beatmap_count - 1].spawn_tick + 120 : 1;
+  uint32_t elapsed_ticks = no_interrupts - play_start_tick;
+  if (elapsed_ticks > total_ticks) elapsed_ticks = total_ticks;
+  int progress = (elapsed_ticks * 100) / total_ticks;
+
+  leaderboard_add_score(current_username, score, progress, timestamp);
+  write_log("[LEADERBOARD] Score %d de %s (Progresso: %d%%) guardado em %02d/%02d/20%02d %02d:%02d:%02d.\n",
             score,
             current_username,
+            progress,
             timestamp.day,
             timestamp.month,
             timestamp.year,
