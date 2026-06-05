@@ -1425,16 +1425,18 @@ int (proj_main_loop)(int argc, char *argv[]) {
                 if (scancode_byte == 0x48) { // UP
                   menu_set_keyboard_input();
                   kbd_song_idx--;
-                  if (kbd_song_idx < 1) kbd_song_idx = 3;
+                  if (kbd_song_idx < 1) kbd_song_idx = 5;
                 } else if (scancode_byte == 0x50) { // DOWN
                   menu_set_keyboard_input();
                   kbd_song_idx++;
-                  if (kbd_song_idx > 3) kbd_song_idx = 1;
+                  if (kbd_song_idx > 5) kbd_song_idx = 1;
                 } else if (scancode_byte == 0x1C) { // ENTER
                   menu_set_keyboard_input();
                   if (kbd_song_idx == 1) { song_id = 1; current_state = PLAY; music_started = false; }
-                  else if (kbd_song_idx == 2) { song_id = 2; current_state = PLAY; music_started = false; }
-                  else if (kbd_song_idx == 3) { current_state = MENU; music_started = false; }
+                  else if (kbd_song_idx == 2) { song_id = 4; current_state = PLAY; music_started = false; }
+                  else if (kbd_song_idx == 3) { song_id = 2; current_state = PLAY; music_started = false; }
+                  else if (kbd_song_idx == 4) { song_id = 3; current_state = PLAY; music_started = false; }
+                  else if (kbd_song_idx == 5) { current_state = MENU; music_started = false; }
                 }
               }
               else if (current_state == PAUSE) {
@@ -1581,14 +1583,14 @@ int (proj_main_loop)(int argc, char *argv[]) {
               draw_text_centered(400 + 2, 140 + 2, "SONG 1 - EASY", 3, 0x000000);
               draw_text_centered(400, 140, "SONG 1 - EASY", 3, 0xFFFFFF);
               
-              draw_text_centered(400 + 2, 230 + 2, "SONG 2 - HARD", 3, 0x000000);
-              draw_text_centered(400, 230, "SONG 2 - HARD", 3, 0xFFFFFF);
+              draw_text_centered(400 + 2, 230 + 2, "SONG 4 - MEDIUM", 3, 0x000000);
+              draw_text_centered(400, 230, "SONG 4 - MEDIUM", 3, 0xFFFFFF);
               
-              draw_text_centered(400 + 2, 320 + 2, "LOCKED", 3, 0x000000);
-              draw_text_centered(400, 320, "LOCKED", 3, 0xFFFFFF);
+              draw_text_centered(400 + 2, 320 + 2, "SONG 2 - HARD", 3, 0x000000);
+              draw_text_centered(400, 320, "SONG 2 - HARD", 3, 0xFFFFFF);
               
-              draw_text_centered(400 + 2, 410 + 2, "LOCKED", 3, 0x000000);
-              draw_text_centered(400, 410, "LOCKED", 3, 0xFFFFFF);
+              draw_text_centered(400 + 2, 410 + 2, "SONG 3 - EXPERT", 3, 0x000000);
+              draw_text_centered(400, 410, "SONG 3 - EXPERT", 3, 0xFFFFFF);
               
               // Texto Back
               draw_text_centered(400, 515, "BACK", 3, 0x000000);
@@ -1653,7 +1655,11 @@ int (proj_main_loop)(int argc, char *argv[]) {
                 reset_lane_key_state();
                 clear_audio_queue();
 
-                uint8_t start_event = (song_id == 2) ? UART_EVENT_GAME_START_SONG2 : UART_EVENT_GAME_START_SONG1;
+                uint8_t start_event = UART_EVENT_GAME_START_SONG1;
+                if (song_id == 2) start_event = UART_EVENT_GAME_START_SONG2;
+                else if (song_id == 3) start_event = UART_EVENT_GAME_START_SONG3;
+                else if (song_id == 4) start_event = UART_EVENT_GAME_START_SONG4;
+
                 if (uart_send_audio_event(uart_ready, start_event, "INICIO_JOGO")) {
                   printf("[UART] Evento INICIO_JOGO (0x%02x) enviado pelo Menu para musica %d.\n", start_event, song_id);
                 }
