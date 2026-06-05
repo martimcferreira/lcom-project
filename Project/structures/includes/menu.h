@@ -13,6 +13,7 @@ typedef enum {
   PLAY,
   PAUSE,
   GAME_OVER,
+  GAME_WON,
   LEADERBOARD
 } GameState;
 

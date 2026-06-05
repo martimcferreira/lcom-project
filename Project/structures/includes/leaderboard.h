@@ -21,9 +21,10 @@ typedef struct {
     int score;
     int progress;
     rtc_timestamp date;
+    int song_id;
 } LeaderboardEntry;
 
 void leaderboard_init(void);
-void leaderboard_add_score(const char *username, int score, int progress, rtc_timestamp current_time);
+void leaderboard_add_score(const char *username, int score, int progress, int song_id, rtc_timestamp current_time);
 LeaderboardEntry* leaderboard_get_scores(void);
 int leaderboard_get_count(void);
