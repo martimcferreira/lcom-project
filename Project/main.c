@@ -1,3 +1,16 @@
+/**
+ * @file main.c
+ * @brief Ficheiro principal do projeto Guitar Hero (LCOM).
+ *
+ * Contém a função `proj_main_loop` e o ciclo central de eventos (interrupções)
+ * que orquestra o Timer, Teclado, Rato, Placa Gráfica e RTC.
+ * 
+ * @defgroup MainLoop Main Loop
+ * @ingroup Core
+ * @brief Orquestração do ciclo de eventos e gestão global do jogo.
+ * @{
+ */
+
 #include <lcom/lcf.h>
 #include <stdint.h>
 #include <stdbool.h>
