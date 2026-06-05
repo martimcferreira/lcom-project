@@ -23,14 +23,18 @@ DEFAULT_FAIL_WAV = os.path.join("fx", "fail.wav")
 EVENT_GAME_START_SONG1 = 0x01
 EVENT_GAME_START_SONG2 = 0x02
 EVENT_GAME_END = 0x03
-EVENT_MUSIC_PAUSE = 0x04
+EVENT_MUSIC_PAUSE  = 0x04
 EVENT_MUSIC_RESUME = 0x05
+EVENT_GAME_START_SONG3 = 0x06
+EVENT_GAME_START_SONG4 = 0x07
 EVENT_HIT = 0x0A
 EVENT_MISS = 0x0E
 
 SONGS = {
     1: os.path.join("songs", "song1.mp3"),
-    2: os.path.join("songs", "song2.mp3")
+    2: os.path.join("songs", "song2.mp3"),
+    3: os.path.join("songs", "song3.mp3"),
+    4: os.path.join("songs", "song4.mp3"),
 }
 
 
@@ -114,6 +118,10 @@ def main():
                 play_song(SONGS[1])
             elif event == EVENT_GAME_START_SONG2:
                 play_song(SONGS[2])
+            elif event == EVENT_GAME_START_SONG3:
+                play_song(SONGS[3])
+            elif event == EVENT_GAME_START_SONG4:
+                play_song(SONGS[4])
             elif event == EVENT_GAME_END:
                 pygame.mixer.music.stop()
                 print("🛑 [MÚSICA] Parada imediatamente (Fim de Jogo).")
