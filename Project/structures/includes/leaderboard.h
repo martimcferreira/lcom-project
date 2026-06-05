@@ -1,5 +1,7 @@
 #pragma once
 
+#pragma once
+
 #include <lcom/lcf.h>
 #include "rtc.h"
 
@@ -17,10 +19,11 @@
 typedef struct {
     char username[LEADERBOARD_USERNAME_MAX];
     int score;
+    int progress;
     rtc_timestamp date;
 } LeaderboardEntry;
 
 void leaderboard_init(void);
-void leaderboard_add_score(const char *username, int score, rtc_timestamp current_time);
+void leaderboard_add_score(const char *username, int score, int progress, rtc_timestamp current_time);
 LeaderboardEntry* leaderboard_get_scores(void);
 int leaderboard_get_count(void);
