@@ -6,6 +6,7 @@ typedef struct {
     int y;         // Posição vertical atual
     int speed;     // Velocidade de descida
     bool active;   // Indica se a nota está a cair
+    bool missed;   // Indica se o miss lógico já foi contabilizado
 } Note;
 
 #define MAX_NOTES 100
