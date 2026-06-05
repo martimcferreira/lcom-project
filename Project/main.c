@@ -1937,36 +1937,37 @@ int (proj_main_loop)(int argc, char *argv[]) {
   }
   vg_exit();
 
-  // --- LOGICA DE GAME OVER COM RTC ---
+  // --- LOGICA DE GAME OVER ---
+  printf("\n");
+  printf("  _____  ______  _    _  _____    _    _  ______  _____    ____  \n");
+  printf(" |  ___||  ____|| |  | ||  __ \\  | |  | ||  ____||  __ \\  / __ \\ \n");
+  printf(" | |__  | |__   | |  | || |__) | | |__| || |__   | |__) || |  | |\n");
+  printf(" |  __| |  __|  | |  | ||  ___/  |  __  ||  __|  |  _  / | |  | |\n");
+  printf(" | |    | |____ | |__| || |      | |  | || |____ | | \\ \\ | |__| |\n");
+  printf(" |_|    |______| \\____/ |_|      |_|  |_||______||_|  \\_\\ \\____/ \n");
+  printf("\n");
+  printf("   ___           _,.---.,_                                      ___\n");
+  printf("  [ _ ]        ,'   _     `.                                   [ _ ]\n");
+  printf("  [(_)]       /    (o)      \\                                  [(_)]\n");
+  printf("  [___]      |               |                                 [___]\n");
+  printf("  [   ]      |  _  ========|====================[|||]--.       [   ]\n");
+  printf("  [(O)] )))  | (_) ========|====================|||||   |  ((( [(O)]\n");
+  printf("  [___]       \\    ========|====================[|||]--'       [___]\n");
+  printf("               `.          ,'                                      \n");
+  printf("                 `--.___,-'                                        \n");
+  printf("\n");
+  printf("=========================================================\n");
+  printf("      M A X  S C O R E : %-5d |  M A X  C O M B O : %-3d\n", session_best_score, session_best_combo);
+  printf("=========================================================\n");
+
   rtc_timestamp tempo_atual;
   if (rtc_read_time(&tempo_atual) == 0) {
-      printf("\n");
-      printf("               __\n");
-      printf("              /  \\         ______  ______  _    _  _____   \n");
-      printf("             |    |       |  ____||  ____|| |  | ||  __ \\  \n");
-      printf("             |    |       | |__   | |__   | |  | || |__) | \n");
-      printf("             |    |       |  __|  |  __|  | |  | ||  ___/  \n");
-      printf("             |____|       | |     | |____ | |__| || |      \n");
-      printf("             | || |       |_|     |______| \\____/ |_|      \n");
-      printf("             | || |\n");
-      printf("             | || |        _    _  ______  _____    ____   \n");
-      printf("             | || |       | |  | ||  ____||  __ \\  / __ \\  \n");
-      printf("          _.-' || '-._    | |__| || |__   | |__) || |  | | \n");
-      printf("         /     ||     \\   |  __  ||  __|  |  _  / | |  | | \n");
-      printf("        |      ||      |  | |  | || |____ | | \\ \\ | |__| | \n");
-      printf("        |     (OO)     |  |_|  |_||______||_|  \\_\\ \\____/  \n");
-      printf("        |              |\n");
-      printf("         \\            /\n");
-      printf("          `----------'\n");
-      printf("\n");
-      printf("=========================================================\n");
-      printf("      M A X  S C O R E : %-5d |  M A X  C O M B O : %-3d\n", session_best_score, session_best_combo);
-      printf("=========================================================\n");
       printf("      Sessao terminada a: %02d/%02d/20%02d as %02d:%02d:%02d\n", 
              tempo_atual.day, tempo_atual.month, tempo_atual.year,
              tempo_atual.hours, tempo_atual.minutes, tempo_atual.seconds);
-      printf("=========================================================\n\n");
+      printf("=========================================================\n");
   }
+  printf("\n");
 
   return 0;
 
