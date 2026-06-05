@@ -1,0 +1,585 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Guitar Hero LCOM: Referência ao ficheiro structures/menu.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="codefolding.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default';
+mermaid.initialize({ startOnLoad: true, theme: theme });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Guitar Hero LCOM<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">LCOM 2026 Project - Guitar Hero Visual Application</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.17.0 -->
+<script type="text/javascript">
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
+});
+</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Localizar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('menu_8c.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Carregando...</div>
+<div class="SRStatus" id="Searching">Procurando...</div>
+<div class="SRStatus" id="NoMatches">Nenhuma entrada encontrada</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Referência ao ficheiro menu.c</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="menu_8h_source.html">structures/includes/menu.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="video_8h_source.html">devices/video/video.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Diagrama de dependências de inclusão para menu.c:</div>
+<div class="dyncontent">
+<div class="center"><img src="menu_8c__incl.png" border="0" usemap="#astructures_2menu_8c" loading="lazy" alt=""/></div>
+<!-- MAP 0 -->
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-define-members" class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ae4103c363ed830afddd072ef363726da" id="r_ae4103c363ed830afddd072ef363726da"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ae4103c363ed830afddd072ef363726da">BTN_WIDTH</a>&#160;&#160;&#160;300</td></tr>
+<tr class="memitem:aac775283f3d16d035ad1753409e2a632" id="r_aac775283f3d16d035ad1753409e2a632"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#aac775283f3d16d035ad1753409e2a632">BTN_HEIGHT</a>&#160;&#160;&#160;70</td></tr>
+<tr class="memitem:afe60086782689c155e2787f205eb4d70" id="r_afe60086782689c155e2787f205eb4d70"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#afe60086782689c155e2787f205eb4d70">BTN_PLAY_X</a>&#160;&#160;&#160;250</td></tr>
+<tr class="memitem:a1d24fbc4414dab305c87eb76a450cc93" id="r_a1d24fbc4414dab305c87eb76a450cc93"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a1d24fbc4414dab305c87eb76a450cc93">BTN_PLAY_Y</a>&#160;&#160;&#160;240</td></tr>
+<tr class="memitem:a3a3f304d8e71a36be12a03e966bd8619" id="r_a3a3f304d8e71a36be12a03e966bd8619"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a3a3f304d8e71a36be12a03e966bd8619">BTN_LEADERBOARD_X</a>&#160;&#160;&#160;250</td></tr>
+<tr class="memitem:aaf476c1cde49f908d00c02c001b8b332" id="r_aaf476c1cde49f908d00c02c001b8b332"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#aaf476c1cde49f908d00c02c001b8b332">BTN_LEADERBOARD_Y</a>&#160;&#160;&#160;330</td></tr>
+<tr class="memitem:a4c3a1f5745064f8541ba6f47c0ec136d" id="r_a4c3a1f5745064f8541ba6f47c0ec136d"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a4c3a1f5745064f8541ba6f47c0ec136d">BTN_EXIT_X</a>&#160;&#160;&#160;250</td></tr>
+<tr class="memitem:ae3b798eb03b885bc815809bc9666869f" id="r_ae3b798eb03b885bc815809bc9666869f"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ae3b798eb03b885bc815809bc9666869f">BTN_EXIT_Y</a>&#160;&#160;&#160;420</td></tr>
+<tr class="memitem:a6922fb43d3378bad334bb19014f14695" id="r_a6922fb43d3378bad334bb19014f14695"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a6922fb43d3378bad334bb19014f14695">SONG_BTN_W</a>&#160;&#160;&#160;320</td></tr>
+<tr class="memitem:a28c869078e565dc575abbd6692717e12" id="r_a28c869078e565dc575abbd6692717e12"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a28c869078e565dc575abbd6692717e12">SONG_BTN_H</a>&#160;&#160;&#160;70</td></tr>
+<tr class="memitem:a22e4dfeab08fa3f2072692d614fb321c" id="r_a22e4dfeab08fa3f2072692d614fb321c"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a22e4dfeab08fa3f2072692d614fb321c">SONG1_X</a>&#160;&#160;&#160;240</td></tr>
+<tr class="memitem:a9f3c8506aa8b5f2c5551d9561dc643ee" id="r_a9f3c8506aa8b5f2c5551d9561dc643ee"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a9f3c8506aa8b5f2c5551d9561dc643ee">SONG1_Y</a>&#160;&#160;&#160;120</td></tr>
+<tr class="memitem:a345d9a747d22b98075bb5b079acb211b" id="r_a345d9a747d22b98075bb5b079acb211b"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a345d9a747d22b98075bb5b079acb211b">SONG2_X</a>&#160;&#160;&#160;240</td></tr>
+<tr class="memitem:ac5ede2e78cac8e88bddab9a85e695868" id="r_ac5ede2e78cac8e88bddab9a85e695868"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ac5ede2e78cac8e88bddab9a85e695868">SONG2_Y</a>&#160;&#160;&#160;210</td></tr>
+<tr class="memitem:ae2616fb0c951564f7a7c43a81078d89a" id="r_ae2616fb0c951564f7a7c43a81078d89a"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ae2616fb0c951564f7a7c43a81078d89a">SONG3_X</a>&#160;&#160;&#160;240</td></tr>
+<tr class="memitem:a6b9184c86a24766c151b7b660b8315de" id="r_a6b9184c86a24766c151b7b660b8315de"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a6b9184c86a24766c151b7b660b8315de">SONG3_Y</a>&#160;&#160;&#160;300</td></tr>
+<tr class="memitem:a0b880b9e6e840ef629bba7d0a0638342" id="r_a0b880b9e6e840ef629bba7d0a0638342"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a0b880b9e6e840ef629bba7d0a0638342">SONG4_X</a>&#160;&#160;&#160;240</td></tr>
+<tr class="memitem:a58ba414338c090d10e89c7689f01d4c3" id="r_a58ba414338c090d10e89c7689f01d4c3"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a58ba414338c090d10e89c7689f01d4c3">SONG4_Y</a>&#160;&#160;&#160;390</td></tr>
+<tr class="memitem:a7446ebaedcf623f11525b8e37cea83b1" id="r_a7446ebaedcf623f11525b8e37cea83b1"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a7446ebaedcf623f11525b8e37cea83b1">BACK_BTN_W</a>&#160;&#160;&#160;250</td></tr>
+<tr class="memitem:ab9fc680f83da1f51b9243048e2ca69ea" id="r_ab9fc680f83da1f51b9243048e2ca69ea"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ab9fc680f83da1f51b9243048e2ca69ea">BACK_BTN_H</a>&#160;&#160;&#160;70</td></tr>
+<tr class="memitem:afb1d3e68c933c7351c0945bf90967e92" id="r_afb1d3e68c933c7351c0945bf90967e92"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#afb1d3e68c933c7351c0945bf90967e92">BACK_BTN_X</a>&#160;&#160;&#160;275</td></tr>
+<tr class="memitem:a6911d2df9d453ea800b768175de1220d" id="r_a6911d2df9d453ea800b768175de1220d"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a6911d2df9d453ea800b768175de1220d">BACK_BTN_Y</a>&#160;&#160;&#160;500</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Funções</h2></td></tr>
+<tr class="memitem:ga2631c5895e0d7b0fc35206ff0ea31499" id="r_ga2631c5895e0d7b0fc35206ff0ea31499"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="group___menu.html#ga2631c5895e0d7b0fc35206ff0ea31499">menu_set_keyboard_input</a> (void)</td></tr>
+<tr class="memdesc:ga2631c5895e0d7b0fc35206ff0ea31499"><td class="mdescLeft">&#160;</td><td class="mdescRight">Altera o modo de input do menu para Teclado.  <br /></td></tr>
+<tr class="memitem:ga07e3201fbaf087cff0922b88822ee8f6" id="r_ga07e3201fbaf087cff0922b88822ee8f6"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="group___menu.html#ga07e3201fbaf087cff0922b88822ee8f6">menu_set_mouse_input</a> (void)</td></tr>
+<tr class="memdesc:ga07e3201fbaf087cff0922b88822ee8f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Altera o modo de input do menu para Rato.  <br /></td></tr>
+<tr class="memitem:ga5653d1c17c1290e12db20ef9a7b16e31" id="r_ga5653d1c17c1290e12db20ef9a7b16e31"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="group___menu.html#ga5653d1c17c1290e12db20ef9a7b16e31">menu_keyboard_active</a> (void)</td></tr>
+<tr class="memdesc:ga5653d1c17c1290e12db20ef9a7b16e31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verifica se o teclado está a ser o periférico dominante nos menus.  <br /></td></tr>
+<tr class="memitem:gaa424e24804f08f8dad15df0e7c105340" id="r_gaa424e24804f08f8dad15df0e7c105340"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="group___menu.html#gaa424e24804f08f8dad15df0e7c105340">menu_mouse_active</a> (void)</td></tr>
+<tr class="memdesc:gaa424e24804f08f8dad15df0e7c105340"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verifica se o rato está a ser o periférico dominante nos menus.  <br /></td></tr>
+<tr class="memitem:a76f37d0f95858536cad865b1eb7f5dd6" id="r_a76f37d0f95858536cad865b1eb7f5dd6"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#a76f37d0f95858536cad865b1eb7f5dd6">draw_border</a> (int x, int y, int w, int h, uint32_t color, int thickness)</td></tr>
+<tr class="memitem:gaa35c2cc6f822a021ae0960f4feb00e85" id="r_gaa35c2cc6f822a021ae0960f4feb00e85"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="group___main_loop.html#gaa35c2cc6f822a021ae0960f4feb00e85">draw_neo_btn</a> (int x, int y, int w, int h, uint32_t bg_color, bool hovered)</td></tr>
+<tr class="memitem:ga4eda6e4dd76e3d10c500ae407084457f" id="r_ga4eda6e4dd76e3d10c500ae407084457f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="group___menu.html#ga4eda6e4dd76e3d10c500ae407084457f">draw_main_menu</a> (int mouse_x, int mouse_y, uint32_t *bg_map, xpm_image_t bg_img)</td></tr>
+<tr class="memdesc:ga4eda6e4dd76e3d10c500ae407084457f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renderiza o menu principal no ecrã.  <br /></td></tr>
+<tr class="memitem:ga47e6ba3401a33b6523fe8304ac80d82e" id="r_ga47e6ba3401a33b6523fe8304ac80d82e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="group___menu.html#ga47e6ba3401a33b6523fe8304ac80d82e">check_menu_clicks</a> (int mouse_x, int mouse_y, bool left_click, <a class="el" href="group___menu.html#ga7899b65f1ea0f655e4bbf8d2a5714285">GameState</a> *current_state, bool *game_running)</td></tr>
+<tr class="memdesc:ga47e6ba3401a33b6523fe8304ac80d82e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verifica interações e cliques no Menu Principal.  <br /></td></tr>
+<tr class="memitem:ga1dbc45d1de90609e38fdba1f76b9be43" id="r_ga1dbc45d1de90609e38fdba1f76b9be43"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="group___menu.html#ga1dbc45d1de90609e38fdba1f76b9be43">draw_song_select</a> (int mouse_x, int mouse_y, const uint32_t *bg_map, xpm_image_t bg_img)</td></tr>
+<tr class="memdesc:ga1dbc45d1de90609e38fdba1f76b9be43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renderiza o ecrã de seleção de músicas.  <br /></td></tr>
+<tr class="memitem:ga5857e5276ed72b945db828f7a616dcc0" id="r_ga5857e5276ed72b945db828f7a616dcc0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="group___menu.html#ga5857e5276ed72b945db828f7a616dcc0">check_song_select_clicks</a> (int mouse_x, int mouse_y, bool left_click, <a class="el" href="group___menu.html#ga7899b65f1ea0f655e4bbf8d2a5714285">GameState</a> *current_state)</td></tr>
+<tr class="memdesc:ga5857e5276ed72b945db828f7a616dcc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verifica interações e cliques no ecrã de Seleção de Música.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
+Variáveis</h2></td></tr>
+<tr class="memitem:ga49b359e78ee5e68f63a34291374a589f" id="r_ga49b359e78ee5e68f63a34291374a589f"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="group___menu.html#ga49b359e78ee5e68f63a34291374a589f">hover_play</a> = false</td></tr>
+<tr class="memitem:gafc58e2d06ff3abebac31f653caca6121" id="r_gafc58e2d06ff3abebac31f653caca6121"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="group___menu.html#gafc58e2d06ff3abebac31f653caca6121">hover_exit</a> = false</td></tr>
+<tr class="memitem:ga937237c060ddb53b97b716f3f0310f31" id="r_ga937237c060ddb53b97b716f3f0310f31"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="group___menu.html#ga937237c060ddb53b97b716f3f0310f31">hover_leaderboard</a> = false</td></tr>
+<tr class="memitem:ga65648ee56f04a4caeb4f8f5fd60acd28" id="r_ga65648ee56f04a4caeb4f8f5fd60acd28"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="group___menu.html#ga65648ee56f04a4caeb4f8f5fd60acd28">hover_song1</a> = false</td></tr>
+<tr class="memitem:gaced4bfac7c360f63b74f8fff9e512b9b" id="r_gaced4bfac7c360f63b74f8fff9e512b9b"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="group___menu.html#gaced4bfac7c360f63b74f8fff9e512b9b">hover_song2</a> = false</td></tr>
+<tr class="memitem:gac4e1663f85cbd72bd1394c43dca0c34d" id="r_gac4e1663f85cbd72bd1394c43dca0c34d"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="group___menu.html#gac4e1663f85cbd72bd1394c43dca0c34d">hover_song3</a> = false</td></tr>
+<tr class="memitem:ga4f07ceb70e6c65f5d3e15b90145d74cc" id="r_ga4f07ceb70e6c65f5d3e15b90145d74cc"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="group___menu.html#ga4f07ceb70e6c65f5d3e15b90145d74cc">hover_song4</a> = false</td></tr>
+<tr class="memitem:ga13b7c314bc01c3f3d6000f4732a61aca" id="r_ga13b7c314bc01c3f3d6000f4732a61aca"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="group___menu.html#ga13b7c314bc01c3f3d6000f4732a61aca">hover_back</a> = false</td></tr>
+<tr class="memitem:ga2083b44073c1aadfc80d599f381b3015" id="r_ga2083b44073c1aadfc80d599f381b3015"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="group___menu.html#ga2083b44073c1aadfc80d599f381b3015">kbd_menu_idx</a> = 1</td></tr>
+<tr class="memdesc:ga2083b44073c1aadfc80d599f381b3015"><td class="mdescLeft">&#160;</td><td class="mdescRight">Índice do botão focado no Menu.  <br /></td></tr>
+<tr class="memitem:ga18fda9e369bec02d7f1c8abdca013197" id="r_ga18fda9e369bec02d7f1c8abdca013197"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="group___menu.html#ga18fda9e369bec02d7f1c8abdca013197">kbd_song_idx</a> = 1</td></tr>
+<tr class="memdesc:ga18fda9e369bec02d7f1c8abdca013197"><td class="mdescLeft">&#160;</td><td class="mdescRight">Índice da música focada no Song Select.  <br /></td></tr>
+<tr class="memitem:ga1e8bc5d9418a85b9f7e1b779ee6e1f9b" id="r_ga1e8bc5d9418a85b9f7e1b779ee6e1f9b"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="group___menu.html#ga1e8bc5d9418a85b9f7e1b779ee6e1f9b">kbd_pause_idx</a> = 1</td></tr>
+<tr class="memdesc:ga1e8bc5d9418a85b9f7e1b779ee6e1f9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Índice da opção focada no ecrã de Pausa.  <br /></td></tr>
+<tr class="memitem:ga97a3073a8eb5dd70ba858c3ab5faadd2" id="r_ga97a3073a8eb5dd70ba858c3ab5faadd2"><td class="memItemLeft"><a class="el" href="group___menu.html#gaa9850ebd63ecce52b9c19f15af44e9ed">MenuInputMode</a>&#160;</td><td class="memItemRight"><a class="el" href="group___menu.html#ga97a3073a8eb5dd70ba858c3ab5faadd2">menu_input_mode</a> = <a class="el" href="group___menu.html#ggaa9850ebd63ecce52b9c19f15af44e9edaed4f4d97f85109d7bd4f5c2d0c605ed6">MENU_INPUT_KEYBOARD</a></td></tr>
+<tr class="memdesc:ga97a3073a8eb5dd70ba858c3ab5faadd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Estado atual do modo de input nos menus (Teclado ou Rato).  <br /></td></tr>
+</table>
+<a name="doc-define-members" id="doc-define-members"></a><h2 id="header-doc-define-members" class="groupheader">Documentação das macros</h2>
+<a id="ab9fc680f83da1f51b9243048e2ca69ea" name="ab9fc680f83da1f51b9243048e2ca69ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9fc680f83da1f51b9243048e2ca69ea">&#9670;&#160;</a></span>BACK_BTN_H</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BACK_BTN_H&#160;&#160;&#160;70</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7446ebaedcf623f11525b8e37cea83b1" name="a7446ebaedcf623f11525b8e37cea83b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7446ebaedcf623f11525b8e37cea83b1">&#9670;&#160;</a></span>BACK_BTN_W</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BACK_BTN_W&#160;&#160;&#160;250</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afb1d3e68c933c7351c0945bf90967e92" name="afb1d3e68c933c7351c0945bf90967e92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb1d3e68c933c7351c0945bf90967e92">&#9670;&#160;</a></span>BACK_BTN_X</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BACK_BTN_X&#160;&#160;&#160;275</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6911d2df9d453ea800b768175de1220d" name="a6911d2df9d453ea800b768175de1220d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6911d2df9d453ea800b768175de1220d">&#9670;&#160;</a></span>BACK_BTN_Y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BACK_BTN_Y&#160;&#160;&#160;500</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4c3a1f5745064f8541ba6f47c0ec136d" name="a4c3a1f5745064f8541ba6f47c0ec136d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c3a1f5745064f8541ba6f47c0ec136d">&#9670;&#160;</a></span>BTN_EXIT_X</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BTN_EXIT_X&#160;&#160;&#160;250</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae3b798eb03b885bc815809bc9666869f" name="ae3b798eb03b885bc815809bc9666869f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3b798eb03b885bc815809bc9666869f">&#9670;&#160;</a></span>BTN_EXIT_Y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BTN_EXIT_Y&#160;&#160;&#160;420</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aac775283f3d16d035ad1753409e2a632" name="aac775283f3d16d035ad1753409e2a632"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac775283f3d16d035ad1753409e2a632">&#9670;&#160;</a></span>BTN_HEIGHT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BTN_HEIGHT&#160;&#160;&#160;70</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3a3f304d8e71a36be12a03e966bd8619" name="a3a3f304d8e71a36be12a03e966bd8619"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a3f304d8e71a36be12a03e966bd8619">&#9670;&#160;</a></span>BTN_LEADERBOARD_X</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BTN_LEADERBOARD_X&#160;&#160;&#160;250</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaf476c1cde49f908d00c02c001b8b332" name="aaf476c1cde49f908d00c02c001b8b332"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf476c1cde49f908d00c02c001b8b332">&#9670;&#160;</a></span>BTN_LEADERBOARD_Y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BTN_LEADERBOARD_Y&#160;&#160;&#160;330</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afe60086782689c155e2787f205eb4d70" name="afe60086782689c155e2787f205eb4d70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe60086782689c155e2787f205eb4d70">&#9670;&#160;</a></span>BTN_PLAY_X</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BTN_PLAY_X&#160;&#160;&#160;250</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1d24fbc4414dab305c87eb76a450cc93" name="a1d24fbc4414dab305c87eb76a450cc93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d24fbc4414dab305c87eb76a450cc93">&#9670;&#160;</a></span>BTN_PLAY_Y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BTN_PLAY_Y&#160;&#160;&#160;240</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae4103c363ed830afddd072ef363726da" name="ae4103c363ed830afddd072ef363726da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4103c363ed830afddd072ef363726da">&#9670;&#160;</a></span>BTN_WIDTH</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BTN_WIDTH&#160;&#160;&#160;300</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a22e4dfeab08fa3f2072692d614fb321c" name="a22e4dfeab08fa3f2072692d614fb321c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22e4dfeab08fa3f2072692d614fb321c">&#9670;&#160;</a></span>SONG1_X</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SONG1_X&#160;&#160;&#160;240</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9f3c8506aa8b5f2c5551d9561dc643ee" name="a9f3c8506aa8b5f2c5551d9561dc643ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f3c8506aa8b5f2c5551d9561dc643ee">&#9670;&#160;</a></span>SONG1_Y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SONG1_Y&#160;&#160;&#160;120</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a345d9a747d22b98075bb5b079acb211b" name="a345d9a747d22b98075bb5b079acb211b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a345d9a747d22b98075bb5b079acb211b">&#9670;&#160;</a></span>SONG2_X</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SONG2_X&#160;&#160;&#160;240</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac5ede2e78cac8e88bddab9a85e695868" name="ac5ede2e78cac8e88bddab9a85e695868"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5ede2e78cac8e88bddab9a85e695868">&#9670;&#160;</a></span>SONG2_Y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SONG2_Y&#160;&#160;&#160;210</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae2616fb0c951564f7a7c43a81078d89a" name="ae2616fb0c951564f7a7c43a81078d89a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2616fb0c951564f7a7c43a81078d89a">&#9670;&#160;</a></span>SONG3_X</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SONG3_X&#160;&#160;&#160;240</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6b9184c86a24766c151b7b660b8315de" name="a6b9184c86a24766c151b7b660b8315de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b9184c86a24766c151b7b660b8315de">&#9670;&#160;</a></span>SONG3_Y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SONG3_Y&#160;&#160;&#160;300</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0b880b9e6e840ef629bba7d0a0638342" name="a0b880b9e6e840ef629bba7d0a0638342"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b880b9e6e840ef629bba7d0a0638342">&#9670;&#160;</a></span>SONG4_X</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SONG4_X&#160;&#160;&#160;240</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a58ba414338c090d10e89c7689f01d4c3" name="a58ba414338c090d10e89c7689f01d4c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58ba414338c090d10e89c7689f01d4c3">&#9670;&#160;</a></span>SONG4_Y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SONG4_Y&#160;&#160;&#160;390</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a28c869078e565dc575abbd6692717e12" name="a28c869078e565dc575abbd6692717e12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28c869078e565dc575abbd6692717e12">&#9670;&#160;</a></span>SONG_BTN_H</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SONG_BTN_H&#160;&#160;&#160;70</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6922fb43d3378bad334bb19014f14695" name="a6922fb43d3378bad334bb19014f14695"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6922fb43d3378bad334bb19014f14695">&#9670;&#160;</a></span>SONG_BTN_W</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SONG_BTN_W&#160;&#160;&#160;320</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Documentação das funções</h2>
+<a id="a76f37d0f95858536cad865b1eb7f5dd6" name="a76f37d0f95858536cad865b1eb7f5dd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76f37d0f95858536cad865b1eb7f5dd6">&#9670;&#160;</a></span>draw_border()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void draw_border </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>w</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>h</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>color</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>thickness</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="menu_8c_a76f37d0f95858536cad865b1eb7f5dd6_cgraph.png" border="0" usemap="#amenu_8c_a76f37d0f95858536cad865b1eb7f5dd6_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 1 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="menu_8c_a76f37d0f95858536cad865b1eb7f5dd6_icgraph.png" border="0" usemap="#amenu_8c_a76f37d0f95858536cad865b1eb7f5dd6_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 2 -->
+</div>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_c9e20c30cf5906fba8f787a8f1a04eec.html">structures</a></li><li class="navelem"><a href="menu_8c.html">menu.c</a></li>
+    <li class="footer">Gerado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
+</body>
+</html>

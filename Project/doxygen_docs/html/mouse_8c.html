@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Guitar Hero LCOM: Referência ao ficheiro structures/drivers/mouse.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="codefolding.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default';
+mermaid.initialize({ startOnLoad: true, theme: theme });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Guitar Hero LCOM<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">LCOM 2026 Project - Guitar Hero Visual Application</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.17.0 -->
+<script type="text/javascript">
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
+});
+</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Localizar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('mouse_8c.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Carregando...</div>
+<div class="SRStatus" id="Searching">Procurando...</div>
+<div class="SRStatus" id="NoMatches">Nenhuma entrada encontrada</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Referência ao ficheiro mouse.c</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;lcom/lcf.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="i8042_8h_source.html">i8042.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="kbc_8h_source.html">kbc.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="mouse_8h_source.html">mouse.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="utils_8h_source.html">utils.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Diagrama de dependências de inclusão para mouse.c:</div>
+<div class="dyncontent">
+<div class="center"><img src="mouse_8c__incl.png" border="0" usemap="#astructures_2drivers_2mouse_8c" loading="lazy" alt=""/></div>
+<!-- MAP 0 -->
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Funções</h2></td></tr>
+<tr class="memitem:ga9da18257ff113b686bb826d154bfaa87" id="r_ga9da18257ff113b686bb826d154bfaa87"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="group___mouse.html#ga9da18257ff113b686bb826d154bfaa87">mouse_subscribe_int</a> (uint8_t *bit_no)</td></tr>
+<tr class="memdesc:ga9da18257ff113b686bb826d154bfaa87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subscreve as interrupções do Rato.  <br /></td></tr>
+<tr class="memitem:ga685ad2706aca36d9869a30a19b9f446a" id="r_ga685ad2706aca36d9869a30a19b9f446a"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="group___mouse.html#ga685ad2706aca36d9869a30a19b9f446a">mouse_unsubscribe_int</a> ()</td></tr>
+<tr class="memdesc:ga685ad2706aca36d9869a30a19b9f446a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancela a subscrição das interrupções do Rato.  <br /></td></tr>
+<tr class="memitem:ga834b6d7efe311484d6da234db333cb97" id="r_ga834b6d7efe311484d6da234db333cb97"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="group___mouse.html#ga834b6d7efe311484d6da234db333cb97">mouse_ih</a> ()</td></tr>
+<tr class="memdesc:ga834b6d7efe311484d6da234db333cb97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Handler do Rato. Lê o byte do OUT_BUF.  <br /></td></tr>
+<tr class="memitem:gad35b135a465650bd58aef6ee248ca402" id="r_gad35b135a465650bd58aef6ee248ca402"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="group___mouse.html#gad35b135a465650bd58aef6ee248ca402">mouse_write_command</a> (uint8_t command)</td></tr>
+<tr class="memdesc:gad35b135a465650bd58aef6ee248ca402"><td class="mdescLeft">&#160;</td><td class="mdescRight">Escreve um comando no rato.  <br /></td></tr>
+<tr class="memitem:ga0832cd2f86126530c0fcaaecf23d282a" id="r_ga0832cd2f86126530c0fcaaecf23d282a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="group___mouse.html#ga0832cd2f86126530c0fcaaecf23d282a">mouse_parse_packet</a> (uint8_t *bytes, struct packet *pp)</td></tr>
+<tr class="memdesc:ga0832cd2f86126530c0fcaaecf23d282a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transforma um array de 3 bytes na estrutura padronizada de pacotes do Rato.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
+Variáveis</h2></td></tr>
+<tr class="memitem:a37cad7cad93664f8a1ed1b0258fe958b" id="r_a37cad7cad93664f8a1ed1b0258fe958b"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#a37cad7cad93664f8a1ed1b0258fe958b">mouse_hook_id</a> = 2</td></tr>
+<tr class="memitem:gaec82064a6795ef73e30e4c1873dca2c6" id="r_gaec82064a6795ef73e30e4c1873dca2c6"><td class="memItemLeft">uint8_t&#160;</td><td class="memItemRight"><a class="el" href="group___mouse.html#gaec82064a6795ef73e30e4c1873dca2c6">mouse_byte</a> = 0</td></tr>
+<tr class="memdesc:gaec82064a6795ef73e30e4c1873dca2c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Último byte lido pelo interrupt handler do rato.  <br /></td></tr>
+<tr class="memitem:gab16a3e13988a41e497c1b3894acee0a4" id="r_gab16a3e13988a41e497c1b3894acee0a4"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="group___mouse.html#gab16a3e13988a41e497c1b3894acee0a4">mouse_error</a> = false</td></tr>
+<tr class="memdesc:gab16a3e13988a41e497c1b3894acee0a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag que indica se houve um erro (parity, timeout) durante a leitura.  <br /></td></tr>
+</table>
+<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Documentação das variáveis</h2>
+<a id="a37cad7cad93664f8a1ed1b0258fe958b" name="a37cad7cad93664f8a1ed1b0258fe958b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37cad7cad93664f8a1ed1b0258fe958b">&#9670;&#160;</a></span>mouse_hook_id</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int mouse_hook_id = 2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_c9e20c30cf5906fba8f787a8f1a04eec.html">structures</a></li><li class="navelem"><a href="dir_2568fc0c15c30e784627a44695e67c96.html">drivers</a></li><li class="navelem"><a href="mouse_8c.html">mouse.c</a></li>
+    <li class="footer">Gerado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
+</body>
+</html>

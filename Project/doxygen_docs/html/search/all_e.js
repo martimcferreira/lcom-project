@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['parse_5fscore_5fline_0',['parse_score_line',['../leaderboard_8c.html#a3678f5f0efe7941d853cb15caffa5a2a',1,'leaderboard.c']]],
+  ['pause_1',['PAUSE',['../group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a56b36d0d0bb01b339cf1041adc08e262',1,'menu.h']]],
+  ['pause_5fbtn_5fh_2',['PAUSE_BTN_H',['../group___main_loop.html#ga9ca6aa74eaf9c16558211896b446411f',1,'main.c']]],
+  ['pause_5fbtn_5fw_3',['PAUSE_BTN_W',['../group___main_loop.html#ga3613ba207d4545cd69649c154c048865',1,'main.c']]],
+  ['pause_5felapsed_5fticks_4',['pause_elapsed_ticks',['../group___main_loop.html#ga8f3e4694bf144989aff3df0d34b0f19e',1,'main.c']]],
+  ['pause_5fpanel_5fh_5',['PAUSE_PANEL_H',['../group___main_loop.html#ga8df560086857d24e1b4068c95a880f01',1,'main.c']]],
+  ['pause_5fpanel_5fw_6',['PAUSE_PANEL_W',['../group___main_loop.html#gadfebc8460eb7809afca3cad8220062b1',1,'main.c']]],
+  ['pause_5fpanel_5fx_7',['PAUSE_PANEL_X',['../group___main_loop.html#gac55d787c43edf51cb57996414f6dc0e1',1,'main.c']]],
+  ['pause_5fpanel_5fy_8',['PAUSE_PANEL_Y',['../group___main_loop.html#ga9eb2033ba99bb8431265a184f7598606',1,'main.c']]],
+  ['pause_5fquit_5fclicked_9',['pause_quit_clicked',['../group___main_loop.html#gac80d525216eadcf5b0d28ce5c4de1181',1,'main.c']]],
+  ['pause_5fquit_5fx_10',['PAUSE_QUIT_X',['../group___main_loop.html#ga658238769732d182ec62d42a8d57e28a',1,'main.c']]],
+  ['pause_5fquit_5fy_11',['PAUSE_QUIT_Y',['../group___main_loop.html#gaec54bcd93a2f6c6c4452d6f0d1a5b86b',1,'main.c']]],
+  ['pause_5fresume_5fclicked_12',['pause_resume_clicked',['../group___main_loop.html#ga4bfc24f2eb1297eb0954112087df0bd5',1,'main.c']]],
+  ['pause_5fresume_5fx_13',['PAUSE_RESUME_X',['../group___main_loop.html#ga4a9d6a6f7edc07fd7a7e97e6a53bbd18',1,'main.c']]],
+  ['pause_5fresume_5fy_14',['PAUSE_RESUME_Y',['../group___main_loop.html#ga48e5b9cef27415aaa2a83da22bf4b115',1,'main.c']]],
+  ['pause_5fstart_5ftick_15',['pause_start_tick',['../group___main_loop.html#gafdd2ebf8a2162b5547d1606aaa9d8280',1,'main.c']]],
+  ['play_16',['PLAY',['../group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a0352906d1ea1dfcd663c918f3a86755b',1,'menu.h']]],
+  ['play_5fstart_5ftick_17',['play_start_tick',['../group___main_loop.html#gac40fa97163486f5a8c0f631691f55d2d',1,'main.c']]],
+  ['player_5fhealth_18',['player_health',['../group___main_loop.html#ga5a4f1375357f8319bdb4eb5521e3204b',1,'main.c']]],
+  ['points_5ffor_5fcombo_5fhit_19',['points_for_combo_hit',['../group___main_loop.html#ga670f761147a96459883b090cce15833a',1,'main.c']]],
+  ['port_20uart_20',['Serial Port (UART)',['../group___u_a_r_t.html',1,'']]],
+  ['progress_21',['progress',['../struct_leaderboard_entry.html#a651207e5a14bdc65bd521e78d876508b',1,'LeaderboardEntry']]],
+  ['proj_5fmain_5floop_22',['proj_main_loop',['../group___main_loop.html#ga7a72220d8366dd84709e79ce415862e5',1,'main.c']]]
+];

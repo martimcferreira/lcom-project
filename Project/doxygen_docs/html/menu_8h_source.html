@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Guitar Hero LCOM: Código-Fonte de structures/includes/menu.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="codefolding.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default';
+mermaid.initialize({ startOnLoad: true, theme: theme });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Guitar Hero LCOM<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">LCOM 2026 Project - Guitar Hero Visual Application</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.17.0 -->
+<script type="text/javascript">
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
+});
+</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Localizar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('menu_8h_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Carregando...</div>
+<div class="SRStatus" id="Searching">Procurando...</div>
+<div class="SRStatus" id="NoMatches">Nenhuma entrada encontrada</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">menu.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="menu_8h.html">Ir para a documentação deste ficheiro.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#ifndef _MENU_H_</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#define _MENU_H_</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &lt;lcom/lcf.h&gt;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &lt;stdbool.h&gt;</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &quot;<a class="code" href="video_8h.html">devices/video/video.h</a>&quot;</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span></div>
+<div class="foldopen" id="foldopen00024" data-start="{" data-end="};">
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="group___menu.html#ga7899b65f1ea0f655e4bbf8d2a5714285">   24</a></span><span class="keyword">typedef</span> <span class="keyword">enum</span> {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a4c40e60bc71a32b924ce1f08d57f9721">   25</a></span>  <a class="code hl_enumvalue" href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a4c40e60bc71a32b924ce1f08d57f9721">MENU</a>,             </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a4517affe5688e6948054ef2878e4ad58">   26</a></span>  <a class="code hl_enumvalue" href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a4517affe5688e6948054ef2878e4ad58">USERNAME_ENTRY</a>,   </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a3e4dd0fe5244f65bf30626fb4f1272f5">   27</a></span>  <a class="code hl_enumvalue" href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a3e4dd0fe5244f65bf30626fb4f1272f5">SONG_SELECT</a>,      </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a0352906d1ea1dfcd663c918f3a86755b">   28</a></span>  <a class="code hl_enumvalue" href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a0352906d1ea1dfcd663c918f3a86755b">PLAY</a>,             </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a56b36d0d0bb01b339cf1041adc08e262">   29</a></span>  <a class="code hl_enumvalue" href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a56b36d0d0bb01b339cf1041adc08e262">PAUSE</a>,            </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a871723195985a4ae22d7e10d99bf8a00">   30</a></span>  <a class="code hl_enumvalue" href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a871723195985a4ae22d7e10d99bf8a00">GAME_OVER</a>,        </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a31fcc94800fd6d897c76e7c37da13c40">   31</a></span>  <a class="code hl_enumvalue" href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a31fcc94800fd6d897c76e7c37da13c40">GAME_WON</a>,         </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a8ac6a0bc60a7a5faad394dc988be36eb">   32</a></span>  <a class="code hl_enumvalue" href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a8ac6a0bc60a7a5faad394dc988be36eb">LEADERBOARD</a>       </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>} <a class="code hl_enumeration" href="group___menu.html#ga7899b65f1ea0f655e4bbf8d2a5714285">GameState</a>;</div>
+</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span></div>
+<div class="foldopen" id="foldopen00038" data-start="{" data-end="};">
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="group___menu.html#gaa9850ebd63ecce52b9c19f15af44e9ed">   38</a></span><span class="keyword">typedef</span> <span class="keyword">enum</span> {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="group___menu.html#ggaa9850ebd63ecce52b9c19f15af44e9edaed4f4d97f85109d7bd4f5c2d0c605ed6">   39</a></span>  <a class="code hl_enumvalue" href="group___menu.html#ggaa9850ebd63ecce52b9c19f15af44e9edaed4f4d97f85109d7bd4f5c2d0c605ed6">MENU_INPUT_KEYBOARD</a>, </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="group___menu.html#ggaa9850ebd63ecce52b9c19f15af44e9eda6dbd2108276af13e212f359ee514e6c6">   40</a></span>  <a class="code hl_enumvalue" href="group___menu.html#ggaa9850ebd63ecce52b9c19f15af44e9eda6dbd2108276af13e212f359ee514e6c6">MENU_INPUT_MOUSE</a>     </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>} <a class="code hl_enumeration" href="group___menu.html#gaa9850ebd63ecce52b9c19f15af44e9ed">MenuInputMode</a>;</div>
+</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keyword">extern</span> <span class="keywordtype">bool</span> <a class="code hl_variable" href="group___menu.html#ga49b359e78ee5e68f63a34291374a589f">hover_play</a>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="keyword">extern</span> <span class="keywordtype">bool</span> <a class="code hl_variable" href="group___menu.html#gafc58e2d06ff3abebac31f653caca6121">hover_exit</a>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="keyword">extern</span> <span class="keywordtype">bool</span> <a class="code hl_variable" href="group___menu.html#ga937237c060ddb53b97b716f3f0310f31">hover_leaderboard</a>;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keyword">extern</span> <span class="keywordtype">bool</span> <a class="code hl_variable" href="group___menu.html#ga65648ee56f04a4caeb4f8f5fd60acd28">hover_song1</a>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keyword">extern</span> <span class="keywordtype">bool</span> <a class="code hl_variable" href="group___menu.html#gaced4bfac7c360f63b74f8fff9e512b9b">hover_song2</a>;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="keyword">extern</span> <span class="keywordtype">bool</span> <a class="code hl_variable" href="group___menu.html#gac4e1663f85cbd72bd1394c43dca0c34d">hover_song3</a>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keyword">extern</span> <span class="keywordtype">bool</span> <a class="code hl_variable" href="group___menu.html#ga4f07ceb70e6c65f5d3e15b90145d74cc">hover_song4</a>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="keyword">extern</span> <span class="keywordtype">bool</span> <a class="code hl_variable" href="group___menu.html#ga13b7c314bc01c3f3d6000f4732a61aca">hover_back</a>;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="keyword">extern</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="group___main_loop.html#ga17cf68e95ce765ba7627cfcee6266ac8">song_id</a>;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keyword">extern</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="group___menu.html#ga2083b44073c1aadfc80d599f381b3015">kbd_menu_idx</a>;   </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="keyword">extern</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="group___menu.html#ga18fda9e369bec02d7f1c8abdca013197">kbd_song_idx</a>;   </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="keyword">extern</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="group___menu.html#ga1e8bc5d9418a85b9f7e1b779ee6e1f9b">kbd_pause_idx</a>;  </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="keyword">extern</span> <a class="code hl_enumeration" href="group___menu.html#gaa9850ebd63ecce52b9c19f15af44e9ed">MenuInputMode</a> <a class="code hl_variable" href="group___menu.html#ga97a3073a8eb5dd70ba858c3ab5faadd2">menu_input_mode</a>;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="keywordtype">void</span> <a class="code hl_function" href="group___menu.html#ga2631c5895e0d7b0fc35206ff0ea31499">menu_set_keyboard_input</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="keywordtype">void</span> <a class="code hl_function" href="group___menu.html#ga07e3201fbaf087cff0922b88822ee8f6">menu_set_mouse_input</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group___menu.html#ga5653d1c17c1290e12db20ef9a7b16e31">menu_keyboard_active</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group___menu.html#gaa424e24804f08f8dad15df0e7c105340">menu_mouse_active</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="keywordtype">void</span> <a class="code hl_function" href="group___menu.html#ga4eda6e4dd76e3d10c500ae407084457f">draw_main_menu</a>(<span class="keywordtype">int</span> <a class="code hl_variable" href="group___main_loop.html#ga6c59af730728bf5260ef828aea2eebee">mouse_x</a>, <span class="keywordtype">int</span> <a class="code hl_variable" href="group___main_loop.html#gab21653e455bbca86826aa5f628a5fdb2">mouse_y</a>, uint32_t *bg_map, xpm_image_t bg_img);</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="keywordtype">void</span> <a class="code hl_function" href="group___menu.html#ga47e6ba3401a33b6523fe8304ac80d82e">check_menu_clicks</a>(<span class="keywordtype">int</span> <a class="code hl_variable" href="group___main_loop.html#ga6c59af730728bf5260ef828aea2eebee">mouse_x</a>, <span class="keywordtype">int</span> <a class="code hl_variable" href="group___main_loop.html#gab21653e455bbca86826aa5f628a5fdb2">mouse_y</a>, <span class="keywordtype">bool</span> left_click, <a class="code hl_enumeration" href="group___menu.html#ga7899b65f1ea0f655e4bbf8d2a5714285">GameState</a> *<a class="code hl_variable" href="group___main_loop.html#ga6ed9079283c2964b8f1c5bfccfc8727e">current_state</a>, <span class="keywordtype">bool</span> *game_running);</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span><span class="keywordtype">void</span> <a class="code hl_function" href="group___menu.html#ga1dbc45d1de90609e38fdba1f76b9be43">draw_song_select</a>(<span class="keywordtype">int</span> <a class="code hl_variable" href="group___main_loop.html#ga6c59af730728bf5260ef828aea2eebee">mouse_x</a>, <span class="keywordtype">int</span> <a class="code hl_variable" href="group___main_loop.html#gab21653e455bbca86826aa5f628a5fdb2">mouse_y</a>, <span class="keyword">const</span> uint32_t *bg_map, xpm_image_t bg_img);</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span></div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="keywordtype">void</span> <a class="code hl_function" href="group___menu.html#ga5857e5276ed72b945db828f7a616dcc0">check_song_select_clicks</a>(<span class="keywordtype">int</span> <a class="code hl_variable" href="group___main_loop.html#ga6c59af730728bf5260ef828aea2eebee">mouse_x</a>, <span class="keywordtype">int</span> <a class="code hl_variable" href="group___main_loop.html#gab21653e455bbca86826aa5f628a5fdb2">mouse_y</a>, <span class="keywordtype">bool</span> left_click, <a class="code hl_enumeration" href="group___menu.html#ga7899b65f1ea0f655e4bbf8d2a5714285">GameState</a> *<a class="code hl_variable" href="group___main_loop.html#ga6ed9079283c2964b8f1c5bfccfc8727e">current_state</a>);</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><span class="preprocessor">#endif </span><span class="comment">/* _MENU_H_ */</span><span class="preprocessor"></span><span class="preprocessor"></span></div>
+<div class="ttc" id="agroup___main_loop_html_ga17cf68e95ce765ba7627cfcee6266ac8"><div class="ttname"><a href="group___main_loop.html#ga17cf68e95ce765ba7627cfcee6266ac8">song_id</a></div><div class="ttdeci">int song_id</div><div class="ttdoc">Variável que armazena a música selecionada.</div><div class="ttdef"><b>Definição</b> main.c:150</div></div>
+<div class="ttc" id="agroup___main_loop_html_ga6c59af730728bf5260ef828aea2eebee"><div class="ttname"><a href="group___main_loop.html#ga6c59af730728bf5260ef828aea2eebee">mouse_x</a></div><div class="ttdeci">int mouse_x</div><div class="ttdef"><b>Definição</b> main.c:152</div></div>
+<div class="ttc" id="agroup___main_loop_html_ga6ed9079283c2964b8f1c5bfccfc8727e"><div class="ttname"><a href="group___main_loop.html#ga6ed9079283c2964b8f1c5bfccfc8727e">current_state</a></div><div class="ttdeci">GameState current_state</div><div class="ttdef"><b>Definição</b> main.c:147</div></div>
+<div class="ttc" id="agroup___main_loop_html_gab21653e455bbca86826aa5f628a5fdb2"><div class="ttname"><a href="group___main_loop.html#gab21653e455bbca86826aa5f628a5fdb2">mouse_y</a></div><div class="ttdeci">int mouse_y</div><div class="ttdef"><b>Definição</b> main.c:153</div></div>
+<div class="ttc" id="agroup___menu_html_ga07e3201fbaf087cff0922b88822ee8f6"><div class="ttname"><a href="group___menu.html#ga07e3201fbaf087cff0922b88822ee8f6">menu_set_mouse_input</a></div><div class="ttdeci">void menu_set_mouse_input(void)</div><div class="ttdoc">Altera o modo de input do menu para Rato.</div><div class="ttdef"><b>Definição</b> menu.c:26</div></div>
+<div class="ttc" id="agroup___menu_html_ga13b7c314bc01c3f3d6000f4732a61aca"><div class="ttname"><a href="group___menu.html#ga13b7c314bc01c3f3d6000f4732a61aca">hover_back</a></div><div class="ttdeci">bool hover_back</div><div class="ttdef"><b>Definição</b> menu.c:14</div></div>
+<div class="ttc" id="agroup___menu_html_ga18fda9e369bec02d7f1c8abdca013197"><div class="ttname"><a href="group___menu.html#ga18fda9e369bec02d7f1c8abdca013197">kbd_song_idx</a></div><div class="ttdeci">int kbd_song_idx</div><div class="ttdoc">Índice da música focada no Song Select.</div><div class="ttdef"><b>Definição</b> menu.c:17</div></div>
+<div class="ttc" id="agroup___menu_html_ga1dbc45d1de90609e38fdba1f76b9be43"><div class="ttname"><a href="group___menu.html#ga1dbc45d1de90609e38fdba1f76b9be43">draw_song_select</a></div><div class="ttdeci">void draw_song_select(int mouse_x, int mouse_y, const uint32_t *bg_map, xpm_image_t bg_img)</div><div class="ttdoc">Renderiza o ecrã de seleção de músicas.</div><div class="ttdef"><b>Definição</b> menu.c:140</div></div>
+<div class="ttc" id="agroup___menu_html_ga1e8bc5d9418a85b9f7e1b779ee6e1f9b"><div class="ttname"><a href="group___menu.html#ga1e8bc5d9418a85b9f7e1b779ee6e1f9b">kbd_pause_idx</a></div><div class="ttdeci">int kbd_pause_idx</div><div class="ttdoc">Índice da opção focada no ecrã de Pausa.</div><div class="ttdef"><b>Definição</b> menu.c:18</div></div>
+<div class="ttc" id="agroup___menu_html_ga2083b44073c1aadfc80d599f381b3015"><div class="ttname"><a href="group___menu.html#ga2083b44073c1aadfc80d599f381b3015">kbd_menu_idx</a></div><div class="ttdeci">int kbd_menu_idx</div><div class="ttdoc">Índice do botão focado no Menu.</div><div class="ttdef"><b>Definição</b> menu.c:16</div></div>
+<div class="ttc" id="agroup___menu_html_ga2631c5895e0d7b0fc35206ff0ea31499"><div class="ttname"><a href="group___menu.html#ga2631c5895e0d7b0fc35206ff0ea31499">menu_set_keyboard_input</a></div><div class="ttdeci">void menu_set_keyboard_input(void)</div><div class="ttdoc">Altera o modo de input do menu para Teclado.</div><div class="ttdef"><b>Definição</b> menu.c:22</div></div>
+<div class="ttc" id="agroup___menu_html_ga47e6ba3401a33b6523fe8304ac80d82e"><div class="ttname"><a href="group___menu.html#ga47e6ba3401a33b6523fe8304ac80d82e">check_menu_clicks</a></div><div class="ttdeci">void check_menu_clicks(int mouse_x, int mouse_y, bool left_click, GameState *current_state, bool *game_running)</div><div class="ttdoc">Verifica interações e cliques no Menu Principal.</div><div class="ttdef"><b>Definição</b> menu.c:105</div></div>
+<div class="ttc" id="agroup___menu_html_ga49b359e78ee5e68f63a34291374a589f"><div class="ttname"><a href="group___menu.html#ga49b359e78ee5e68f63a34291374a589f">hover_play</a></div><div class="ttdeci">bool hover_play</div><div class="ttdef"><b>Definição</b> menu.c:7</div></div>
+<div class="ttc" id="agroup___menu_html_ga4eda6e4dd76e3d10c500ae407084457f"><div class="ttname"><a href="group___menu.html#ga4eda6e4dd76e3d10c500ae407084457f">draw_main_menu</a></div><div class="ttdeci">void draw_main_menu(int mouse_x, int mouse_y, uint32_t *bg_map, xpm_image_t bg_img)</div><div class="ttdoc">Renderiza o menu principal no ecrã.</div><div class="ttdef"><b>Definição</b> menu.c:81</div></div>
+<div class="ttc" id="agroup___menu_html_ga4f07ceb70e6c65f5d3e15b90145d74cc"><div class="ttname"><a href="group___menu.html#ga4f07ceb70e6c65f5d3e15b90145d74cc">hover_song4</a></div><div class="ttdeci">bool hover_song4</div><div class="ttdef"><b>Definição</b> menu.c:13</div></div>
+<div class="ttc" id="agroup___menu_html_ga5653d1c17c1290e12db20ef9a7b16e31"><div class="ttname"><a href="group___menu.html#ga5653d1c17c1290e12db20ef9a7b16e31">menu_keyboard_active</a></div><div class="ttdeci">bool menu_keyboard_active(void)</div><div class="ttdoc">Verifica se o teclado está a ser o periférico dominante nos menus.</div><div class="ttdef"><b>Definição</b> menu.c:30</div></div>
+<div class="ttc" id="agroup___menu_html_ga5857e5276ed72b945db828f7a616dcc0"><div class="ttname"><a href="group___menu.html#ga5857e5276ed72b945db828f7a616dcc0">check_song_select_clicks</a></div><div class="ttdeci">void check_song_select_clicks(int mouse_x, int mouse_y, bool left_click, GameState *current_state)</div><div class="ttdoc">Verifica interações e cliques no ecrã de Seleção de Música.</div><div class="ttdef"><b>Definição</b> menu.c:192</div></div>
+<div class="ttc" id="agroup___menu_html_ga65648ee56f04a4caeb4f8f5fd60acd28"><div class="ttname"><a href="group___menu.html#ga65648ee56f04a4caeb4f8f5fd60acd28">hover_song1</a></div><div class="ttdeci">bool hover_song1</div><div class="ttdef"><b>Definição</b> menu.c:10</div></div>
+<div class="ttc" id="agroup___menu_html_ga7899b65f1ea0f655e4bbf8d2a5714285"><div class="ttname"><a href="group___menu.html#ga7899b65f1ea0f655e4bbf8d2a5714285">GameState</a></div><div class="ttdeci">GameState</div><div class="ttdoc">Enumeração global que define a Máquina de Estados principal do jogo.</div><div class="ttdef"><b>Definição</b> menu.h:24</div></div>
+<div class="ttc" id="agroup___menu_html_ga937237c060ddb53b97b716f3f0310f31"><div class="ttname"><a href="group___menu.html#ga937237c060ddb53b97b716f3f0310f31">hover_leaderboard</a></div><div class="ttdeci">bool hover_leaderboard</div><div class="ttdef"><b>Definição</b> menu.c:9</div></div>
+<div class="ttc" id="agroup___menu_html_ga97a3073a8eb5dd70ba858c3ab5faadd2"><div class="ttname"><a href="group___menu.html#ga97a3073a8eb5dd70ba858c3ab5faadd2">menu_input_mode</a></div><div class="ttdeci">MenuInputMode menu_input_mode</div><div class="ttdoc">Estado atual do modo de input nos menus (Teclado ou Rato).</div><div class="ttdef"><b>Definição</b> menu.c:20</div></div>
+<div class="ttc" id="agroup___menu_html_gaa424e24804f08f8dad15df0e7c105340"><div class="ttname"><a href="group___menu.html#gaa424e24804f08f8dad15df0e7c105340">menu_mouse_active</a></div><div class="ttdeci">bool menu_mouse_active(void)</div><div class="ttdoc">Verifica se o rato está a ser o periférico dominante nos menus.</div><div class="ttdef"><b>Definição</b> menu.c:34</div></div>
+<div class="ttc" id="agroup___menu_html_gaa9850ebd63ecce52b9c19f15af44e9ed"><div class="ttname"><a href="group___menu.html#gaa9850ebd63ecce52b9c19f15af44e9ed">MenuInputMode</a></div><div class="ttdeci">MenuInputMode</div><div class="ttdoc">Enumeração para definir qual o periférico que está a controlar os menus no momento.</div><div class="ttdef"><b>Definição</b> menu.h:38</div></div>
+<div class="ttc" id="agroup___menu_html_gac4e1663f85cbd72bd1394c43dca0c34d"><div class="ttname"><a href="group___menu.html#gac4e1663f85cbd72bd1394c43dca0c34d">hover_song3</a></div><div class="ttdeci">bool hover_song3</div><div class="ttdef"><b>Definição</b> menu.c:12</div></div>
+<div class="ttc" id="agroup___menu_html_gaced4bfac7c360f63b74f8fff9e512b9b"><div class="ttname"><a href="group___menu.html#gaced4bfac7c360f63b74f8fff9e512b9b">hover_song2</a></div><div class="ttdeci">bool hover_song2</div><div class="ttdef"><b>Definição</b> menu.c:11</div></div>
+<div class="ttc" id="agroup___menu_html_gafc58e2d06ff3abebac31f653caca6121"><div class="ttname"><a href="group___menu.html#gafc58e2d06ff3abebac31f653caca6121">hover_exit</a></div><div class="ttdeci">bool hover_exit</div><div class="ttdef"><b>Definição</b> menu.c:8</div></div>
+<div class="ttc" id="agroup___menu_html_gga7899b65f1ea0f655e4bbf8d2a5714285a0352906d1ea1dfcd663c918f3a86755b"><div class="ttname"><a href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a0352906d1ea1dfcd663c918f3a86755b">PLAY</a></div><div class="ttdeci">@ PLAY</div><div class="ttdoc">Gameplay ativo.</div><div class="ttdef"><b>Definição</b> menu.h:28</div></div>
+<div class="ttc" id="agroup___menu_html_gga7899b65f1ea0f655e4bbf8d2a5714285a31fcc94800fd6d897c76e7c37da13c40"><div class="ttname"><a href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a31fcc94800fd6d897c76e7c37da13c40">GAME_WON</a></div><div class="ttdeci">@ GAME_WON</div><div class="ttdoc">Ecrã de Vitória (música chegou ao fim).</div><div class="ttdef"><b>Definição</b> menu.h:31</div></div>
+<div class="ttc" id="agroup___menu_html_gga7899b65f1ea0f655e4bbf8d2a5714285a3e4dd0fe5244f65bf30626fb4f1272f5"><div class="ttname"><a href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a3e4dd0fe5244f65bf30626fb4f1272f5">SONG_SELECT</a></div><div class="ttdeci">@ SONG_SELECT</div><div class="ttdoc">Ecrã de seleção da música a jogar.</div><div class="ttdef"><b>Definição</b> menu.h:27</div></div>
+<div class="ttc" id="agroup___menu_html_gga7899b65f1ea0f655e4bbf8d2a5714285a4517affe5688e6948054ef2878e4ad58"><div class="ttname"><a href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a4517affe5688e6948054ef2878e4ad58">USERNAME_ENTRY</a></div><div class="ttdeci">@ USERNAME_ENTRY</div><div class="ttdoc">Ecrã de inserção do nome de utilizador.</div><div class="ttdef"><b>Definição</b> menu.h:26</div></div>
+<div class="ttc" id="agroup___menu_html_gga7899b65f1ea0f655e4bbf8d2a5714285a4c40e60bc71a32b924ce1f08d57f9721"><div class="ttname"><a href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a4c40e60bc71a32b924ce1f08d57f9721">MENU</a></div><div class="ttdeci">@ MENU</div><div class="ttdoc">Ecrã do Menu Principal.</div><div class="ttdef"><b>Definição</b> menu.h:25</div></div>
+<div class="ttc" id="agroup___menu_html_gga7899b65f1ea0f655e4bbf8d2a5714285a56b36d0d0bb01b339cf1041adc08e262"><div class="ttname"><a href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a56b36d0d0bb01b339cf1041adc08e262">PAUSE</a></div><div class="ttdeci">@ PAUSE</div><div class="ttdoc">Jogo em pausa.</div><div class="ttdef"><b>Definição</b> menu.h:29</div></div>
+<div class="ttc" id="agroup___menu_html_gga7899b65f1ea0f655e4bbf8d2a5714285a871723195985a4ae22d7e10d99bf8a00"><div class="ttname"><a href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a871723195985a4ae22d7e10d99bf8a00">GAME_OVER</a></div><div class="ttdeci">@ GAME_OVER</div><div class="ttdoc">Ecrã de Game Over (vida chegou a 0).</div><div class="ttdef"><b>Definição</b> menu.h:30</div></div>
+<div class="ttc" id="agroup___menu_html_gga7899b65f1ea0f655e4bbf8d2a5714285a8ac6a0bc60a7a5faad394dc988be36eb"><div class="ttname"><a href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a8ac6a0bc60a7a5faad394dc988be36eb">LEADERBOARD</a></div><div class="ttdeci">@ LEADERBOARD</div><div class="ttdoc">Ecrã da Leaderboard (Top 5 Heroes).</div><div class="ttdef"><b>Definição</b> menu.h:32</div></div>
+<div class="ttc" id="agroup___menu_html_ggaa9850ebd63ecce52b9c19f15af44e9eda6dbd2108276af13e212f359ee514e6c6"><div class="ttname"><a href="group___menu.html#ggaa9850ebd63ecce52b9c19f15af44e9eda6dbd2108276af13e212f359ee514e6c6">MENU_INPUT_MOUSE</a></div><div class="ttdeci">@ MENU_INPUT_MOUSE</div><div class="ttdoc">O menu está a ser navegado através do Rato.</div><div class="ttdef"><b>Definição</b> menu.h:40</div></div>
+<div class="ttc" id="agroup___menu_html_ggaa9850ebd63ecce52b9c19f15af44e9edaed4f4d97f85109d7bd4f5c2d0c605ed6"><div class="ttname"><a href="group___menu.html#ggaa9850ebd63ecce52b9c19f15af44e9edaed4f4d97f85109d7bd4f5c2d0c605ed6">MENU_INPUT_KEYBOARD</a></div><div class="ttdeci">@ MENU_INPUT_KEYBOARD</div><div class="ttdoc">O menu está a ser navegado através do Teclado (setas).</div><div class="ttdef"><b>Definição</b> menu.h:39</div></div>
+<div class="ttc" id="avideo_8h_html"><div class="ttname"><a href="video_8h.html">video.h</a></div><div class="ttdoc">Funções e estruturas para gestão da Placa Gráfica (Video Card).</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_c9e20c30cf5906fba8f787a8f1a04eec.html">structures</a></li><li class="navelem"><a href="dir_62b269930b4584fbd0b2853ce7654eef.html">includes</a></li><li class="navelem"><a href="menu_8h.html">menu.h</a></li>
+    <li class="footer">Gerado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
+</body>
+</html>

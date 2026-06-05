@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Guitar Hero LCOM: Código-Fonte de structures/includes/drivers/i8042.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="codefolding.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default';
+mermaid.initialize({ startOnLoad: true, theme: theme });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Guitar Hero LCOM<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">LCOM 2026 Project - Guitar Hero Visual Application</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.17.0 -->
+<script type="text/javascript">
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
+});
+</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Localizar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('i8042_8h_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Carregando...</div>
+<div class="SRStatus" id="Searching">Procurando...</div>
+<div class="SRStatus" id="NoMatches">Nenhuma entrada encontrada</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">i8042.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="i8042_8h.html">Ir para a documentação deste ficheiro.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#ifndef _LCOM_I8042_H_</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#define _LCOM_I8042_H_</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;lcom/lcf.h&gt;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga16c5827f043d82f87c726c2d4369c11d">   14</a></span><span class="preprocessor">#define KBC_IRQ 1          </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga85964cb90343bb1a029b1d1b4229f910">   15</a></span><span class="preprocessor">#define MOUSE_IRQ 12       </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga1ccde68b2b6d4e45b50eef1403e10bb7">   17</a></span><span class="preprocessor">#define KBC_OUT_BUF 0x60   </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="group___k_b_c.html#gaac9289c99cf0a693a211da6d6cb1bb65">   18</a></span><span class="preprocessor">#define KBC_IN_BUF 0x60    </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga34b14687d83496940a236351fbbb1aea">   19</a></span><span class="preprocessor">#define KBC_STAT_REG 0x64  </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga6d57c7927a10f638c83046b52c8caac9">   20</a></span><span class="preprocessor">#define KBC_CMD_REG 0x64   </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment">/* --- Status Register Bits --- */</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga36930de8a703505c95fe133095dcfe06">   23</a></span><span class="preprocessor">#define KBC_OBF BIT(0)     </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="group___k_b_c.html#gac1649d41f8ba9a02fa70ec4e600d5e4a">   24</a></span><span class="preprocessor">#define KBC_IBF BIT(1)     </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="group___k_b_c.html#gaaa796d09d1e94025da456738295342f2">   25</a></span><span class="preprocessor">#define KBC_AUX BIT(5)     </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga34599ca5c55cb9be3b235d7422aff45c">   26</a></span><span class="preprocessor">#define KBC_TIMEOUT BIT(6) </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga82a39176e42fe8f48025521b9674cdc6">   27</a></span><span class="preprocessor">#define KBC_PARITY BIT(7)  </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga1a522aa19bcb695a9df30032a893bee3">   29</a></span><span class="preprocessor">#define DELAY_US 20000     </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="group___k_b_c.html#gabaa9e96175a2b4dfbdb9f7ea01e5555b">   30</a></span><span class="preprocessor">#define KBC_RETRIES 10     </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga69b1626cd295acf4cf3f8e284205b9db">   32</a></span><span class="preprocessor">#define ESC_BREAKCODE 0x81 </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga2877405e9b042d1e29cc09bcc8daccfa">   33</a></span><span class="preprocessor">#define TWO_BYTE_CODE 0xE0 </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="comment">/* --- Comandos KBC --- */</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga595a5cad2d3c793963da50865b2c1b47">   36</a></span><span class="preprocessor">#define KBC_READ_CMD 0x20</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="group___k_b_c.html#gaaa62a6987753a109d2f7a609ce8b7334">   37</a></span><span class="preprocessor">#define KBC_WRITE_CMD 0x60</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="group___k_b_c.html#gaf309a7a24b0405727ef87e0c34c7bf2e">   38</a></span><span class="preprocessor">#define KBC_CHECK_KBC 0xAA</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga2900961f0df784fabde8e93c1dcef206">   39</a></span><span class="preprocessor">#define KBC_CHECK_KBD 0xAB</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga7b9c7f787f8cd1a5016783c8029d45db">   40</a></span><span class="preprocessor">#define KBC_DIS_KBD 0xAD</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga66b30f4494d4e077f52e69127517a931">   41</a></span><span class="preprocessor">#define KBC_ENA_KBD 0xAE</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="group___k_b_c.html#gab224b7d01dd77e70d34f9da6903ee6d2">   43</a></span><span class="preprocessor">#define KBC_WRITE_MOUSE 0xD4</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="comment">/* --- Mouse Packets --- */</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga81c0f94add844b0761bd142f7f708431">   46</a></span><span class="preprocessor">#define MOUSE_LB BIT(0)       </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga5f47c1d60579c8691054c939c1d7c20e">   47</a></span><span class="preprocessor">#define MOUSE_RB BIT(1)       </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga5a934eaadd3536aabe6df0adf6728e8e">   48</a></span><span class="preprocessor">#define MOUSE_MB BIT(2)       </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga794d7c5cd970fe3c03741d420c96050a">   49</a></span><span class="preprocessor">#define MOUSE_SYNC BIT(3)     </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="group___k_b_c.html#gacd43b7d72e2f4da511b0f8a73df0fe79">   50</a></span><span class="preprocessor">#define MOUSE_X_SIGN BIT(4)   </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="group___k_b_c.html#gae0f95694f6f137fcae25644972556873">   51</a></span><span class="preprocessor">#define MOUSE_Y_SIGN BIT(5)   </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga0663715bb53ecaf279ac3c18906e8bc6">   52</a></span><span class="preprocessor">#define MOUSE_X_OVF BIT(6)    </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga637f5d5ecc9244806ca437d9b4f88c7b">   53</a></span><span class="preprocessor">#define MOUSE_Y_OVF BIT(7)    </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="comment">/* --- Comandos Rato --- */</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga064ec583ce5b039303686ce4c64b4f3e">   56</a></span><span class="preprocessor">#define MOUSE_ACK 0xFA        </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="group___k_b_c.html#gaef4a299dedf83b6dc4765baab230affd">   57</a></span><span class="preprocessor">#define MOUSE_NACK 0xFE       </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga75ebb9e8d0615febfa6c7c96ad48a38b">   58</a></span><span class="preprocessor">#define MOUSE_ERROR 0xFC      </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="group___k_b_c.html#gab9680a69d58165012e6b3c102d6cec69">   59</a></span><span class="preprocessor">#define MOUSE_ENABLE_DATA_REPORTING 0xF4</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="group___k_b_c.html#ga841cebcb7d56f8cc3505c202865f3dc2">   60</a></span><span class="preprocessor">#define MOUSE_DISABLE_DATA_REPORTING 0xF5</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#endif </span><span class="comment">/* _LCOM_I8042_H_ */</span><span class="preprocessor"></span><span class="preprocessor"></span></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_c9e20c30cf5906fba8f787a8f1a04eec.html">structures</a></li><li class="navelem"><a href="dir_62b269930b4584fbd0b2853ce7654eef.html">includes</a></li><li class="navelem"><a href="dir_03b3b377c6c654b8ecc8df6530ef1e27.html">drivers</a></li><li class="navelem"><a href="i8042_8h.html">i8042.h</a></li>
+    <li class="footer">Gerado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
+</body>
+</html>

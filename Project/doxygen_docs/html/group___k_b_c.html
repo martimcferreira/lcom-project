@@ -1,0 +1,1073 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Guitar Hero LCOM: Keyboard Controller</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="codefolding.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default';
+mermaid.initialize({ startOnLoad: true, theme: theme });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Guitar Hero LCOM<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">LCOM 2026 Project - Guitar Hero Visual Application</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.17.0 -->
+<script type="text/javascript">
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
+});
+</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Localizar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('group___k_b_c.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Carregando...</div>
+<div class="SRStatus" id="Searching">Procurando...</div>
+<div class="SRStatus" id="NoMatches">Nenhuma entrada encontrada</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Keyboard Controller </div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Controlador do teclado (PS/2).  
+<a href="#details">Mais...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-define-members" class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ga16c5827f043d82f87c726c2d4369c11d" id="r_ga16c5827f043d82f87c726c2d4369c11d"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga16c5827f043d82f87c726c2d4369c11d">KBC_IRQ</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga16c5827f043d82f87c726c2d4369c11d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linha de IRQ do Teclado.  <br /></td></tr>
+<tr class="memitem:ga85964cb90343bb1a029b1d1b4229f910" id="r_ga85964cb90343bb1a029b1d1b4229f910"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga85964cb90343bb1a029b1d1b4229f910">MOUSE_IRQ</a>&#160;&#160;&#160;12</td></tr>
+<tr class="memdesc:ga85964cb90343bb1a029b1d1b4229f910"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linha de IRQ do Rato.  <br /></td></tr>
+<tr class="memitem:ga1ccde68b2b6d4e45b50eef1403e10bb7" id="r_ga1ccde68b2b6d4e45b50eef1403e10bb7"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga1ccde68b2b6d4e45b50eef1403e10bb7">KBC_OUT_BUF</a>&#160;&#160;&#160;0x60</td></tr>
+<tr class="memdesc:ga1ccde68b2b6d4e45b50eef1403e10bb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registo de Output Buffer (Leitura).  <br /></td></tr>
+<tr class="memitem:gaac9289c99cf0a693a211da6d6cb1bb65" id="r_gaac9289c99cf0a693a211da6d6cb1bb65"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#gaac9289c99cf0a693a211da6d6cb1bb65">KBC_IN_BUF</a>&#160;&#160;&#160;0x60</td></tr>
+<tr class="memdesc:gaac9289c99cf0a693a211da6d6cb1bb65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registo de Input Buffer (Escrita).  <br /></td></tr>
+<tr class="memitem:ga34b14687d83496940a236351fbbb1aea" id="r_ga34b14687d83496940a236351fbbb1aea"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga34b14687d83496940a236351fbbb1aea">KBC_STAT_REG</a>&#160;&#160;&#160;0x64</td></tr>
+<tr class="memdesc:ga34b14687d83496940a236351fbbb1aea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registo de Estado (Status).  <br /></td></tr>
+<tr class="memitem:ga6d57c7927a10f638c83046b52c8caac9" id="r_ga6d57c7927a10f638c83046b52c8caac9"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga6d57c7927a10f638c83046b52c8caac9">KBC_CMD_REG</a>&#160;&#160;&#160;0x64</td></tr>
+<tr class="memdesc:ga6d57c7927a10f638c83046b52c8caac9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registo de Comandos.  <br /></td></tr>
+<tr class="memitem:ga36930de8a703505c95fe133095dcfe06" id="r_ga36930de8a703505c95fe133095dcfe06"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga36930de8a703505c95fe133095dcfe06">KBC_OBF</a>&#160;&#160;&#160;BIT(0)</td></tr>
+<tr class="memdesc:ga36930de8a703505c95fe133095dcfe06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output Buffer Full.  <br /></td></tr>
+<tr class="memitem:gac1649d41f8ba9a02fa70ec4e600d5e4a" id="r_gac1649d41f8ba9a02fa70ec4e600d5e4a"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#gac1649d41f8ba9a02fa70ec4e600d5e4a">KBC_IBF</a>&#160;&#160;&#160;BIT(1)</td></tr>
+<tr class="memdesc:gac1649d41f8ba9a02fa70ec4e600d5e4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Input Buffer Full.  <br /></td></tr>
+<tr class="memitem:gaaa796d09d1e94025da456738295342f2" id="r_gaaa796d09d1e94025da456738295342f2"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#gaaa796d09d1e94025da456738295342f2">KBC_AUX</a>&#160;&#160;&#160;BIT(5)</td></tr>
+<tr class="memdesc:gaaa796d09d1e94025da456738295342f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auxiliar (dados vêm do Rato).  <br /></td></tr>
+<tr class="memitem:ga34599ca5c55cb9be3b235d7422aff45c" id="r_ga34599ca5c55cb9be3b235d7422aff45c"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga34599ca5c55cb9be3b235d7422aff45c">KBC_TIMEOUT</a>&#160;&#160;&#160;BIT(6)</td></tr>
+<tr class="memdesc:ga34599ca5c55cb9be3b235d7422aff45c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erro de Timeout.  <br /></td></tr>
+<tr class="memitem:ga82a39176e42fe8f48025521b9674cdc6" id="r_ga82a39176e42fe8f48025521b9674cdc6"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga82a39176e42fe8f48025521b9674cdc6">KBC_PARITY</a>&#160;&#160;&#160;BIT(7)</td></tr>
+<tr class="memdesc:ga82a39176e42fe8f48025521b9674cdc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erro de Paridade.  <br /></td></tr>
+<tr class="memitem:ga1a522aa19bcb695a9df30032a893bee3" id="r_ga1a522aa19bcb695a9df30032a893bee3"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga1a522aa19bcb695a9df30032a893bee3">DELAY_US</a>&#160;&#160;&#160;20000</td></tr>
+<tr class="memdesc:ga1a522aa19bcb695a9df30032a893bee3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atraso para operações do KBC.  <br /></td></tr>
+<tr class="memitem:gabaa9e96175a2b4dfbdb9f7ea01e5555b" id="r_gabaa9e96175a2b4dfbdb9f7ea01e5555b"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#gabaa9e96175a2b4dfbdb9f7ea01e5555b">KBC_RETRIES</a>&#160;&#160;&#160;10</td></tr>
+<tr class="memdesc:gabaa9e96175a2b4dfbdb9f7ea01e5555b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Número máximo de tentativas.  <br /></td></tr>
+<tr class="memitem:ga69b1626cd295acf4cf3f8e284205b9db" id="r_ga69b1626cd295acf4cf3f8e284205b9db"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga69b1626cd295acf4cf3f8e284205b9db">ESC_BREAKCODE</a>&#160;&#160;&#160;0x81</td></tr>
+<tr class="memdesc:ga69b1626cd295acf4cf3f8e284205b9db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Breakcode da tecla ESC.  <br /></td></tr>
+<tr class="memitem:ga2877405e9b042d1e29cc09bcc8daccfa" id="r_ga2877405e9b042d1e29cc09bcc8daccfa"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga2877405e9b042d1e29cc09bcc8daccfa">TWO_BYTE_CODE</a>&#160;&#160;&#160;0xE0</td></tr>
+<tr class="memdesc:ga2877405e9b042d1e29cc09bcc8daccfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Primeiro byte para códigos de 2 bytes.  <br /></td></tr>
+<tr class="memitem:ga595a5cad2d3c793963da50865b2c1b47" id="r_ga595a5cad2d3c793963da50865b2c1b47"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga595a5cad2d3c793963da50865b2c1b47">KBC_READ_CMD</a>&#160;&#160;&#160;0x20</td></tr>
+<tr class="memitem:gaaa62a6987753a109d2f7a609ce8b7334" id="r_gaaa62a6987753a109d2f7a609ce8b7334"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#gaaa62a6987753a109d2f7a609ce8b7334">KBC_WRITE_CMD</a>&#160;&#160;&#160;0x60</td></tr>
+<tr class="memitem:gaf309a7a24b0405727ef87e0c34c7bf2e" id="r_gaf309a7a24b0405727ef87e0c34c7bf2e"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#gaf309a7a24b0405727ef87e0c34c7bf2e">KBC_CHECK_KBC</a>&#160;&#160;&#160;0xAA</td></tr>
+<tr class="memitem:ga2900961f0df784fabde8e93c1dcef206" id="r_ga2900961f0df784fabde8e93c1dcef206"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga2900961f0df784fabde8e93c1dcef206">KBC_CHECK_KBD</a>&#160;&#160;&#160;0xAB</td></tr>
+<tr class="memitem:ga7b9c7f787f8cd1a5016783c8029d45db" id="r_ga7b9c7f787f8cd1a5016783c8029d45db"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga7b9c7f787f8cd1a5016783c8029d45db">KBC_DIS_KBD</a>&#160;&#160;&#160;0xAD</td></tr>
+<tr class="memitem:ga66b30f4494d4e077f52e69127517a931" id="r_ga66b30f4494d4e077f52e69127517a931"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga66b30f4494d4e077f52e69127517a931">KBC_ENA_KBD</a>&#160;&#160;&#160;0xAE</td></tr>
+<tr class="memitem:gab224b7d01dd77e70d34f9da6903ee6d2" id="r_gab224b7d01dd77e70d34f9da6903ee6d2"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#gab224b7d01dd77e70d34f9da6903ee6d2">KBC_WRITE_MOUSE</a>&#160;&#160;&#160;0xD4</td></tr>
+<tr class="memitem:ga81c0f94add844b0761bd142f7f708431" id="r_ga81c0f94add844b0761bd142f7f708431"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga81c0f94add844b0761bd142f7f708431">MOUSE_LB</a>&#160;&#160;&#160;BIT(0)</td></tr>
+<tr class="memdesc:ga81c0f94add844b0761bd142f7f708431"><td class="mdescLeft">&#160;</td><td class="mdescRight">Botão Esquerdo premido.  <br /></td></tr>
+<tr class="memitem:ga5f47c1d60579c8691054c939c1d7c20e" id="r_ga5f47c1d60579c8691054c939c1d7c20e"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga5f47c1d60579c8691054c939c1d7c20e">MOUSE_RB</a>&#160;&#160;&#160;BIT(1)</td></tr>
+<tr class="memdesc:ga5f47c1d60579c8691054c939c1d7c20e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Botão Direito premido.  <br /></td></tr>
+<tr class="memitem:ga5a934eaadd3536aabe6df0adf6728e8e" id="r_ga5a934eaadd3536aabe6df0adf6728e8e"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga5a934eaadd3536aabe6df0adf6728e8e">MOUSE_MB</a>&#160;&#160;&#160;BIT(2)</td></tr>
+<tr class="memdesc:ga5a934eaadd3536aabe6df0adf6728e8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Botão Central premido.  <br /></td></tr>
+<tr class="memitem:ga794d7c5cd970fe3c03741d420c96050a" id="r_ga794d7c5cd970fe3c03741d420c96050a"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga794d7c5cd970fe3c03741d420c96050a">MOUSE_SYNC</a>&#160;&#160;&#160;BIT(3)</td></tr>
+<tr class="memdesc:ga794d7c5cd970fe3c03741d420c96050a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bit de sincronização (sempre 1 no primeiro byte).  <br /></td></tr>
+<tr class="memitem:gacd43b7d72e2f4da511b0f8a73df0fe79" id="r_gacd43b7d72e2f4da511b0f8a73df0fe79"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#gacd43b7d72e2f4da511b0f8a73df0fe79">MOUSE_X_SIGN</a>&#160;&#160;&#160;BIT(4)</td></tr>
+<tr class="memdesc:gacd43b7d72e2f4da511b0f8a73df0fe79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sinal do delta X.  <br /></td></tr>
+<tr class="memitem:gae0f95694f6f137fcae25644972556873" id="r_gae0f95694f6f137fcae25644972556873"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#gae0f95694f6f137fcae25644972556873">MOUSE_Y_SIGN</a>&#160;&#160;&#160;BIT(5)</td></tr>
+<tr class="memdesc:gae0f95694f6f137fcae25644972556873"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sinal do delta Y.  <br /></td></tr>
+<tr class="memitem:ga0663715bb53ecaf279ac3c18906e8bc6" id="r_ga0663715bb53ecaf279ac3c18906e8bc6"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga0663715bb53ecaf279ac3c18906e8bc6">MOUSE_X_OVF</a>&#160;&#160;&#160;BIT(6)</td></tr>
+<tr class="memdesc:ga0663715bb53ecaf279ac3c18906e8bc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overflow em X.  <br /></td></tr>
+<tr class="memitem:ga637f5d5ecc9244806ca437d9b4f88c7b" id="r_ga637f5d5ecc9244806ca437d9b4f88c7b"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga637f5d5ecc9244806ca437d9b4f88c7b">MOUSE_Y_OVF</a>&#160;&#160;&#160;BIT(7)</td></tr>
+<tr class="memdesc:ga637f5d5ecc9244806ca437d9b4f88c7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overflow em Y.  <br /></td></tr>
+<tr class="memitem:ga064ec583ce5b039303686ce4c64b4f3e" id="r_ga064ec583ce5b039303686ce4c64b4f3e"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga064ec583ce5b039303686ce4c64b4f3e">MOUSE_ACK</a>&#160;&#160;&#160;0xFA</td></tr>
+<tr class="memdesc:ga064ec583ce5b039303686ce4c64b4f3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Acknowledged (Tudo ok).  <br /></td></tr>
+<tr class="memitem:gaef4a299dedf83b6dc4765baab230affd" id="r_gaef4a299dedf83b6dc4765baab230affd"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#gaef4a299dedf83b6dc4765baab230affd">MOUSE_NACK</a>&#160;&#160;&#160;0xFE</td></tr>
+<tr class="memdesc:gaef4a299dedf83b6dc4765baab230affd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Não Acknowledged (Tentar novamente).  <br /></td></tr>
+<tr class="memitem:ga75ebb9e8d0615febfa6c7c96ad48a38b" id="r_ga75ebb9e8d0615febfa6c7c96ad48a38b"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga75ebb9e8d0615febfa6c7c96ad48a38b">MOUSE_ERROR</a>&#160;&#160;&#160;0xFC</td></tr>
+<tr class="memdesc:ga75ebb9e8d0615febfa6c7c96ad48a38b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erro na comunicação com o Rato.  <br /></td></tr>
+<tr class="memitem:gab9680a69d58165012e6b3c102d6cec69" id="r_gab9680a69d58165012e6b3c102d6cec69"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#gab9680a69d58165012e6b3c102d6cec69">MOUSE_ENABLE_DATA_REPORTING</a>&#160;&#160;&#160;0xF4</td></tr>
+<tr class="memitem:ga841cebcb7d56f8cc3505c202865f3dc2" id="r_ga841cebcb7d56f8cc3505c202865f3dc2"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga841cebcb7d56f8cc3505c202865f3dc2">MOUSE_DISABLE_DATA_REPORTING</a>&#160;&#160;&#160;0xF5</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Funções</h2></td></tr>
+<tr class="memitem:gaa7a491d4d95eab5ca5326c4000ad67f8" id="r_gaa7a491d4d95eab5ca5326c4000ad67f8"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#gaa7a491d4d95eab5ca5326c4000ad67f8">kbd_subscribe_int</a> (uint8_t *bit_no)</td></tr>
+<tr class="memdesc:gaa7a491d4d95eab5ca5326c4000ad67f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subscreve as interrupções do Teclado (IRQ 1).  <br /></td></tr>
+<tr class="memitem:ga5bdf6cfb570c375192b0d87913b65c57" id="r_ga5bdf6cfb570c375192b0d87913b65c57"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ga5bdf6cfb570c375192b0d87913b65c57">kbd_unsubscribe_int</a> ()</td></tr>
+<tr class="memdesc:ga5bdf6cfb570c375192b0d87913b65c57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancela a subscrição das interrupções do Teclado.  <br /></td></tr>
+<tr class="memitem:gab9e6ed7960d60aa4834f2038247d4536" id="r_gab9e6ed7960d60aa4834f2038247d4536"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#gab9e6ed7960d60aa4834f2038247d4536">kbc_ih</a> ()</td></tr>
+<tr class="memdesc:gab9e6ed7960d60aa4834f2038247d4536"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt Handler do Teclado. Lê o scancode do OUT_BUF.  <br /></td></tr>
+<tr class="memitem:ga270b74b960c1dbb8abf3ef95fcafb2b0" id="r_ga270b74b960c1dbb8abf3ef95fcafb2b0"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ga270b74b960c1dbb8abf3ef95fcafb2b0">kbc_write_command</a> (uint8_t cmd)</td></tr>
+<tr class="memdesc:ga270b74b960c1dbb8abf3ef95fcafb2b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Escreve um comando diretamente para o registo de comandos do KBC.  <br /></td></tr>
+<tr class="memitem:gafddf9c7199a712735b93a7fe94343272" id="r_gafddf9c7199a712735b93a7fe94343272"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#gafddf9c7199a712735b93a7fe94343272">kbc_write_argument</a> (uint8_t arg)</td></tr>
+<tr class="memdesc:gafddf9c7199a712735b93a7fe94343272"><td class="mdescLeft">&#160;</td><td class="mdescRight">Escreve um argumento num comando prévio do KBC.  <br /></td></tr>
+<tr class="memitem:ga4e28ac08d94ea31444487305ca6fc94c" id="r_ga4e28ac08d94ea31444487305ca6fc94c"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ga4e28ac08d94ea31444487305ca6fc94c">kbc_read_response</a> (uint8_t *response)</td></tr>
+<tr class="memdesc:ga4e28ac08d94ea31444487305ca6fc94c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lê a resposta (retorno) proveniente do OUT_BUF.  <br /></td></tr>
+<tr class="memitem:ga0d28d7309ad45de4fe79c9de3fbeb3d8" id="r_ga0d28d7309ad45de4fe79c9de3fbeb3d8"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ga0d28d7309ad45de4fe79c9de3fbeb3d8">kbd_enable_interrupts</a> ()</td></tr>
+<tr class="memdesc:ga0d28d7309ad45de4fe79c9de3fbeb3d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reativa as interrupções do teclado que possam ter sido desativadas.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
+Variáveis</h2></td></tr>
+<tr class="memitem:ga053e78e0472a0fafdac407bf1f7d70cc" id="r_ga053e78e0472a0fafdac407bf1f7d70cc"><td class="memItemLeft">uint8_t&#160;</td><td class="memItemRight"><a class="el" href="#ga053e78e0472a0fafdac407bf1f7d70cc">scancode_byte</a></td></tr>
+<tr class="memdesc:ga053e78e0472a0fafdac407bf1f7d70cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Último scancode lido pelo interrupt handler do teclado.  <br /></td></tr>
+<tr class="memitem:ga649742f933924e5331f67c993ce64056" id="r_ga649742f933924e5331f67c993ce64056"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ga649742f933924e5331f67c993ce64056">ih_error</a></td></tr>
+<tr class="memdesc:ga649742f933924e5331f67c993ce64056"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag que indica se houve um erro de paridade ou timeout durante a leitura.  <br /></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Descrição detalhada</h2>
+<div class="textblock"><p>Controlador do teclado (PS/2). </p>
+</div><a name="doc-define-members" id="doc-define-members"></a><h2 id="header-doc-define-members" class="groupheader">Documentação das macros</h2>
+<a id="ga1a522aa19bcb695a9df30032a893bee3" name="ga1a522aa19bcb695a9df30032a893bee3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1a522aa19bcb695a9df30032a893bee3">&#9670;&#160;</a></span>DELAY_US</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DELAY_US&#160;&#160;&#160;20000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Atraso para operações do KBC. </p>
+
+</div>
+</div>
+<a id="ga69b1626cd295acf4cf3f8e284205b9db" name="ga69b1626cd295acf4cf3f8e284205b9db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga69b1626cd295acf4cf3f8e284205b9db">&#9670;&#160;</a></span>ESC_BREAKCODE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ESC_BREAKCODE&#160;&#160;&#160;0x81</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Breakcode da tecla ESC. </p>
+
+</div>
+</div>
+<a id="gaaa796d09d1e94025da456738295342f2" name="gaaa796d09d1e94025da456738295342f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaaa796d09d1e94025da456738295342f2">&#9670;&#160;</a></span>KBC_AUX</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KBC_AUX&#160;&#160;&#160;BIT(5)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Auxiliar (dados vêm do Rato). </p>
+
+</div>
+</div>
+<a id="gaf309a7a24b0405727ef87e0c34c7bf2e" name="gaf309a7a24b0405727ef87e0c34c7bf2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf309a7a24b0405727ef87e0c34c7bf2e">&#9670;&#160;</a></span>KBC_CHECK_KBC</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KBC_CHECK_KBC&#160;&#160;&#160;0xAA</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga2900961f0df784fabde8e93c1dcef206" name="ga2900961f0df784fabde8e93c1dcef206"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2900961f0df784fabde8e93c1dcef206">&#9670;&#160;</a></span>KBC_CHECK_KBD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KBC_CHECK_KBD&#160;&#160;&#160;0xAB</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga6d57c7927a10f638c83046b52c8caac9" name="ga6d57c7927a10f638c83046b52c8caac9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6d57c7927a10f638c83046b52c8caac9">&#9670;&#160;</a></span>KBC_CMD_REG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KBC_CMD_REG&#160;&#160;&#160;0x64</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Registo de Comandos. </p>
+
+</div>
+</div>
+<a id="ga7b9c7f787f8cd1a5016783c8029d45db" name="ga7b9c7f787f8cd1a5016783c8029d45db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7b9c7f787f8cd1a5016783c8029d45db">&#9670;&#160;</a></span>KBC_DIS_KBD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KBC_DIS_KBD&#160;&#160;&#160;0xAD</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga66b30f4494d4e077f52e69127517a931" name="ga66b30f4494d4e077f52e69127517a931"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga66b30f4494d4e077f52e69127517a931">&#9670;&#160;</a></span>KBC_ENA_KBD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KBC_ENA_KBD&#160;&#160;&#160;0xAE</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gac1649d41f8ba9a02fa70ec4e600d5e4a" name="gac1649d41f8ba9a02fa70ec4e600d5e4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac1649d41f8ba9a02fa70ec4e600d5e4a">&#9670;&#160;</a></span>KBC_IBF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KBC_IBF&#160;&#160;&#160;BIT(1)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Input Buffer Full. </p>
+
+</div>
+</div>
+<a id="gaac9289c99cf0a693a211da6d6cb1bb65" name="gaac9289c99cf0a693a211da6d6cb1bb65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaac9289c99cf0a693a211da6d6cb1bb65">&#9670;&#160;</a></span>KBC_IN_BUF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KBC_IN_BUF&#160;&#160;&#160;0x60</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Registo de Input Buffer (Escrita). </p>
+
+</div>
+</div>
+<a id="ga16c5827f043d82f87c726c2d4369c11d" name="ga16c5827f043d82f87c726c2d4369c11d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga16c5827f043d82f87c726c2d4369c11d">&#9670;&#160;</a></span>KBC_IRQ</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KBC_IRQ&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Linha de IRQ do Teclado. </p>
+
+</div>
+</div>
+<a id="ga36930de8a703505c95fe133095dcfe06" name="ga36930de8a703505c95fe133095dcfe06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga36930de8a703505c95fe133095dcfe06">&#9670;&#160;</a></span>KBC_OBF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KBC_OBF&#160;&#160;&#160;BIT(0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Output Buffer Full. </p>
+
+</div>
+</div>
+<a id="ga1ccde68b2b6d4e45b50eef1403e10bb7" name="ga1ccde68b2b6d4e45b50eef1403e10bb7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1ccde68b2b6d4e45b50eef1403e10bb7">&#9670;&#160;</a></span>KBC_OUT_BUF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KBC_OUT_BUF&#160;&#160;&#160;0x60</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Registo de Output Buffer (Leitura). </p>
+
+</div>
+</div>
+<a id="ga82a39176e42fe8f48025521b9674cdc6" name="ga82a39176e42fe8f48025521b9674cdc6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga82a39176e42fe8f48025521b9674cdc6">&#9670;&#160;</a></span>KBC_PARITY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KBC_PARITY&#160;&#160;&#160;BIT(7)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Erro de Paridade. </p>
+
+</div>
+</div>
+<a id="ga595a5cad2d3c793963da50865b2c1b47" name="ga595a5cad2d3c793963da50865b2c1b47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga595a5cad2d3c793963da50865b2c1b47">&#9670;&#160;</a></span>KBC_READ_CMD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KBC_READ_CMD&#160;&#160;&#160;0x20</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gabaa9e96175a2b4dfbdb9f7ea01e5555b" name="gabaa9e96175a2b4dfbdb9f7ea01e5555b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabaa9e96175a2b4dfbdb9f7ea01e5555b">&#9670;&#160;</a></span>KBC_RETRIES</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KBC_RETRIES&#160;&#160;&#160;10</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Número máximo de tentativas. </p>
+
+</div>
+</div>
+<a id="ga34b14687d83496940a236351fbbb1aea" name="ga34b14687d83496940a236351fbbb1aea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga34b14687d83496940a236351fbbb1aea">&#9670;&#160;</a></span>KBC_STAT_REG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KBC_STAT_REG&#160;&#160;&#160;0x64</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Registo de Estado (Status). </p>
+
+</div>
+</div>
+<a id="ga34599ca5c55cb9be3b235d7422aff45c" name="ga34599ca5c55cb9be3b235d7422aff45c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga34599ca5c55cb9be3b235d7422aff45c">&#9670;&#160;</a></span>KBC_TIMEOUT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KBC_TIMEOUT&#160;&#160;&#160;BIT(6)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Erro de Timeout. </p>
+
+</div>
+</div>
+<a id="gaaa62a6987753a109d2f7a609ce8b7334" name="gaaa62a6987753a109d2f7a609ce8b7334"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaaa62a6987753a109d2f7a609ce8b7334">&#9670;&#160;</a></span>KBC_WRITE_CMD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KBC_WRITE_CMD&#160;&#160;&#160;0x60</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gab224b7d01dd77e70d34f9da6903ee6d2" name="gab224b7d01dd77e70d34f9da6903ee6d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab224b7d01dd77e70d34f9da6903ee6d2">&#9670;&#160;</a></span>KBC_WRITE_MOUSE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KBC_WRITE_MOUSE&#160;&#160;&#160;0xD4</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga064ec583ce5b039303686ce4c64b4f3e" name="ga064ec583ce5b039303686ce4c64b4f3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga064ec583ce5b039303686ce4c64b4f3e">&#9670;&#160;</a></span>MOUSE_ACK</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MOUSE_ACK&#160;&#160;&#160;0xFA</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Acknowledged (Tudo ok). </p>
+
+</div>
+</div>
+<a id="ga841cebcb7d56f8cc3505c202865f3dc2" name="ga841cebcb7d56f8cc3505c202865f3dc2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga841cebcb7d56f8cc3505c202865f3dc2">&#9670;&#160;</a></span>MOUSE_DISABLE_DATA_REPORTING</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MOUSE_DISABLE_DATA_REPORTING&#160;&#160;&#160;0xF5</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gab9680a69d58165012e6b3c102d6cec69" name="gab9680a69d58165012e6b3c102d6cec69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab9680a69d58165012e6b3c102d6cec69">&#9670;&#160;</a></span>MOUSE_ENABLE_DATA_REPORTING</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MOUSE_ENABLE_DATA_REPORTING&#160;&#160;&#160;0xF4</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga75ebb9e8d0615febfa6c7c96ad48a38b" name="ga75ebb9e8d0615febfa6c7c96ad48a38b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga75ebb9e8d0615febfa6c7c96ad48a38b">&#9670;&#160;</a></span>MOUSE_ERROR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MOUSE_ERROR&#160;&#160;&#160;0xFC</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Erro na comunicação com o Rato. </p>
+
+</div>
+</div>
+<a id="ga85964cb90343bb1a029b1d1b4229f910" name="ga85964cb90343bb1a029b1d1b4229f910"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga85964cb90343bb1a029b1d1b4229f910">&#9670;&#160;</a></span>MOUSE_IRQ</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MOUSE_IRQ&#160;&#160;&#160;12</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Linha de IRQ do Rato. </p>
+
+</div>
+</div>
+<a id="ga81c0f94add844b0761bd142f7f708431" name="ga81c0f94add844b0761bd142f7f708431"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga81c0f94add844b0761bd142f7f708431">&#9670;&#160;</a></span>MOUSE_LB</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MOUSE_LB&#160;&#160;&#160;BIT(0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Botão Esquerdo premido. </p>
+
+</div>
+</div>
+<a id="ga5a934eaadd3536aabe6df0adf6728e8e" name="ga5a934eaadd3536aabe6df0adf6728e8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5a934eaadd3536aabe6df0adf6728e8e">&#9670;&#160;</a></span>MOUSE_MB</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MOUSE_MB&#160;&#160;&#160;BIT(2)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Botão Central premido. </p>
+
+</div>
+</div>
+<a id="gaef4a299dedf83b6dc4765baab230affd" name="gaef4a299dedf83b6dc4765baab230affd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaef4a299dedf83b6dc4765baab230affd">&#9670;&#160;</a></span>MOUSE_NACK</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MOUSE_NACK&#160;&#160;&#160;0xFE</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Não Acknowledged (Tentar novamente). </p>
+
+</div>
+</div>
+<a id="ga5f47c1d60579c8691054c939c1d7c20e" name="ga5f47c1d60579c8691054c939c1d7c20e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5f47c1d60579c8691054c939c1d7c20e">&#9670;&#160;</a></span>MOUSE_RB</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MOUSE_RB&#160;&#160;&#160;BIT(1)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Botão Direito premido. </p>
+
+</div>
+</div>
+<a id="ga794d7c5cd970fe3c03741d420c96050a" name="ga794d7c5cd970fe3c03741d420c96050a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga794d7c5cd970fe3c03741d420c96050a">&#9670;&#160;</a></span>MOUSE_SYNC</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MOUSE_SYNC&#160;&#160;&#160;BIT(3)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Bit de sincronização (sempre 1 no primeiro byte). </p>
+
+</div>
+</div>
+<a id="ga0663715bb53ecaf279ac3c18906e8bc6" name="ga0663715bb53ecaf279ac3c18906e8bc6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0663715bb53ecaf279ac3c18906e8bc6">&#9670;&#160;</a></span>MOUSE_X_OVF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MOUSE_X_OVF&#160;&#160;&#160;BIT(6)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Overflow em X. </p>
+
+</div>
+</div>
+<a id="gacd43b7d72e2f4da511b0f8a73df0fe79" name="gacd43b7d72e2f4da511b0f8a73df0fe79"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gacd43b7d72e2f4da511b0f8a73df0fe79">&#9670;&#160;</a></span>MOUSE_X_SIGN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MOUSE_X_SIGN&#160;&#160;&#160;BIT(4)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sinal do delta X. </p>
+
+</div>
+</div>
+<a id="ga637f5d5ecc9244806ca437d9b4f88c7b" name="ga637f5d5ecc9244806ca437d9b4f88c7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga637f5d5ecc9244806ca437d9b4f88c7b">&#9670;&#160;</a></span>MOUSE_Y_OVF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MOUSE_Y_OVF&#160;&#160;&#160;BIT(7)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Overflow em Y. </p>
+
+</div>
+</div>
+<a id="gae0f95694f6f137fcae25644972556873" name="gae0f95694f6f137fcae25644972556873"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae0f95694f6f137fcae25644972556873">&#9670;&#160;</a></span>MOUSE_Y_SIGN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MOUSE_Y_SIGN&#160;&#160;&#160;BIT(5)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sinal do delta Y. </p>
+
+</div>
+</div>
+<a id="ga2877405e9b042d1e29cc09bcc8daccfa" name="ga2877405e9b042d1e29cc09bcc8daccfa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2877405e9b042d1e29cc09bcc8daccfa">&#9670;&#160;</a></span>TWO_BYTE_CODE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TWO_BYTE_CODE&#160;&#160;&#160;0xE0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Primeiro byte para códigos de 2 bytes. </p>
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Documentação das funções</h2>
+<a id="gab9e6ed7960d60aa4834f2038247d4536" name="gab9e6ed7960d60aa4834f2038247d4536"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab9e6ed7960d60aa4834f2038247d4536">&#9670;&#160;</a></span>kbc_ih()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void kbc_ih </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Interrupt Handler do Teclado. Lê o scancode do OUT_BUF. </p>
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___k_b_c_gab9e6ed7960d60aa4834f2038247d4536_cgraph.png" border="0" usemap="#agroup___k_b_c_gab9e6ed7960d60aa4834f2038247d4536_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 0 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___k_b_c_gab9e6ed7960d60aa4834f2038247d4536_icgraph.png" border="0" usemap="#agroup___k_b_c_gab9e6ed7960d60aa4834f2038247d4536_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 1 -->
+</div>
+
+</div>
+</div>
+<a id="ga4e28ac08d94ea31444487305ca6fc94c" name="ga4e28ac08d94ea31444487305ca6fc94c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4e28ac08d94ea31444487305ca6fc94c">&#9670;&#160;</a></span>kbc_read_response()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int kbc_read_response </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *</td>          <td class="paramname"><span class="paramname"><em>response</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Lê a resposta (retorno) proveniente do OUT_BUF. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">response</td><td>Apontador onde será guardada a resposta. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Retorna</dt><dd>0 em sucesso, 1 em erro. </dd></dl>
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___k_b_c_ga4e28ac08d94ea31444487305ca6fc94c_cgraph.png" border="0" usemap="#agroup___k_b_c_ga4e28ac08d94ea31444487305ca6fc94c_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 2 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___k_b_c_ga4e28ac08d94ea31444487305ca6fc94c_icgraph.png" border="0" usemap="#agroup___k_b_c_ga4e28ac08d94ea31444487305ca6fc94c_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 3 -->
+</div>
+
+</div>
+</div>
+<a id="gafddf9c7199a712735b93a7fe94343272" name="gafddf9c7199a712735b93a7fe94343272"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafddf9c7199a712735b93a7fe94343272">&#9670;&#160;</a></span>kbc_write_argument()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int kbc_write_argument </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>arg</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Escreve um argumento num comando prévio do KBC. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arg</td><td>Argumento a passar. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Retorna</dt><dd>0 em sucesso, 1 em erro. </dd></dl>
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___k_b_c_gafddf9c7199a712735b93a7fe94343272_cgraph.png" border="0" usemap="#agroup___k_b_c_gafddf9c7199a712735b93a7fe94343272_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 4 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___k_b_c_gafddf9c7199a712735b93a7fe94343272_icgraph.png" border="0" usemap="#agroup___k_b_c_gafddf9c7199a712735b93a7fe94343272_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 5 -->
+</div>
+
+</div>
+</div>
+<a id="ga270b74b960c1dbb8abf3ef95fcafb2b0" name="ga270b74b960c1dbb8abf3ef95fcafb2b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga270b74b960c1dbb8abf3ef95fcafb2b0">&#9670;&#160;</a></span>kbc_write_command()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int kbc_write_command </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>cmd</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Escreve um comando diretamente para o registo de comandos do KBC. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cmd</td><td>Comando a escrever. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Retorna</dt><dd>0 em sucesso, 1 em erro. </dd></dl>
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___k_b_c_ga270b74b960c1dbb8abf3ef95fcafb2b0_cgraph.png" border="0" usemap="#agroup___k_b_c_ga270b74b960c1dbb8abf3ef95fcafb2b0_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 6 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___k_b_c_ga270b74b960c1dbb8abf3ef95fcafb2b0_icgraph.png" border="0" usemap="#agroup___k_b_c_ga270b74b960c1dbb8abf3ef95fcafb2b0_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 7 -->
+</div>
+
+</div>
+</div>
+<a id="ga0d28d7309ad45de4fe79c9de3fbeb3d8" name="ga0d28d7309ad45de4fe79c9de3fbeb3d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0d28d7309ad45de4fe79c9de3fbeb3d8">&#9670;&#160;</a></span>kbd_enable_interrupts()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int kbd_enable_interrupts </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reativa as interrupções do teclado que possam ter sido desativadas. </p>
+<dl class="section return"><dt>Retorna</dt><dd>0 em sucesso, 1 em erro. </dd></dl>
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___k_b_c_ga0d28d7309ad45de4fe79c9de3fbeb3d8_cgraph.png" border="0" usemap="#agroup___k_b_c_ga0d28d7309ad45de4fe79c9de3fbeb3d8_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 8 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___k_b_c_ga0d28d7309ad45de4fe79c9de3fbeb3d8_icgraph.png" border="0" usemap="#agroup___k_b_c_ga0d28d7309ad45de4fe79c9de3fbeb3d8_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 9 -->
+</div>
+
+</div>
+</div>
+<a id="gaa7a491d4d95eab5ca5326c4000ad67f8" name="gaa7a491d4d95eab5ca5326c4000ad67f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa7a491d4d95eab5ca5326c4000ad67f8">&#9670;&#160;</a></span>kbd_subscribe_int()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int kbd_subscribe_int </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *</td>          <td class="paramname"><span class="paramname"><em>bit_no</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Subscreve as interrupções do Teclado (IRQ 1). </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bit_no</td><td>Apontador onde será guardado o bit usado no mask. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Retorna</dt><dd>bit_no original em sucesso, -1 em erro. </dd></dl>
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___k_b_c_gaa7a491d4d95eab5ca5326c4000ad67f8_cgraph.png" border="0" usemap="#agroup___k_b_c_gaa7a491d4d95eab5ca5326c4000ad67f8_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 10 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___k_b_c_gaa7a491d4d95eab5ca5326c4000ad67f8_icgraph.png" border="0" usemap="#agroup___k_b_c_gaa7a491d4d95eab5ca5326c4000ad67f8_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 11 -->
+</div>
+
+</div>
+</div>
+<a id="ga5bdf6cfb570c375192b0d87913b65c57" name="ga5bdf6cfb570c375192b0d87913b65c57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5bdf6cfb570c375192b0d87913b65c57">&#9670;&#160;</a></span>kbd_unsubscribe_int()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int kbd_unsubscribe_int </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Cancela a subscrição das interrupções do Teclado. </p>
+<dl class="section return"><dt>Retorna</dt><dd>0 em sucesso, 1 em erro. </dd></dl>
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___k_b_c_ga5bdf6cfb570c375192b0d87913b65c57_cgraph.png" border="0" usemap="#agroup___k_b_c_ga5bdf6cfb570c375192b0d87913b65c57_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 12 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___k_b_c_ga5bdf6cfb570c375192b0d87913b65c57_icgraph.png" border="0" usemap="#agroup___k_b_c_ga5bdf6cfb570c375192b0d87913b65c57_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 13 -->
+</div>
+
+</div>
+</div>
+<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Documentação das variáveis</h2>
+<a id="ga649742f933924e5331f67c993ce64056" name="ga649742f933924e5331f67c993ce64056"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga649742f933924e5331f67c993ce64056">&#9670;&#160;</a></span>ih_error</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ih_error</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Flag que indica se houve um erro de paridade ou timeout durante a leitura. </p>
+
+</div>
+</div>
+<a id="ga053e78e0472a0fafdac407bf1f7d70cc" name="ga053e78e0472a0fafdac407bf1f7d70cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga053e78e0472a0fafdac407bf1f7d70cc">&#9670;&#160;</a></span>scancode_byte</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t scancode_byte</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Último scancode lido pelo interrupt handler do teclado. </p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Gerado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
+</body>
+</html>

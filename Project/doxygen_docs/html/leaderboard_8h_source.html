@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Guitar Hero LCOM: Código-Fonte de structures/includes/leaderboard.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="codefolding.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default';
+mermaid.initialize({ startOnLoad: true, theme: theme });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Guitar Hero LCOM<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">LCOM 2026 Project - Guitar Hero Visual Application</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.17.0 -->
+<script type="text/javascript">
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
+});
+</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Localizar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('leaderboard_8h_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Carregando...</div>
+<div class="SRStatus" id="Searching">Procurando...</div>
+<div class="SRStatus" id="NoMatches">Nenhuma entrada encontrada</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">leaderboard.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="leaderboard_8h.html">Ir para a documentação deste ficheiro.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &lt;lcom/lcf.h&gt;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &quot;<a class="code" href="rtc_8h.html">rtc.h</a>&quot;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="group___leaderboard.html#ga85abf1c6889438cc50351afbacd7ff43">   20</a></span><span class="preprocessor">#define MAX_SCORES 10</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="group___leaderboard.html#gae998797620e9bb9ecfde43bb95135ebb">   23</a></span><span class="preprocessor">#define LEADERBOARD_USERNAME_MAX 16</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="group___leaderboard.html#ga7dda35cf2001fe9e9657e8992cd39593">   26</a></span><span class="preprocessor">#define SCORE_FILE &quot;scores.txt&quot;</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="group___leaderboard.html#gaf91aa084ad5a0554d989042bfededa05">   29</a></span><span class="preprocessor">#define SCORE_FILE_FALLBACK &quot;/tmp/guitar_hero_scores.txt&quot;</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span></div>
+<div class="foldopen" id="foldopen00034" data-start="{" data-end="};">
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="struct_leaderboard_entry.html">   34</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="struct_leaderboard_entry.html#aa3b1e992c4724f011a42c857edf954e4">   35</a></span>    <span class="keywordtype">char</span> <a class="code hl_variable" href="struct_leaderboard_entry.html#aa3b1e992c4724f011a42c857edf954e4">username</a>[<a class="code hl_define" href="group___leaderboard.html#gae998797620e9bb9ecfde43bb95135ebb">LEADERBOARD_USERNAME_MAX</a>]; </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="struct_leaderboard_entry.html#a3d3d97bd142d9de7352bdda2b21d88f9">   36</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_leaderboard_entry.html#a3d3d97bd142d9de7352bdda2b21d88f9">score</a>;                               </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="struct_leaderboard_entry.html#a651207e5a14bdc65bd521e78d876508b">   37</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_leaderboard_entry.html#a651207e5a14bdc65bd521e78d876508b">progress</a>;                            </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="struct_leaderboard_entry.html#a52694244fb1663edda1e2ccd4957b772">   38</a></span>    <a class="code hl_struct" href="structrtc__timestamp.html">rtc_timestamp</a> <a class="code hl_variable" href="struct_leaderboard_entry.html#a52694244fb1663edda1e2ccd4957b772">date</a>;                      </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="struct_leaderboard_entry.html#a17247fa17f71a2e3830d9aa5a44f5f55">   39</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_leaderboard_entry.html#a17247fa17f71a2e3830d9aa5a44f5f55">song_id</a>;                             </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>} <a class="code hl_struct" href="struct_leaderboard_entry.html">LeaderboardEntry</a>;</div>
+</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keywordtype">void</span> <a class="code hl_function" href="group___leaderboard.html#ga046c6ae142cd9926bb3284e9f6293fee">leaderboard_init</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="keywordtype">void</span> <a class="code hl_function" href="group___leaderboard.html#ga6dde35d6651b7931e75bc781a37e6b7b">leaderboard_add_score</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *username, <span class="keywordtype">int</span> <a class="code hl_variable" href="group___main_loop.html#gaef160b7437d94056f1dc59646cd5b87d">score</a>, <span class="keywordtype">int</span> progress, <span class="keywordtype">int</span> <a class="code hl_variable" href="group___main_loop.html#ga17cf68e95ce765ba7627cfcee6266ac8">song_id</a>, <a class="code hl_struct" href="structrtc__timestamp.html">rtc_timestamp</a> current_time);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><a class="code hl_struct" href="struct_leaderboard_entry.html">LeaderboardEntry</a>* <a class="code hl_function" href="group___leaderboard.html#ga4f740413cf264edee275fe97add3e0f5">leaderboard_get_scores</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="keywordtype">int</span> <a class="code hl_function" href="group___leaderboard.html#ga04b48c52c1f827e3cc7ac1f47824159a">leaderboard_get_count</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span></div>
+<div class="ttc" id="agroup___leaderboard_html_ga046c6ae142cd9926bb3284e9f6293fee"><div class="ttname"><a href="group___leaderboard.html#ga046c6ae142cd9926bb3284e9f6293fee">leaderboard_init</a></div><div class="ttdeci">void leaderboard_init(void)</div><div class="ttdoc">Inicializa a leaderboard.</div><div class="ttdef"><b>Definição</b> leaderboard.c:144</div></div>
+<div class="ttc" id="agroup___leaderboard_html_ga04b48c52c1f827e3cc7ac1f47824159a"><div class="ttname"><a href="group___leaderboard.html#ga04b48c52c1f827e3cc7ac1f47824159a">leaderboard_get_count</a></div><div class="ttdeci">int leaderboard_get_count(void)</div><div class="ttdoc">Obtém o número total de pontuações atualmente registadas.</div><div class="ttdef"><b>Definição</b> leaderboard.c:219</div></div>
+<div class="ttc" id="agroup___leaderboard_html_ga4f740413cf264edee275fe97add3e0f5"><div class="ttname"><a href="group___leaderboard.html#ga4f740413cf264edee275fe97add3e0f5">leaderboard_get_scores</a></div><div class="ttdeci">LeaderboardEntry * leaderboard_get_scores(void)</div><div class="ttdoc">Obtém o array com as pontuações atuais.</div><div class="ttdef"><b>Definição</b> leaderboard.c:215</div></div>
+<div class="ttc" id="agroup___leaderboard_html_ga6dde35d6651b7931e75bc781a37e6b7b"><div class="ttname"><a href="group___leaderboard.html#ga6dde35d6651b7931e75bc781a37e6b7b">leaderboard_add_score</a></div><div class="ttdeci">void leaderboard_add_score(const char *username, int score, int progress, int song_id, rtc_timestamp current_time)</div><div class="ttdoc">Adiciona uma nova pontuação à leaderboard.</div><div class="ttdef"><b>Definição</b> leaderboard.c:187</div></div>
+<div class="ttc" id="agroup___leaderboard_html_gae998797620e9bb9ecfde43bb95135ebb"><div class="ttname"><a href="group___leaderboard.html#gae998797620e9bb9ecfde43bb95135ebb">LEADERBOARD_USERNAME_MAX</a></div><div class="ttdeci">#define LEADERBOARD_USERNAME_MAX</div><div class="ttdoc">Tamanho máximo do nome de utilizador.</div><div class="ttdef"><b>Definição</b> leaderboard.h:23</div></div>
+<div class="ttc" id="agroup___main_loop_html_ga17cf68e95ce765ba7627cfcee6266ac8"><div class="ttname"><a href="group___main_loop.html#ga17cf68e95ce765ba7627cfcee6266ac8">song_id</a></div><div class="ttdeci">int song_id</div><div class="ttdoc">Variável que armazena a música selecionada.</div><div class="ttdef"><b>Definição</b> main.c:150</div></div>
+<div class="ttc" id="agroup___main_loop_html_gaef160b7437d94056f1dc59646cd5b87d"><div class="ttname"><a href="group___main_loop.html#gaef160b7437d94056f1dc59646cd5b87d">score</a></div><div class="ttdeci">static int score</div><div class="ttdef"><b>Definição</b> main.c:90</div></div>
+<div class="ttc" id="artc_8h_html"><div class="ttname"><a href="rtc_8h.html">rtc.h</a></div><div class="ttdoc">Driver para o Real-Time Clock (RTC).</div></div>
+<div class="ttc" id="astruct_leaderboard_entry_html"><div class="ttname"><a href="struct_leaderboard_entry.html">LeaderboardEntry</a></div><div class="ttdoc">Estrutura que representa uma entrada na leaderboard.</div><div class="ttdef"><b>Definição</b> leaderboard.h:34</div></div>
+<div class="ttc" id="astruct_leaderboard_entry_html_a17247fa17f71a2e3830d9aa5a44f5f55"><div class="ttname"><a href="struct_leaderboard_entry.html#a17247fa17f71a2e3830d9aa5a44f5f55">LeaderboardEntry::song_id</a></div><div class="ttdeci">int song_id</div><div class="ttdoc">ID da música tocada.</div><div class="ttdef"><b>Definição</b> leaderboard.h:39</div></div>
+<div class="ttc" id="astruct_leaderboard_entry_html_a3d3d97bd142d9de7352bdda2b21d88f9"><div class="ttname"><a href="struct_leaderboard_entry.html#a3d3d97bd142d9de7352bdda2b21d88f9">LeaderboardEntry::score</a></div><div class="ttdeci">int score</div><div class="ttdoc">Pontuação obtida.</div><div class="ttdef"><b>Definição</b> leaderboard.h:36</div></div>
+<div class="ttc" id="astruct_leaderboard_entry_html_a52694244fb1663edda1e2ccd4957b772"><div class="ttname"><a href="struct_leaderboard_entry.html#a52694244fb1663edda1e2ccd4957b772">LeaderboardEntry::date</a></div><div class="ttdeci">rtc_timestamp date</div><div class="ttdoc">Data e hora em que a pontuação foi atingida.</div><div class="ttdef"><b>Definição</b> leaderboard.h:38</div></div>
+<div class="ttc" id="astruct_leaderboard_entry_html_a651207e5a14bdc65bd521e78d876508b"><div class="ttname"><a href="struct_leaderboard_entry.html#a651207e5a14bdc65bd521e78d876508b">LeaderboardEntry::progress</a></div><div class="ttdeci">int progress</div><div class="ttdoc">Progresso na música (0 a 100%).</div><div class="ttdef"><b>Definição</b> leaderboard.h:37</div></div>
+<div class="ttc" id="astruct_leaderboard_entry_html_aa3b1e992c4724f011a42c857edf954e4"><div class="ttname"><a href="struct_leaderboard_entry.html#aa3b1e992c4724f011a42c857edf954e4">LeaderboardEntry::username</a></div><div class="ttdeci">char username[LEADERBOARD_USERNAME_MAX]</div><div class="ttdoc">Nome do jogador.</div><div class="ttdef"><b>Definição</b> leaderboard.h:35</div></div>
+<div class="ttc" id="astructrtc__timestamp_html"><div class="ttname"><a href="structrtc__timestamp.html">rtc_timestamp</a></div><div class="ttdoc">Estrutura que guarda a data e hora do sistema lida pelo RTC.</div><div class="ttdef"><b>Definição</b> rtc.h:22</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_c9e20c30cf5906fba8f787a8f1a04eec.html">structures</a></li><li class="navelem"><a href="dir_62b269930b4584fbd0b2853ce7654eef.html">includes</a></li><li class="navelem"><a href="leaderboard_8h.html">leaderboard.h</a></li>
+    <li class="footer">Gerado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
+</body>
+</html>

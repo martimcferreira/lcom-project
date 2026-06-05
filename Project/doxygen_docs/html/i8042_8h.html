@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Guitar Hero LCOM: Referência ao ficheiro structures/includes/drivers/i8042.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="codefolding.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default';
+mermaid.initialize({ startOnLoad: true, theme: theme });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Guitar Hero LCOM<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">LCOM 2026 Project - Guitar Hero Visual Application</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.17.0 -->
+<script type="text/javascript">
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
+});
+</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Localizar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('i8042_8h.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Carregando...</div>
+<div class="SRStatus" id="Searching">Procurando...</div>
+<div class="SRStatus" id="NoMatches">Nenhuma entrada encontrada</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Referência ao ficheiro i8042.h</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Constantes e macros para programação do KBC (Keyboard Controller).  
+<a href="#details">Mais...</a></p>
+<div class="textblock"><code>#include &lt;lcom/lcf.h&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Diagrama de dependências de inclusão para i8042.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="i8042_8h__incl.png" border="0" usemap="#astructures_2includes_2drivers_2i8042_8h" loading="lazy" alt=""/></div>
+<!-- MAP 0 -->
+</div>
+</div><div class="textblock"><div class="dynheader">
+Este grafo mostra quais são os ficheiros que incluem directamente ou indirectamente este ficheiro:</div>
+<div class="dyncontent">
+<div class="center"><img src="i8042_8h__dep__incl.png" border="0" usemap="#astructures_2includes_2drivers_2i8042_8hdep" loading="lazy" alt=""/></div>
+<!-- MAP 1 -->
+</div>
+</div>
+<p><a href="i8042_8h_source.html">Ir para o código fonte deste ficheiro.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-define-members" class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ga16c5827f043d82f87c726c2d4369c11d" id="r_ga16c5827f043d82f87c726c2d4369c11d"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga16c5827f043d82f87c726c2d4369c11d">KBC_IRQ</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga16c5827f043d82f87c726c2d4369c11d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linha de IRQ do Teclado.  <br /></td></tr>
+<tr class="memitem:ga85964cb90343bb1a029b1d1b4229f910" id="r_ga85964cb90343bb1a029b1d1b4229f910"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga85964cb90343bb1a029b1d1b4229f910">MOUSE_IRQ</a>&#160;&#160;&#160;12</td></tr>
+<tr class="memdesc:ga85964cb90343bb1a029b1d1b4229f910"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linha de IRQ do Rato.  <br /></td></tr>
+<tr class="memitem:ga1ccde68b2b6d4e45b50eef1403e10bb7" id="r_ga1ccde68b2b6d4e45b50eef1403e10bb7"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga1ccde68b2b6d4e45b50eef1403e10bb7">KBC_OUT_BUF</a>&#160;&#160;&#160;0x60</td></tr>
+<tr class="memdesc:ga1ccde68b2b6d4e45b50eef1403e10bb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registo de Output Buffer (Leitura).  <br /></td></tr>
+<tr class="memitem:gaac9289c99cf0a693a211da6d6cb1bb65" id="r_gaac9289c99cf0a693a211da6d6cb1bb65"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#gaac9289c99cf0a693a211da6d6cb1bb65">KBC_IN_BUF</a>&#160;&#160;&#160;0x60</td></tr>
+<tr class="memdesc:gaac9289c99cf0a693a211da6d6cb1bb65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registo de Input Buffer (Escrita).  <br /></td></tr>
+<tr class="memitem:ga34b14687d83496940a236351fbbb1aea" id="r_ga34b14687d83496940a236351fbbb1aea"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga34b14687d83496940a236351fbbb1aea">KBC_STAT_REG</a>&#160;&#160;&#160;0x64</td></tr>
+<tr class="memdesc:ga34b14687d83496940a236351fbbb1aea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registo de Estado (Status).  <br /></td></tr>
+<tr class="memitem:ga6d57c7927a10f638c83046b52c8caac9" id="r_ga6d57c7927a10f638c83046b52c8caac9"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga6d57c7927a10f638c83046b52c8caac9">KBC_CMD_REG</a>&#160;&#160;&#160;0x64</td></tr>
+<tr class="memdesc:ga6d57c7927a10f638c83046b52c8caac9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registo de Comandos.  <br /></td></tr>
+<tr class="memitem:ga36930de8a703505c95fe133095dcfe06" id="r_ga36930de8a703505c95fe133095dcfe06"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga36930de8a703505c95fe133095dcfe06">KBC_OBF</a>&#160;&#160;&#160;BIT(0)</td></tr>
+<tr class="memdesc:ga36930de8a703505c95fe133095dcfe06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output Buffer Full.  <br /></td></tr>
+<tr class="memitem:gac1649d41f8ba9a02fa70ec4e600d5e4a" id="r_gac1649d41f8ba9a02fa70ec4e600d5e4a"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#gac1649d41f8ba9a02fa70ec4e600d5e4a">KBC_IBF</a>&#160;&#160;&#160;BIT(1)</td></tr>
+<tr class="memdesc:gac1649d41f8ba9a02fa70ec4e600d5e4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Input Buffer Full.  <br /></td></tr>
+<tr class="memitem:gaaa796d09d1e94025da456738295342f2" id="r_gaaa796d09d1e94025da456738295342f2"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#gaaa796d09d1e94025da456738295342f2">KBC_AUX</a>&#160;&#160;&#160;BIT(5)</td></tr>
+<tr class="memdesc:gaaa796d09d1e94025da456738295342f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auxiliar (dados vêm do Rato).  <br /></td></tr>
+<tr class="memitem:ga34599ca5c55cb9be3b235d7422aff45c" id="r_ga34599ca5c55cb9be3b235d7422aff45c"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga34599ca5c55cb9be3b235d7422aff45c">KBC_TIMEOUT</a>&#160;&#160;&#160;BIT(6)</td></tr>
+<tr class="memdesc:ga34599ca5c55cb9be3b235d7422aff45c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erro de Timeout.  <br /></td></tr>
+<tr class="memitem:ga82a39176e42fe8f48025521b9674cdc6" id="r_ga82a39176e42fe8f48025521b9674cdc6"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga82a39176e42fe8f48025521b9674cdc6">KBC_PARITY</a>&#160;&#160;&#160;BIT(7)</td></tr>
+<tr class="memdesc:ga82a39176e42fe8f48025521b9674cdc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erro de Paridade.  <br /></td></tr>
+<tr class="memitem:ga1a522aa19bcb695a9df30032a893bee3" id="r_ga1a522aa19bcb695a9df30032a893bee3"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga1a522aa19bcb695a9df30032a893bee3">DELAY_US</a>&#160;&#160;&#160;20000</td></tr>
+<tr class="memdesc:ga1a522aa19bcb695a9df30032a893bee3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atraso para operações do KBC.  <br /></td></tr>
+<tr class="memitem:gabaa9e96175a2b4dfbdb9f7ea01e5555b" id="r_gabaa9e96175a2b4dfbdb9f7ea01e5555b"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#gabaa9e96175a2b4dfbdb9f7ea01e5555b">KBC_RETRIES</a>&#160;&#160;&#160;10</td></tr>
+<tr class="memdesc:gabaa9e96175a2b4dfbdb9f7ea01e5555b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Número máximo de tentativas.  <br /></td></tr>
+<tr class="memitem:ga69b1626cd295acf4cf3f8e284205b9db" id="r_ga69b1626cd295acf4cf3f8e284205b9db"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga69b1626cd295acf4cf3f8e284205b9db">ESC_BREAKCODE</a>&#160;&#160;&#160;0x81</td></tr>
+<tr class="memdesc:ga69b1626cd295acf4cf3f8e284205b9db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Breakcode da tecla ESC.  <br /></td></tr>
+<tr class="memitem:ga2877405e9b042d1e29cc09bcc8daccfa" id="r_ga2877405e9b042d1e29cc09bcc8daccfa"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga2877405e9b042d1e29cc09bcc8daccfa">TWO_BYTE_CODE</a>&#160;&#160;&#160;0xE0</td></tr>
+<tr class="memdesc:ga2877405e9b042d1e29cc09bcc8daccfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Primeiro byte para códigos de 2 bytes.  <br /></td></tr>
+<tr class="memitem:ga595a5cad2d3c793963da50865b2c1b47" id="r_ga595a5cad2d3c793963da50865b2c1b47"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga595a5cad2d3c793963da50865b2c1b47">KBC_READ_CMD</a>&#160;&#160;&#160;0x20</td></tr>
+<tr class="memitem:gaaa62a6987753a109d2f7a609ce8b7334" id="r_gaaa62a6987753a109d2f7a609ce8b7334"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#gaaa62a6987753a109d2f7a609ce8b7334">KBC_WRITE_CMD</a>&#160;&#160;&#160;0x60</td></tr>
+<tr class="memitem:gaf309a7a24b0405727ef87e0c34c7bf2e" id="r_gaf309a7a24b0405727ef87e0c34c7bf2e"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#gaf309a7a24b0405727ef87e0c34c7bf2e">KBC_CHECK_KBC</a>&#160;&#160;&#160;0xAA</td></tr>
+<tr class="memitem:ga2900961f0df784fabde8e93c1dcef206" id="r_ga2900961f0df784fabde8e93c1dcef206"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga2900961f0df784fabde8e93c1dcef206">KBC_CHECK_KBD</a>&#160;&#160;&#160;0xAB</td></tr>
+<tr class="memitem:ga7b9c7f787f8cd1a5016783c8029d45db" id="r_ga7b9c7f787f8cd1a5016783c8029d45db"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga7b9c7f787f8cd1a5016783c8029d45db">KBC_DIS_KBD</a>&#160;&#160;&#160;0xAD</td></tr>
+<tr class="memitem:ga66b30f4494d4e077f52e69127517a931" id="r_ga66b30f4494d4e077f52e69127517a931"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga66b30f4494d4e077f52e69127517a931">KBC_ENA_KBD</a>&#160;&#160;&#160;0xAE</td></tr>
+<tr class="memitem:gab224b7d01dd77e70d34f9da6903ee6d2" id="r_gab224b7d01dd77e70d34f9da6903ee6d2"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#gab224b7d01dd77e70d34f9da6903ee6d2">KBC_WRITE_MOUSE</a>&#160;&#160;&#160;0xD4</td></tr>
+<tr class="memitem:ga81c0f94add844b0761bd142f7f708431" id="r_ga81c0f94add844b0761bd142f7f708431"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga81c0f94add844b0761bd142f7f708431">MOUSE_LB</a>&#160;&#160;&#160;BIT(0)</td></tr>
+<tr class="memdesc:ga81c0f94add844b0761bd142f7f708431"><td class="mdescLeft">&#160;</td><td class="mdescRight">Botão Esquerdo premido.  <br /></td></tr>
+<tr class="memitem:ga5f47c1d60579c8691054c939c1d7c20e" id="r_ga5f47c1d60579c8691054c939c1d7c20e"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga5f47c1d60579c8691054c939c1d7c20e">MOUSE_RB</a>&#160;&#160;&#160;BIT(1)</td></tr>
+<tr class="memdesc:ga5f47c1d60579c8691054c939c1d7c20e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Botão Direito premido.  <br /></td></tr>
+<tr class="memitem:ga5a934eaadd3536aabe6df0adf6728e8e" id="r_ga5a934eaadd3536aabe6df0adf6728e8e"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga5a934eaadd3536aabe6df0adf6728e8e">MOUSE_MB</a>&#160;&#160;&#160;BIT(2)</td></tr>
+<tr class="memdesc:ga5a934eaadd3536aabe6df0adf6728e8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Botão Central premido.  <br /></td></tr>
+<tr class="memitem:ga794d7c5cd970fe3c03741d420c96050a" id="r_ga794d7c5cd970fe3c03741d420c96050a"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga794d7c5cd970fe3c03741d420c96050a">MOUSE_SYNC</a>&#160;&#160;&#160;BIT(3)</td></tr>
+<tr class="memdesc:ga794d7c5cd970fe3c03741d420c96050a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bit de sincronização (sempre 1 no primeiro byte).  <br /></td></tr>
+<tr class="memitem:gacd43b7d72e2f4da511b0f8a73df0fe79" id="r_gacd43b7d72e2f4da511b0f8a73df0fe79"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#gacd43b7d72e2f4da511b0f8a73df0fe79">MOUSE_X_SIGN</a>&#160;&#160;&#160;BIT(4)</td></tr>
+<tr class="memdesc:gacd43b7d72e2f4da511b0f8a73df0fe79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sinal do delta X.  <br /></td></tr>
+<tr class="memitem:gae0f95694f6f137fcae25644972556873" id="r_gae0f95694f6f137fcae25644972556873"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#gae0f95694f6f137fcae25644972556873">MOUSE_Y_SIGN</a>&#160;&#160;&#160;BIT(5)</td></tr>
+<tr class="memdesc:gae0f95694f6f137fcae25644972556873"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sinal do delta Y.  <br /></td></tr>
+<tr class="memitem:ga0663715bb53ecaf279ac3c18906e8bc6" id="r_ga0663715bb53ecaf279ac3c18906e8bc6"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga0663715bb53ecaf279ac3c18906e8bc6">MOUSE_X_OVF</a>&#160;&#160;&#160;BIT(6)</td></tr>
+<tr class="memdesc:ga0663715bb53ecaf279ac3c18906e8bc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overflow em X.  <br /></td></tr>
+<tr class="memitem:ga637f5d5ecc9244806ca437d9b4f88c7b" id="r_ga637f5d5ecc9244806ca437d9b4f88c7b"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga637f5d5ecc9244806ca437d9b4f88c7b">MOUSE_Y_OVF</a>&#160;&#160;&#160;BIT(7)</td></tr>
+<tr class="memdesc:ga637f5d5ecc9244806ca437d9b4f88c7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overflow em Y.  <br /></td></tr>
+<tr class="memitem:ga064ec583ce5b039303686ce4c64b4f3e" id="r_ga064ec583ce5b039303686ce4c64b4f3e"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga064ec583ce5b039303686ce4c64b4f3e">MOUSE_ACK</a>&#160;&#160;&#160;0xFA</td></tr>
+<tr class="memdesc:ga064ec583ce5b039303686ce4c64b4f3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Acknowledged (Tudo ok).  <br /></td></tr>
+<tr class="memitem:gaef4a299dedf83b6dc4765baab230affd" id="r_gaef4a299dedf83b6dc4765baab230affd"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#gaef4a299dedf83b6dc4765baab230affd">MOUSE_NACK</a>&#160;&#160;&#160;0xFE</td></tr>
+<tr class="memdesc:gaef4a299dedf83b6dc4765baab230affd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Não Acknowledged (Tentar novamente).  <br /></td></tr>
+<tr class="memitem:ga75ebb9e8d0615febfa6c7c96ad48a38b" id="r_ga75ebb9e8d0615febfa6c7c96ad48a38b"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga75ebb9e8d0615febfa6c7c96ad48a38b">MOUSE_ERROR</a>&#160;&#160;&#160;0xFC</td></tr>
+<tr class="memdesc:ga75ebb9e8d0615febfa6c7c96ad48a38b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erro na comunicação com o Rato.  <br /></td></tr>
+<tr class="memitem:gab9680a69d58165012e6b3c102d6cec69" id="r_gab9680a69d58165012e6b3c102d6cec69"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#gab9680a69d58165012e6b3c102d6cec69">MOUSE_ENABLE_DATA_REPORTING</a>&#160;&#160;&#160;0xF4</td></tr>
+<tr class="memitem:ga841cebcb7d56f8cc3505c202865f3dc2" id="r_ga841cebcb7d56f8cc3505c202865f3dc2"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="group___k_b_c.html#ga841cebcb7d56f8cc3505c202865f3dc2">MOUSE_DISABLE_DATA_REPORTING</a>&#160;&#160;&#160;0xF5</td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Descrição detalhada</h2>
+<div class="textblock"><p>Constantes e macros para programação do KBC (Keyboard Controller). </p>
+</div></div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_c9e20c30cf5906fba8f787a8f1a04eec.html">structures</a></li><li class="navelem"><a href="dir_62b269930b4584fbd0b2853ce7654eef.html">includes</a></li><li class="navelem"><a href="dir_03b3b377c6c654b8ecc8df6530ef1e27.html">drivers</a></li><li class="navelem"><a href="i8042_8h.html">i8042.h</a></li>
+    <li class="footer">Gerado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,3495 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Guitar Hero LCOM: Main Loop</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="codefolding.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default';
+mermaid.initialize({ startOnLoad: true, theme: theme });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Guitar Hero LCOM<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">LCOM 2026 Project - Guitar Hero Visual Application</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.17.0 -->
+<script type="text/javascript">
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
+});
+</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Localizar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('group___main_loop.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Carregando...</div>
+<div class="SRStatus" id="Searching">Procurando...</div>
+<div class="SRStatus" id="NoMatches">Nenhuma entrada encontrada</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Main Loop </div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Orquestração do ciclo de eventos e gestão global do jogo.  
+<a href="#details">Mais...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-define-members" class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ga69c53c43b881fb25e351743576ec9476" id="r_ga69c53c43b881fb25e351743576ec9476"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga69c53c43b881fb25e351743576ec9476">DEBUG_GAME_LOG</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memitem:ga5c8ef3c24dad2c469a42784a9a39403b" id="r_ga5c8ef3c24dad2c469a42784a9a39403b"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga5c8ef3c24dad2c469a42784a9a39403b">DEBUG_PRINTF</a>(...)</td></tr>
+<tr class="memitem:ga2cf38e1cf676620c959917828e2eac9d" id="r_ga2cf38e1cf676620c959917828e2eac9d"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga2cf38e1cf676620c959917828e2eac9d">MAX_HEALTH</a>&#160;&#160;&#160;20</td></tr>
+<tr class="memitem:ga1ce7e60d38e3fa2954e8cdc014b27a89" id="r_ga1ce7e60d38e3fa2954e8cdc014b27a89"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga1ce7e60d38e3fa2954e8cdc014b27a89">AUDIO_QUEUE_SIZE</a>&#160;&#160;&#160;32</td></tr>
+<tr class="memitem:ga08fabbe9f1b0c43dc66af8f08f0ed290" id="r_ga08fabbe9f1b0c43dc66af8f08f0ed290"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga08fabbe9f1b0c43dc66af8f08f0ed290">SCORE_BASE_POINTS</a>&#160;&#160;&#160;10</td></tr>
+<tr class="memitem:gac196a0f90504bc1753403824ca30e7c4" id="r_gac196a0f90504bc1753403824ca30e7c4"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#gac196a0f90504bc1753403824ca30e7c4">SCORE_TIER_2_COMBO</a>&#160;&#160;&#160;4</td></tr>
+<tr class="memitem:ga7f6a13d5a4c649343ff53a3a17fe2209" id="r_ga7f6a13d5a4c649343ff53a3a17fe2209"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga7f6a13d5a4c649343ff53a3a17fe2209">SCORE_TIER_3_COMBO</a>&#160;&#160;&#160;12</td></tr>
+<tr class="memitem:ga0cf50160d72de6392c21aa221350f7be" id="r_ga0cf50160d72de6392c21aa221350f7be"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga0cf50160d72de6392c21aa221350f7be">SCORE_TIER_4_COMBO</a>&#160;&#160;&#160;24</td></tr>
+<tr class="memitem:ga3e750dd61c830e2ea4c6fd6a33c31ced" id="r_ga3e750dd61c830e2ea4c6fd6a33c31ced"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga3e750dd61c830e2ea4c6fd6a33c31ced">SCORE_TIER_5_COMBO</a>&#160;&#160;&#160;40</td></tr>
+<tr class="memitem:ga33aa421fd3c2491284a71ad577933fd0" id="r_ga33aa421fd3c2491284a71ad577933fd0"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga33aa421fd3c2491284a71ad577933fd0">A_MAKE_CODE</a>&#160;&#160;&#160;0x1E</td></tr>
+<tr class="memitem:ga05c2d71abe8bdd210f3424fd7615a59e" id="r_ga05c2d71abe8bdd210f3424fd7615a59e"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga05c2d71abe8bdd210f3424fd7615a59e">S_MAKE_CODE</a>&#160;&#160;&#160;0x1F</td></tr>
+<tr class="memitem:ga23f867dcf757da71f03cbe28e41ed98d" id="r_ga23f867dcf757da71f03cbe28e41ed98d"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga23f867dcf757da71f03cbe28e41ed98d">D_MAKE_CODE</a>&#160;&#160;&#160;0x20</td></tr>
+<tr class="memitem:ga0823e993896c17f67ba880adfd41c086" id="r_ga0823e993896c17f67ba880adfd41c086"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga0823e993896c17f67ba880adfd41c086">F_MAKE_CODE</a>&#160;&#160;&#160;0x21</td></tr>
+<tr class="memitem:gae2326ef6adfa52b808ff427fac5c7edf" id="r_gae2326ef6adfa52b808ff427fac5c7edf"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#gae2326ef6adfa52b808ff427fac5c7edf">ESC_MAKE_CODE</a>&#160;&#160;&#160;0x01</td></tr>
+<tr class="memitem:gadcfcf0c1423d68343801fcc959c86b17" id="r_gadcfcf0c1423d68343801fcc959c86b17"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#gadcfcf0c1423d68343801fcc959c86b17">ENTER_MAKE_CODE</a>&#160;&#160;&#160;0x1C</td></tr>
+<tr class="memitem:ga610946b208f80103ffdc12ef03e2a94a" id="r_ga610946b208f80103ffdc12ef03e2a94a"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga610946b208f80103ffdc12ef03e2a94a">BACKSPACE_MAKE_CODE</a>&#160;&#160;&#160;0x0E</td></tr>
+<tr class="memitem:gac55d787c43edf51cb57996414f6dc0e1" id="r_gac55d787c43edf51cb57996414f6dc0e1"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#gac55d787c43edf51cb57996414f6dc0e1">PAUSE_PANEL_X</a>&#160;&#160;&#160;230</td></tr>
+<tr class="memitem:ga9eb2033ba99bb8431265a184f7598606" id="r_ga9eb2033ba99bb8431265a184f7598606"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga9eb2033ba99bb8431265a184f7598606">PAUSE_PANEL_Y</a>&#160;&#160;&#160;140</td></tr>
+<tr class="memitem:gadfebc8460eb7809afca3cad8220062b1" id="r_gadfebc8460eb7809afca3cad8220062b1"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#gadfebc8460eb7809afca3cad8220062b1">PAUSE_PANEL_W</a>&#160;&#160;&#160;340</td></tr>
+<tr class="memitem:ga8df560086857d24e1b4068c95a880f01" id="r_ga8df560086857d24e1b4068c95a880f01"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga8df560086857d24e1b4068c95a880f01">PAUSE_PANEL_H</a>&#160;&#160;&#160;340</td></tr>
+<tr class="memitem:ga3613ba207d4545cd69649c154c048865" id="r_ga3613ba207d4545cd69649c154c048865"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga3613ba207d4545cd69649c154c048865">PAUSE_BTN_W</a>&#160;&#160;&#160;220</td></tr>
+<tr class="memitem:ga9ca6aa74eaf9c16558211896b446411f" id="r_ga9ca6aa74eaf9c16558211896b446411f"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga9ca6aa74eaf9c16558211896b446411f">PAUSE_BTN_H</a>&#160;&#160;&#160;60</td></tr>
+<tr class="memitem:ga4a9d6a6f7edc07fd7a7e97e6a53bbd18" id="r_ga4a9d6a6f7edc07fd7a7e97e6a53bbd18"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga4a9d6a6f7edc07fd7a7e97e6a53bbd18">PAUSE_RESUME_X</a>&#160;&#160;&#160;290</td></tr>
+<tr class="memitem:ga48e5b9cef27415aaa2a83da22bf4b115" id="r_ga48e5b9cef27415aaa2a83da22bf4b115"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga48e5b9cef27415aaa2a83da22bf4b115">PAUSE_RESUME_Y</a>&#160;&#160;&#160;260</td></tr>
+<tr class="memitem:ga658238769732d182ec62d42a8d57e28a" id="r_ga658238769732d182ec62d42a8d57e28a"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga658238769732d182ec62d42a8d57e28a">PAUSE_QUIT_X</a>&#160;&#160;&#160;290</td></tr>
+<tr class="memitem:gaec54bcd93a2f6c6c4452d6f0d1a5b86b" id="r_gaec54bcd93a2f6c6c4452d6f0d1a5b86b"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#gaec54bcd93a2f6c6c4452d6f0d1a5b86b">PAUSE_QUIT_Y</a>&#160;&#160;&#160;340</td></tr>
+<tr class="memitem:gab36161eeefa4c6abfce73f120a28a115" id="r_gab36161eeefa4c6abfce73f120a28a115"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#gab36161eeefa4c6abfce73f120a28a115">G_MAKE_CODE</a>&#160;&#160;&#160;0x22</td></tr>
+<tr class="memitem:gaca5a2a8c98ddcafa9be90b92eab2693f" id="r_gaca5a2a8c98ddcafa9be90b92eab2693f"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#gaca5a2a8c98ddcafa9be90b92eab2693f">USERNAME_BACK_X</a>&#160;&#160;&#160;140</td></tr>
+<tr class="memitem:gab87a38495b0933f2c70bd2bda9d4ecd4" id="r_gab87a38495b0933f2c70bd2bda9d4ecd4"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#gab87a38495b0933f2c70bd2bda9d4ecd4">USERNAME_BACK_Y</a>&#160;&#160;&#160;460</td></tr>
+<tr class="memitem:ga19a12755fce60c89ac47f8ceb7e1c16b" id="r_ga19a12755fce60c89ac47f8ceb7e1c16b"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga19a12755fce60c89ac47f8ceb7e1c16b">USERNAME_DONE_X</a>&#160;&#160;&#160;500</td></tr>
+<tr class="memitem:ga46fe1acd51cd18e7594796990ee0d9a2" id="r_ga46fe1acd51cd18e7594796990ee0d9a2"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga46fe1acd51cd18e7594796990ee0d9a2">USERNAME_DONE_Y</a>&#160;&#160;&#160;460</td></tr>
+<tr class="memitem:ga409b3adc9aeba4c71839bc5de1b217d0" id="r_ga409b3adc9aeba4c71839bc5de1b217d0"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga409b3adc9aeba4c71839bc5de1b217d0">USERNAME_BTN_W</a>&#160;&#160;&#160;160</td></tr>
+<tr class="memitem:ga0ba8fd272f25fe10263200b12e141056" id="r_ga0ba8fd272f25fe10263200b12e141056"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga0ba8fd272f25fe10263200b12e141056">USERNAME_BTN_H</a>&#160;&#160;&#160;60</td></tr>
+<tr class="memitem:gab4e0e05209ae73d7eddc4c8cf1d22419" id="r_gab4e0e05209ae73d7eddc4c8cf1d22419"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#gab4e0e05209ae73d7eddc4c8cf1d22419">LEADERBOARD_BACK_X</a>&#160;&#160;&#160;300</td></tr>
+<tr class="memitem:ga846be68dca354d35b58ada041f840642" id="r_ga846be68dca354d35b58ada041f840642"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga846be68dca354d35b58ada041f840642">LEADERBOARD_BACK_Y</a>&#160;&#160;&#160;530</td></tr>
+<tr class="memitem:ga786a31a5f55ba7642c42e438bf6f37e0" id="r_ga786a31a5f55ba7642c42e438bf6f37e0"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ga786a31a5f55ba7642c42e438bf6f37e0">LEADERBOARD_BACK_W</a>&#160;&#160;&#160;200</td></tr>
+<tr class="memitem:gae2a5be306cc93795d674785be788636b" id="r_gae2a5be306cc93795d674785be788636b"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#gae2a5be306cc93795d674785be788636b">LEADERBOARD_BACK_H</a>&#160;&#160;&#160;50</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Funções</h2></td></tr>
+<tr class="memitem:ga6f6c9332db9f6cdaeeb60612008ffcfb" id="r_ga6f6c9332db9f6cdaeeb60612008ffcfb"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#ga6f6c9332db9f6cdaeeb60612008ffcfb">write_log</a> (const char *format,...)</td></tr>
+<tr class="memitem:ga8a2730df6b18cef284d3737c3f42d42e" id="r_ga8a2730df6b18cef284d3737c3f42d42e"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#ga8a2730df6b18cef284d3737c3f42d42e">clamp_mouse_position</a> (void)</td></tr>
+<tr class="memitem:gaa2813dae21d7d054df22db207d861ff5" id="r_gaa2813dae21d7d054df22db207d861ff5"><td class="memItemLeft">static bool&#160;</td><td class="memItemRight"><a class="el" href="#gaa2813dae21d7d054df22db207d861ff5">is_menu_state</a> (<a class="el" href="group___menu.html#ga7899b65f1ea0f655e4bbf8d2a5714285">GameState</a> state)</td></tr>
+<tr class="memitem:ga4544d5b4c3046bc774c6df565c1a6f05" id="r_ga4544d5b4c3046bc774c6df565c1a6f05"><td class="memItemLeft">static bool&#160;</td><td class="memItemRight"><a class="el" href="#ga4544d5b4c3046bc774c6df565c1a6f05">mouse_packet_has_input</a> (const struct packet *packet)</td></tr>
+<tr class="memitem:ga9459c70951b53cecbae533a8526c557e" id="r_ga9459c70951b53cecbae533a8526c557e"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#ga9459c70951b53cecbae533a8526c557e">lane_from_make_code</a> (uint8_t make_code)</td></tr>
+<tr class="memitem:ga9c50fbba1cb984ec8d8eae6735508c58" id="r_ga9c50fbba1cb984ec8d8eae6735508c58"><td class="memItemLeft">static bool&#160;</td><td class="memItemRight"><a class="el" href="#ga9c50fbba1cb984ec8d8eae6735508c58">note_collides_with_hit_zone</a> (const <a class="el" href="struct_note.html">Note</a> *note)</td></tr>
+<tr class="memitem:ga3440b48caf8b303e7c02d0fdf22978a1" id="r_ga3440b48caf8b303e7c02d0fdf22978a1"><td class="memItemLeft">static bool&#160;</td><td class="memItemRight"><a class="el" href="#ga3440b48caf8b303e7c02d0fdf22978a1">uart_send_audio_event</a> (bool uart_ready, uint8_t event_byte, const char *event_name)</td></tr>
+<tr class="memitem:ga482f4e2a226eeae8d4ced07f3128a1f8" id="r_ga482f4e2a226eeae8d4ced07f3128a1f8"><td class="memItemLeft">static bool&#160;</td><td class="memItemRight"><a class="el" href="#ga482f4e2a226eeae8d4ced07f3128a1f8">audio_queue_empty</a> (void)</td></tr>
+<tr class="memitem:gad8d1fc29ca07312f09060b600580cc4a" id="r_gad8d1fc29ca07312f09060b600580cc4a"><td class="memItemLeft">static bool&#160;</td><td class="memItemRight"><a class="el" href="#gad8d1fc29ca07312f09060b600580cc4a">audio_queue_full</a> (void)</td></tr>
+<tr class="memitem:ga04af156c583720c91acd635ecd588ba5" id="r_ga04af156c583720c91acd635ecd588ba5"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#ga04af156c583720c91acd635ecd588ba5">clear_audio_queue</a> (void)</td></tr>
+<tr class="memitem:gab12fdfc1f50825446965d1373637376d" id="r_gab12fdfc1f50825446965d1373637376d"><td class="memItemLeft">static bool&#160;</td><td class="memItemRight"><a class="el" href="#gab12fdfc1f50825446965d1373637376d">queue_audio_event</a> (uint8_t event_byte)</td></tr>
+<tr class="memitem:gaa2895ab37d01ec80d0b2a9704992a7ef" id="r_gaa2895ab37d01ec80d0b2a9704992a7ef"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#gaa2895ab37d01ec80d0b2a9704992a7ef">flush_audio_events</a> (bool uart_ready)</td></tr>
+<tr class="memitem:ga0e1fa8559adf1ecb80ec87880cfca1ab" id="r_ga0e1fa8559adf1ecb80ec87880cfca1ab"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#ga0e1fa8559adf1ecb80ec87880cfca1ab">reset_lane_key_state</a> (void)</td></tr>
+<tr class="memitem:ga670f761147a96459883b090cce15833a" id="r_ga670f761147a96459883b090cce15833a"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#ga670f761147a96459883b090cce15833a">points_for_combo_hit</a> (int combo_after_hit)</td></tr>
+<tr class="memitem:gaf58c22e4d83f4d3a2dfd6a7f72c92967" id="r_gaf58c22e4d83f4d3a2dfd6a7f72c92967"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#gaf58c22e4d83f4d3a2dfd6a7f72c92967">reset_score</a> (void)</td></tr>
+<tr class="memitem:ga055622b7ae4ca17484bee22717d0fa00" id="r_ga055622b7ae4ca17484bee22717d0fa00"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#ga055622b7ae4ca17484bee22717d0fa00">register_hit_score</a> (void)</td></tr>
+<tr class="memitem:ga5878308d9d835451b0be1f0b20738307" id="r_ga5878308d9d835451b0be1f0b20738307"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#ga5878308d9d835451b0be1f0b20738307">save_final_score</a> (void)</td></tr>
+<tr class="memitem:gaac3a9dd2fd7fc37f9d118c6cf6c5dfa2" id="r_gaac3a9dd2fd7fc37f9d118c6cf6c5dfa2"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#gaac3a9dd2fd7fc37f9d118c6cf6c5dfa2">register_miss_score</a> (void)</td></tr>
+<tr class="memitem:ga1072fce9ad8ea7dd6af5e46565e860f2" id="r_ga1072fce9ad8ea7dd6af5e46565e860f2"><td class="memItemLeft">static bool&#160;</td><td class="memItemRight"><a class="el" href="#ga1072fce9ad8ea7dd6af5e46565e860f2">any_active_notes</a> (void)</td></tr>
+<tr class="memitem:gaad467f63d92c6cbd1e0a35443c957963" id="r_gaad467f63d92c6cbd1e0a35443c957963"><td class="memItemLeft">static const uint8_t *&#160;</td><td class="memItemRight"><a class="el" href="#gaad467f63d92c6cbd1e0a35443c957963">glyph_for_char</a> (char c)</td></tr>
+<tr class="memitem:ga21a0bbb3081525326fa469c3dd77d00e" id="r_ga21a0bbb3081525326fa469c3dd77d00e"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#ga21a0bbb3081525326fa469c3dd77d00e">text_width_pixels</a> (const char *text, int scale)</td></tr>
+<tr class="memitem:ga662a308818bde4a60e2bc9f2999b1846" id="r_ga662a308818bde4a60e2bc9f2999b1846"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#ga662a308818bde4a60e2bc9f2999b1846">draw_text</a> (int x, int y, const char *text, int scale, uint32_t color)</td></tr>
+<tr class="memitem:gabe6e6c061059dad8fbcda2a1427b3088" id="r_gabe6e6c061059dad8fbcda2a1427b3088"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#gabe6e6c061059dad8fbcda2a1427b3088">draw_text_centered</a> (int center_x, int y, const char *text, int scale, uint32_t color)</td></tr>
+<tr class="memitem:ga06ac7bba92b69fda11856e8e85223bea" id="r_ga06ac7bba92b69fda11856e8e85223bea"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#ga06ac7bba92b69fda11856e8e85223bea">draw_border_main</a> (int x, int y, int w, int h, uint32_t color, int thickness)</td></tr>
+<tr class="memitem:ga7bd7ff7f50291888ca0a3e5563b72cd4" id="r_ga7bd7ff7f50291888ca0a3e5563b72cd4"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#ga7bd7ff7f50291888ca0a3e5563b72cd4">update_score_hud_cache</a> (void)</td></tr>
+<tr class="memitem:gafc4ee9aaaee2c7568e4977a5de4927a2" id="r_gafc4ee9aaaee2c7568e4977a5de4927a2"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#gafc4ee9aaaee2c7568e4977a5de4927a2">draw_score_hud</a> (void)</td></tr>
+<tr class="memitem:gaf90926c08d4664529dc5bead9dfdcd65" id="r_gaf90926c08d4664529dc5bead9dfdcd65"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#gaf90926c08d4664529dc5bead9dfdcd65">draw_leaderboard_summary</a> (void)</td></tr>
+<tr class="memitem:gabb7b4b6990ae30e62f40d9d114f0b93d" id="r_gabb7b4b6990ae30e62f40d9d114f0b93d"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#gabb7b4b6990ae30e62f40d9d114f0b93d">draw_health_bar</a> (void)</td></tr>
+<tr class="memitem:ga9e89b1afd19dd16af5070f706ea21265" id="r_ga9e89b1afd19dd16af5070f706ea21265"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#ga9e89b1afd19dd16af5070f706ea21265">draw_progress_bar</a> (uint32_t elapsed_ticks)</td></tr>
+<tr class="memitem:ga798002b77e07f52a300c6a9ba4fbf20b" id="r_ga798002b77e07f52a300c6a9ba4fbf20b"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#ga798002b77e07f52a300c6a9ba4fbf20b">draw_game_over_screen</a> (const uint32_t *bg_map, xpm_image_t bg_img)</td></tr>
+<tr class="memitem:ga0f3e2800aefcbf60110444b26db2ca8e" id="r_ga0f3e2800aefcbf60110444b26db2ca8e"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#ga0f3e2800aefcbf60110444b26db2ca8e">reset_username_entry</a> (void)</td></tr>
+<tr class="memitem:ga00ce63e305572492de6e7a67b0926de2" id="r_ga00ce63e305572492de6e7a67b0926de2"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#ga00ce63e305572492de6e7a67b0926de2">accept_username_entry</a> (void)</td></tr>
+<tr class="memitem:gaa35c2cc6f822a021ae0960f4feb00e85" id="r_gaa35c2cc6f822a021ae0960f4feb00e85"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#gaa35c2cc6f822a021ae0960f4feb00e85">draw_neo_btn</a> (int x, int y, int w, int h, uint32_t bg_color, bool hovered)</td></tr>
+<tr class="memitem:gae752003e66e5742cf3bd4a2ceff22141" id="r_gae752003e66e5742cf3bd4a2ceff22141"><td class="memItemLeft">static char&#160;</td><td class="memItemRight"><a class="el" href="#gae752003e66e5742cf3bd4a2ceff22141">username_char_from_make_code</a> (uint8_t make_code)</td></tr>
+<tr class="memitem:ga015c6108c0949208966e7d8a5c504875" id="r_ga015c6108c0949208966e7d8a5c504875"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#ga015c6108c0949208966e7d8a5c504875">handle_username_key</a> (uint8_t scancode)</td></tr>
+<tr class="memitem:gac63221be7963ece7895ecabe4e2485d4" id="r_gac63221be7963ece7895ecabe4e2485d4"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#gac63221be7963ece7895ecabe4e2485d4">draw_username_entry_screen</a> (const uint32_t *bg_map, xpm_image_t bg_img)</td></tr>
+<tr class="memitem:gab51749f222425d66d7727feeca625149" id="r_gab51749f222425d66d7727feeca625149"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#gab51749f222425d66d7727feeca625149">draw_leaderboard_screen</a> (const uint32_t *bg_map, xpm_image_t bg_img)</td></tr>
+<tr class="memitem:ga677665e8509c92e0bea710da1b6a7f7b" id="r_ga677665e8509c92e0bea710da1b6a7f7b"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#ga677665e8509c92e0bea710da1b6a7f7b">draw_play_frame</a> (const uint32_t *bg_map, xpm_image_t bg_img, xpm_image_t img_notas[<a class="el" href="group___game.html#ga83f67751a7904339f2d67104067a9aac">NUM_LANES</a>], uint32_t *mapas_notas[<a class="el" href="group___game.html#ga83f67751a7904339f2d67104067a9aac">NUM_LANES</a>], const uint32_t cores_pistas[<a class="el" href="group___game.html#ga83f67751a7904339f2d67104067a9aac">NUM_LANES</a>], uint32_t elapsed_ticks, bool animate_effects)</td></tr>
+<tr class="memitem:ga639431714666f8531bcef0d3b4b25f5d" id="r_ga639431714666f8531bcef0d3b4b25f5d"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#ga639431714666f8531bcef0d3b4b25f5d">change_volume</a> (bool increase, bool uart_ready)</td></tr>
+<tr class="memitem:ga6fdf127fdc2e5a7120927bcaa7eea552" id="r_ga6fdf127fdc2e5a7120927bcaa7eea552"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#ga6fdf127fdc2e5a7120927bcaa7eea552">draw_pause_menu</a> (int mouse_x, int mouse_y)</td></tr>
+<tr class="memitem:ga4bfc24f2eb1297eb0954112087df0bd5" id="r_ga4bfc24f2eb1297eb0954112087df0bd5"><td class="memItemLeft">static bool&#160;</td><td class="memItemRight"><a class="el" href="#ga4bfc24f2eb1297eb0954112087df0bd5">pause_resume_clicked</a> (int mouse_x, int mouse_y)</td></tr>
+<tr class="memitem:gac80d525216eadcf5b0d28ce5c4de1181" id="r_gac80d525216eadcf5b0d28ce5c4de1181"><td class="memItemLeft">static bool&#160;</td><td class="memItemRight"><a class="el" href="#gac80d525216eadcf5b0d28ce5c4de1181">pause_quit_clicked</a> (int mouse_x, int mouse_y)</td></tr>
+<tr class="memitem:ga1fc864af926e7989d0a1a3cdea5a738f" id="r_ga1fc864af926e7989d0a1a3cdea5a738f"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#ga1fc864af926e7989d0a1a3cdea5a738f">finish_current_run</a> (bool uart_ready)</td></tr>
+<tr class="memitem:ga616224e8f01f8ccbfdf8a6b1400c54b2" id="r_ga616224e8f01f8ccbfdf8a6b1400c54b2"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#ga616224e8f01f8ccbfdf8a6b1400c54b2">enter_pause</a> (bool uart_ready)</td></tr>
+<tr class="memitem:ga3f123e3c0b53a9d9d9e862f1c14eaa3d" id="r_ga3f123e3c0b53a9d9d9e862f1c14eaa3d"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#ga3f123e3c0b53a9d9d9e862f1c14eaa3d">resume_paused_run</a> (bool uart_ready)</td></tr>
+<tr class="memitem:gac80c13224a0d0502c0bb7114b1e2c191" id="r_gac80c13224a0d0502c0bb7114b1e2c191"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#gac80c13224a0d0502c0bb7114b1e2c191">quit_paused_run</a> (bool uart_ready)</td></tr>
+<tr class="memitem:ga59c2a193edbf58e2c2d51510e247328a" id="r_ga59c2a193edbf58e2c2d51510e247328a"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#ga59c2a193edbf58e2c2d51510e247328a">try_hit_note</a> (uint8_t make_code)</td></tr>
+<tr class="memitem:ga3bf6dcbf222a1336d22f2dae7be80300" id="r_ga3bf6dcbf222a1336d22f2dae7be80300"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#ga3bf6dcbf222a1336d22f2dae7be80300">handle_play_key</a> (uint8_t scancode)</td></tr>
+<tr class="memitem:ga0ddf1224851353fc92bfbff6f499fa97" id="r_ga0ddf1224851353fc92bfbff6f499fa97"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ga0ddf1224851353fc92bfbff6f499fa97">main</a> (int argc, char *argv[])</td></tr>
+<tr class="memitem:ga7ccd6321c8cfbdd3a83e0be56d15f461" id="r_ga7ccd6321c8cfbdd3a83e0be56d15f461"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#ga7ccd6321c8cfbdd3a83e0be56d15f461">draw_loading_progress</a> (int current, int total)</td></tr>
+<tr class="memitem:ga7a72220d8366dd84709e79ce415862e5" id="r_ga7a72220d8366dd84709e79ce415862e5"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ga7a72220d8366dd84709e79ce415862e5">proj_main_loop</a> (int argc, char *argv[])</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
+Variáveis</h2></td></tr>
+<tr class="memitem:ga4ec79c7a92ad220b5bf1daa87814f869" id="r_ga4ec79c7a92ad220b5bf1daa87814f869"><td class="memItemLeft">uint32_t&#160;</td><td class="memItemRight"><a class="el" href="#ga4ec79c7a92ad220b5bf1daa87814f869">no_interrupts</a></td></tr>
+<tr class="memitem:ga14fc76cf1de7622f19982222234aeec4" id="r_ga14fc76cf1de7622f19982222234aeec4"><td class="memItemLeft"><a class="el" href="struct_note.html">Note</a>&#160;</td><td class="memItemRight"><a class="el" href="#ga14fc76cf1de7622f19982222234aeec4">notes</a> []</td></tr>
+<tr class="memitem:ga9ec54e2aa502fb09b2d3c045ced816d5" id="r_ga9ec54e2aa502fb09b2d3c045ced816d5"><td class="memItemLeft">static <a class="el" href="struct_beatmap_entry.html">BeatmapEntry</a>&#160;</td><td class="memItemRight"><a class="el" href="#ga9ec54e2aa502fb09b2d3c045ced816d5">beatmap</a> [<a class="el" href="group___beatmap_loader.html#ga97b9a46c8f5b4495b6a59b72f38f574f">BEATMAP_MAX_NOTES</a>]</td></tr>
+<tr class="memitem:gafb2a20020f105c1bb21696abd6db23a1" id="r_gafb2a20020f105c1bb21696abd6db23a1"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#gafb2a20020f105c1bb21696abd6db23a1">beatmap_count</a> = 0</td></tr>
+<tr class="memitem:ga02ce9c5bde467489072cbde68b004ab9" id="r_ga02ce9c5bde467489072cbde68b004ab9"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#ga02ce9c5bde467489072cbde68b004ab9">current_note_idx</a> = 0</td></tr>
+<tr class="memitem:ga389cdd727088bf0c758fdfa4154b5228" id="r_ga389cdd727088bf0c758fdfa4154b5228"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#ga389cdd727088bf0c758fdfa4154b5228">hit_effect_frames</a> [5] = {0, 0, 0, 0, 0}</td></tr>
+<tr class="memitem:ga5eb1c8ad7d93c1562359f468931708f3" id="r_ga5eb1c8ad7d93c1562359f468931708f3"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#ga5eb1c8ad7d93c1562359f468931708f3">miss_effect_frames</a> [5] = {0, 0, 0, 0, 0}</td></tr>
+<tr class="memitem:gaef160b7437d94056f1dc59646cd5b87d" id="r_gaef160b7437d94056f1dc59646cd5b87d"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#gaef160b7437d94056f1dc59646cd5b87d">score</a> = 0</td></tr>
+<tr class="memitem:ga289928528fff2f84b055e2cf4a74ba0f" id="r_ga289928528fff2f84b055e2cf4a74ba0f"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#ga289928528fff2f84b055e2cf4a74ba0f">combo_hits</a> = 0</td></tr>
+<tr class="memitem:gad2383cd9f7346fdce340816355f001d5" id="r_gad2383cd9f7346fdce340816355f001d5"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#gad2383cd9f7346fdce340816355f001d5">best_combo</a> = 0</td></tr>
+<tr class="memitem:gaf41ab9d82ed9b3c9a46ed66a08013043" id="r_gaf41ab9d82ed9b3c9a46ed66a08013043"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#gaf41ab9d82ed9b3c9a46ed66a08013043">session_best_score</a> = 0</td></tr>
+<tr class="memitem:gaf238f9c41918371ac712d79607a7f200" id="r_gaf238f9c41918371ac712d79607a7f200"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#gaf238f9c41918371ac712d79607a7f200">session_best_combo</a> = 0</td></tr>
+<tr class="memitem:ga16aa4b953ace61e48c3b00aac8ba1d53" id="r_ga16aa4b953ace61e48c3b00aac8ba1d53"><td class="memItemLeft">static char&#160;</td><td class="memItemRight"><a class="el" href="#ga16aa4b953ace61e48c3b00aac8ba1d53">score_text</a> [16] = &quot;0&quot;</td></tr>
+<tr class="memitem:ga474dbf74acf5225bb2371a1b1242e9bd" id="r_ga474dbf74acf5225bb2371a1b1242e9bd"><td class="memItemLeft">static char&#160;</td><td class="memItemRight"><a class="el" href="#ga474dbf74acf5225bb2371a1b1242e9bd">combo_text</a> [16] = &quot;0X&quot;</td></tr>
+<tr class="memitem:ga5a4f1375357f8319bdb4eb5521e3204b" id="r_ga5a4f1375357f8319bdb4eb5521e3204b"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#ga5a4f1375357f8319bdb4eb5521e3204b">player_health</a> = <a class="el" href="#ga2cf38e1cf676620c959917828e2eac9d">MAX_HEALTH</a></td></tr>
+<tr class="memitem:gaf327b49c95291990111b11969422ad10" id="r_gaf327b49c95291990111b11969422ad10"><td class="memItemLeft">static bool&#160;</td><td class="memItemRight"><a class="el" href="#gaf327b49c95291990111b11969422ad10">score_hud_dirty</a> = true</td></tr>
+<tr class="memitem:ga2a7ff7871fd89fde61aefd7d9d133000" id="r_ga2a7ff7871fd89fde61aefd7d9d133000"><td class="memItemLeft">static bool&#160;</td><td class="memItemRight"><a class="el" href="#ga2a7ff7871fd89fde61aefd7d9d133000">lane_key_down</a> [<a class="el" href="group___game.html#ga83f67751a7904339f2d67104067a9aac">NUM_LANES</a>] = {false}</td></tr>
+<tr class="memitem:ga2dada1981e29d5b7516699a178b26da8" id="r_ga2dada1981e29d5b7516699a178b26da8"><td class="memItemLeft">static char&#160;</td><td class="memItemRight"><a class="el" href="#ga2dada1981e29d5b7516699a178b26da8">current_username</a> [<a class="el" href="group___leaderboard.html#gae998797620e9bb9ecfde43bb95135ebb">LEADERBOARD_USERNAME_MAX</a>] = &quot;PLAYER&quot;</td></tr>
+<tr class="memitem:ga3c471770d7a384fe5a84bd37df932d4d" id="r_ga3c471770d7a384fe5a84bd37df932d4d"><td class="memItemLeft">static char&#160;</td><td class="memItemRight"><a class="el" href="#ga3c471770d7a384fe5a84bd37df932d4d">username_edit_buffer</a> [<a class="el" href="group___leaderboard.html#gae998797620e9bb9ecfde43bb95135ebb">LEADERBOARD_USERNAME_MAX</a>] = &quot;&quot;</td></tr>
+<tr class="memitem:ga82fefc0719865656b946bdec6b7b8ac3" id="r_ga82fefc0719865656b946bdec6b7b8ac3"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#ga82fefc0719865656b946bdec6b7b8ac3">username_edit_length</a> = 0</td></tr>
+<tr class="memitem:gafdd2ebf8a2162b5547d1606aaa9d8280" id="r_gafdd2ebf8a2162b5547d1606aaa9d8280"><td class="memItemLeft">static uint32_t&#160;</td><td class="memItemRight"><a class="el" href="#gafdd2ebf8a2162b5547d1606aaa9d8280">pause_start_tick</a> = 0</td></tr>
+<tr class="memitem:ga8f3e4694bf144989aff3df0d34b0f19e" id="r_ga8f3e4694bf144989aff3df0d34b0f19e"><td class="memItemLeft">static uint32_t&#160;</td><td class="memItemRight"><a class="el" href="#ga8f3e4694bf144989aff3df0d34b0f19e">pause_elapsed_ticks</a> = 0</td></tr>
+<tr class="memitem:ga01e04f2901db3e679d8c8fd0d4c5a289" id="r_ga01e04f2901db3e679d8c8fd0d4c5a289"><td class="memItemLeft">static bool&#160;</td><td class="memItemRight"><a class="el" href="#ga01e04f2901db3e679d8c8fd0d4c5a289">hover_pause_resume</a> = false</td></tr>
+<tr class="memitem:ga4c86211e938261542bcb2ab1d20b9e16" id="r_ga4c86211e938261542bcb2ab1d20b9e16"><td class="memItemLeft">static bool&#160;</td><td class="memItemRight"><a class="el" href="#ga4c86211e938261542bcb2ab1d20b9e16">hover_pause_quit</a> = false</td></tr>
+<tr class="memitem:ga21c01d439880365221e594161817a351" id="r_ga21c01d439880365221e594161817a351"><td class="memItemLeft">static bool&#160;</td><td class="memItemRight"><a class="el" href="#ga21c01d439880365221e594161817a351">hover_pause_vol_down</a> = false</td></tr>
+<tr class="memitem:gaa41b2f51fc48c91b845438cea87bd462" id="r_gaa41b2f51fc48c91b845438cea87bd462"><td class="memItemLeft">static bool&#160;</td><td class="memItemRight"><a class="el" href="#gaa41b2f51fc48c91b845438cea87bd462">hover_pause_vol_up</a> = false</td></tr>
+<tr class="memitem:ga9ff851ba762957f86f478c2facc0cd42" id="r_ga9ff851ba762957f86f478c2facc0cd42"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#ga9ff851ba762957f86f478c2facc0cd42">volume_percent</a> = 50</td></tr>
+<tr class="memitem:gae3c50768a48444edb267609bebdb450f" id="r_gae3c50768a48444edb267609bebdb450f"><td class="memItemLeft">static uint8_t&#160;</td><td class="memItemRight"><a class="el" href="#gae3c50768a48444edb267609bebdb450f">audio_queue</a> [<a class="el" href="#ga1ce7e60d38e3fa2954e8cdc014b27a89">AUDIO_QUEUE_SIZE</a>]</td></tr>
+<tr class="memitem:ga38c673b220814bac67522b3544a7f906" id="r_ga38c673b220814bac67522b3544a7f906"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#ga38c673b220814bac67522b3544a7f906">audio_q_head</a> = 0</td></tr>
+<tr class="memitem:ga8b312ff351a9d7eb0c7d6cd699bc9691" id="r_ga8b312ff351a9d7eb0c7d6cd699bc9691"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#ga8b312ff351a9d7eb0c7d6cd699bc9691">audio_q_tail</a> = 0</td></tr>
+<tr class="memitem:ga6ed9079283c2964b8f1c5bfccfc8727e" id="r_ga6ed9079283c2964b8f1c5bfccfc8727e"><td class="memItemLeft"><a class="el" href="group___menu.html#ga7899b65f1ea0f655e4bbf8d2a5714285">GameState</a>&#160;</td><td class="memItemRight"><a class="el" href="#ga6ed9079283c2964b8f1c5bfccfc8727e">current_state</a> = <a class="el" href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a4c40e60bc71a32b924ce1f08d57f9721">MENU</a></td></tr>
+<tr class="memitem:ga20ee628707d267ddb7acfa8976f16d49" id="r_ga20ee628707d267ddb7acfa8976f16d49"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ga20ee628707d267ddb7acfa8976f16d49">music_started</a> = false</td></tr>
+<tr class="memitem:gac40fa97163486f5a8c0f631691f55d2d" id="r_gac40fa97163486f5a8c0f631691f55d2d"><td class="memItemLeft">uint32_t&#160;</td><td class="memItemRight"><a class="el" href="#gac40fa97163486f5a8c0f631691f55d2d">play_start_tick</a> = 0</td></tr>
+<tr class="memitem:ga17cf68e95ce765ba7627cfcee6266ac8" id="r_ga17cf68e95ce765ba7627cfcee6266ac8"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ga17cf68e95ce765ba7627cfcee6266ac8">song_id</a> = 1</td></tr>
+<tr class="memdesc:ga17cf68e95ce765ba7627cfcee6266ac8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Variável que armazena a música selecionada.  <br /></td></tr>
+<tr class="memitem:ga6c59af730728bf5260ef828aea2eebee" id="r_ga6c59af730728bf5260ef828aea2eebee"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ga6c59af730728bf5260ef828aea2eebee">mouse_x</a> = 400</td></tr>
+<tr class="memitem:gab21653e455bbca86826aa5f628a5fdb2" id="r_gab21653e455bbca86826aa5f628a5fdb2"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#gab21653e455bbca86826aa5f628a5fdb2">mouse_y</a> = 500</td></tr>
+<tr class="memitem:ga27f1e15cdf1307d174c98474563e06c8" id="r_ga27f1e15cdf1307d174c98474563e06c8"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ga27f1e15cdf1307d174c98474563e06c8">kbd_gameover_idx</a> = 1</td></tr>
+<tr class="memitem:gadeb4919215bd1569bdf41c399cd0d94f" id="r_gadeb4919215bd1569bdf41c399cd0d94f"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#gadeb4919215bd1569bdf41c399cd0d94f">kbd_username_idx</a> = 2</td></tr>
+<tr class="memitem:gac0483c637527e28b7a2118027d658c18" id="r_gac0483c637527e28b7a2118027d658c18"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#gac0483c637527e28b7a2118027d658c18">kbd_leaderboard_idx</a> = 1</td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Descrição detalhada</h2>
+<div class="textblock"><p>Orquestração do ciclo de eventos e gestão global do jogo. </p>
+</div><a name="doc-define-members" id="doc-define-members"></a><h2 id="header-doc-define-members" class="groupheader">Documentação das macros</h2>
+<a id="ga33aa421fd3c2491284a71ad577933fd0" name="ga33aa421fd3c2491284a71ad577933fd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga33aa421fd3c2491284a71ad577933fd0">&#9670;&#160;</a></span>A_MAKE_CODE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define A_MAKE_CODE&#160;&#160;&#160;0x1E</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga1ce7e60d38e3fa2954e8cdc014b27a89" name="ga1ce7e60d38e3fa2954e8cdc014b27a89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1ce7e60d38e3fa2954e8cdc014b27a89">&#9670;&#160;</a></span>AUDIO_QUEUE_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define AUDIO_QUEUE_SIZE&#160;&#160;&#160;32</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga610946b208f80103ffdc12ef03e2a94a" name="ga610946b208f80103ffdc12ef03e2a94a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga610946b208f80103ffdc12ef03e2a94a">&#9670;&#160;</a></span>BACKSPACE_MAKE_CODE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BACKSPACE_MAKE_CODE&#160;&#160;&#160;0x0E</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga23f867dcf757da71f03cbe28e41ed98d" name="ga23f867dcf757da71f03cbe28e41ed98d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga23f867dcf757da71f03cbe28e41ed98d">&#9670;&#160;</a></span>D_MAKE_CODE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define D_MAKE_CODE&#160;&#160;&#160;0x20</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga69c53c43b881fb25e351743576ec9476" name="ga69c53c43b881fb25e351743576ec9476"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga69c53c43b881fb25e351743576ec9476">&#9670;&#160;</a></span>DEBUG_GAME_LOG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEBUG_GAME_LOG&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga5c8ef3c24dad2c469a42784a9a39403b" name="ga5c8ef3c24dad2c469a42784a9a39403b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5c8ef3c24dad2c469a42784a9a39403b">&#9670;&#160;</a></span>DEBUG_PRINTF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEBUG_PRINTF</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em></em></span>...</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Valor:</b><div class="fragment"><div class="line">((void) 0)</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="gadcfcf0c1423d68343801fcc959c86b17" name="gadcfcf0c1423d68343801fcc959c86b17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadcfcf0c1423d68343801fcc959c86b17">&#9670;&#160;</a></span>ENTER_MAKE_CODE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ENTER_MAKE_CODE&#160;&#160;&#160;0x1C</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gae2326ef6adfa52b808ff427fac5c7edf" name="gae2326ef6adfa52b808ff427fac5c7edf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae2326ef6adfa52b808ff427fac5c7edf">&#9670;&#160;</a></span>ESC_MAKE_CODE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ESC_MAKE_CODE&#160;&#160;&#160;0x01</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga0823e993896c17f67ba880adfd41c086" name="ga0823e993896c17f67ba880adfd41c086"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0823e993896c17f67ba880adfd41c086">&#9670;&#160;</a></span>F_MAKE_CODE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define F_MAKE_CODE&#160;&#160;&#160;0x21</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gab36161eeefa4c6abfce73f120a28a115" name="gab36161eeefa4c6abfce73f120a28a115"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab36161eeefa4c6abfce73f120a28a115">&#9670;&#160;</a></span>G_MAKE_CODE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define G_MAKE_CODE&#160;&#160;&#160;0x22</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gae2a5be306cc93795d674785be788636b" name="gae2a5be306cc93795d674785be788636b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae2a5be306cc93795d674785be788636b">&#9670;&#160;</a></span>LEADERBOARD_BACK_H</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LEADERBOARD_BACK_H&#160;&#160;&#160;50</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga786a31a5f55ba7642c42e438bf6f37e0" name="ga786a31a5f55ba7642c42e438bf6f37e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga786a31a5f55ba7642c42e438bf6f37e0">&#9670;&#160;</a></span>LEADERBOARD_BACK_W</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LEADERBOARD_BACK_W&#160;&#160;&#160;200</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gab4e0e05209ae73d7eddc4c8cf1d22419" name="gab4e0e05209ae73d7eddc4c8cf1d22419"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab4e0e05209ae73d7eddc4c8cf1d22419">&#9670;&#160;</a></span>LEADERBOARD_BACK_X</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LEADERBOARD_BACK_X&#160;&#160;&#160;300</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga846be68dca354d35b58ada041f840642" name="ga846be68dca354d35b58ada041f840642"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga846be68dca354d35b58ada041f840642">&#9670;&#160;</a></span>LEADERBOARD_BACK_Y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LEADERBOARD_BACK_Y&#160;&#160;&#160;530</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga2cf38e1cf676620c959917828e2eac9d" name="ga2cf38e1cf676620c959917828e2eac9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2cf38e1cf676620c959917828e2eac9d">&#9670;&#160;</a></span>MAX_HEALTH</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAX_HEALTH&#160;&#160;&#160;20</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga9ca6aa74eaf9c16558211896b446411f" name="ga9ca6aa74eaf9c16558211896b446411f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9ca6aa74eaf9c16558211896b446411f">&#9670;&#160;</a></span>PAUSE_BTN_H</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PAUSE_BTN_H&#160;&#160;&#160;60</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga3613ba207d4545cd69649c154c048865" name="ga3613ba207d4545cd69649c154c048865"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3613ba207d4545cd69649c154c048865">&#9670;&#160;</a></span>PAUSE_BTN_W</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PAUSE_BTN_W&#160;&#160;&#160;220</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga8df560086857d24e1b4068c95a880f01" name="ga8df560086857d24e1b4068c95a880f01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8df560086857d24e1b4068c95a880f01">&#9670;&#160;</a></span>PAUSE_PANEL_H</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PAUSE_PANEL_H&#160;&#160;&#160;340</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gadfebc8460eb7809afca3cad8220062b1" name="gadfebc8460eb7809afca3cad8220062b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadfebc8460eb7809afca3cad8220062b1">&#9670;&#160;</a></span>PAUSE_PANEL_W</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PAUSE_PANEL_W&#160;&#160;&#160;340</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gac55d787c43edf51cb57996414f6dc0e1" name="gac55d787c43edf51cb57996414f6dc0e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac55d787c43edf51cb57996414f6dc0e1">&#9670;&#160;</a></span>PAUSE_PANEL_X</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PAUSE_PANEL_X&#160;&#160;&#160;230</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga9eb2033ba99bb8431265a184f7598606" name="ga9eb2033ba99bb8431265a184f7598606"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9eb2033ba99bb8431265a184f7598606">&#9670;&#160;</a></span>PAUSE_PANEL_Y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PAUSE_PANEL_Y&#160;&#160;&#160;140</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga658238769732d182ec62d42a8d57e28a" name="ga658238769732d182ec62d42a8d57e28a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga658238769732d182ec62d42a8d57e28a">&#9670;&#160;</a></span>PAUSE_QUIT_X</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PAUSE_QUIT_X&#160;&#160;&#160;290</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gaec54bcd93a2f6c6c4452d6f0d1a5b86b" name="gaec54bcd93a2f6c6c4452d6f0d1a5b86b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaec54bcd93a2f6c6c4452d6f0d1a5b86b">&#9670;&#160;</a></span>PAUSE_QUIT_Y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PAUSE_QUIT_Y&#160;&#160;&#160;340</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga4a9d6a6f7edc07fd7a7e97e6a53bbd18" name="ga4a9d6a6f7edc07fd7a7e97e6a53bbd18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4a9d6a6f7edc07fd7a7e97e6a53bbd18">&#9670;&#160;</a></span>PAUSE_RESUME_X</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PAUSE_RESUME_X&#160;&#160;&#160;290</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga48e5b9cef27415aaa2a83da22bf4b115" name="ga48e5b9cef27415aaa2a83da22bf4b115"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga48e5b9cef27415aaa2a83da22bf4b115">&#9670;&#160;</a></span>PAUSE_RESUME_Y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PAUSE_RESUME_Y&#160;&#160;&#160;260</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga05c2d71abe8bdd210f3424fd7615a59e" name="ga05c2d71abe8bdd210f3424fd7615a59e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga05c2d71abe8bdd210f3424fd7615a59e">&#9670;&#160;</a></span>S_MAKE_CODE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define S_MAKE_CODE&#160;&#160;&#160;0x1F</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga08fabbe9f1b0c43dc66af8f08f0ed290" name="ga08fabbe9f1b0c43dc66af8f08f0ed290"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga08fabbe9f1b0c43dc66af8f08f0ed290">&#9670;&#160;</a></span>SCORE_BASE_POINTS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCORE_BASE_POINTS&#160;&#160;&#160;10</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gac196a0f90504bc1753403824ca30e7c4" name="gac196a0f90504bc1753403824ca30e7c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac196a0f90504bc1753403824ca30e7c4">&#9670;&#160;</a></span>SCORE_TIER_2_COMBO</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCORE_TIER_2_COMBO&#160;&#160;&#160;4</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga7f6a13d5a4c649343ff53a3a17fe2209" name="ga7f6a13d5a4c649343ff53a3a17fe2209"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7f6a13d5a4c649343ff53a3a17fe2209">&#9670;&#160;</a></span>SCORE_TIER_3_COMBO</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCORE_TIER_3_COMBO&#160;&#160;&#160;12</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga0cf50160d72de6392c21aa221350f7be" name="ga0cf50160d72de6392c21aa221350f7be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0cf50160d72de6392c21aa221350f7be">&#9670;&#160;</a></span>SCORE_TIER_4_COMBO</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCORE_TIER_4_COMBO&#160;&#160;&#160;24</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga3e750dd61c830e2ea4c6fd6a33c31ced" name="ga3e750dd61c830e2ea4c6fd6a33c31ced"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3e750dd61c830e2ea4c6fd6a33c31ced">&#9670;&#160;</a></span>SCORE_TIER_5_COMBO</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCORE_TIER_5_COMBO&#160;&#160;&#160;40</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gaca5a2a8c98ddcafa9be90b92eab2693f" name="gaca5a2a8c98ddcafa9be90b92eab2693f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaca5a2a8c98ddcafa9be90b92eab2693f">&#9670;&#160;</a></span>USERNAME_BACK_X</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define USERNAME_BACK_X&#160;&#160;&#160;140</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gab87a38495b0933f2c70bd2bda9d4ecd4" name="gab87a38495b0933f2c70bd2bda9d4ecd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab87a38495b0933f2c70bd2bda9d4ecd4">&#9670;&#160;</a></span>USERNAME_BACK_Y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define USERNAME_BACK_Y&#160;&#160;&#160;460</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga0ba8fd272f25fe10263200b12e141056" name="ga0ba8fd272f25fe10263200b12e141056"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0ba8fd272f25fe10263200b12e141056">&#9670;&#160;</a></span>USERNAME_BTN_H</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define USERNAME_BTN_H&#160;&#160;&#160;60</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga409b3adc9aeba4c71839bc5de1b217d0" name="ga409b3adc9aeba4c71839bc5de1b217d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga409b3adc9aeba4c71839bc5de1b217d0">&#9670;&#160;</a></span>USERNAME_BTN_W</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define USERNAME_BTN_W&#160;&#160;&#160;160</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga19a12755fce60c89ac47f8ceb7e1c16b" name="ga19a12755fce60c89ac47f8ceb7e1c16b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga19a12755fce60c89ac47f8ceb7e1c16b">&#9670;&#160;</a></span>USERNAME_DONE_X</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define USERNAME_DONE_X&#160;&#160;&#160;500</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga46fe1acd51cd18e7594796990ee0d9a2" name="ga46fe1acd51cd18e7594796990ee0d9a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga46fe1acd51cd18e7594796990ee0d9a2">&#9670;&#160;</a></span>USERNAME_DONE_Y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define USERNAME_DONE_Y&#160;&#160;&#160;460</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Documentação das funções</h2>
+<a id="ga00ce63e305572492de6e7a67b0926de2" name="ga00ce63e305572492de6e7a67b0926de2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga00ce63e305572492de6e7a67b0926de2">&#9670;&#160;</a></span>accept_username_entry()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void accept_username_entry </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga00ce63e305572492de6e7a67b0926de2_icgraph.png" border="0" usemap="#agroup___main_loop_ga00ce63e305572492de6e7a67b0926de2_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 0 -->
+</div>
+
+</div>
+</div>
+<a id="ga1072fce9ad8ea7dd6af5e46565e860f2" name="ga1072fce9ad8ea7dd6af5e46565e860f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1072fce9ad8ea7dd6af5e46565e860f2">&#9670;&#160;</a></span>any_active_notes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool any_active_notes </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga1072fce9ad8ea7dd6af5e46565e860f2_icgraph.png" border="0" usemap="#agroup___main_loop_ga1072fce9ad8ea7dd6af5e46565e860f2_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 1 -->
+</div>
+
+</div>
+</div>
+<a id="ga482f4e2a226eeae8d4ced07f3128a1f8" name="ga482f4e2a226eeae8d4ced07f3128a1f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga482f4e2a226eeae8d4ced07f3128a1f8">&#9670;&#160;</a></span>audio_queue_empty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool audio_queue_empty </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga482f4e2a226eeae8d4ced07f3128a1f8_icgraph.png" border="0" usemap="#agroup___main_loop_ga482f4e2a226eeae8d4ced07f3128a1f8_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 2 -->
+</div>
+
+</div>
+</div>
+<a id="gad8d1fc29ca07312f09060b600580cc4a" name="gad8d1fc29ca07312f09060b600580cc4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad8d1fc29ca07312f09060b600580cc4a">&#9670;&#160;</a></span>audio_queue_full()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool audio_queue_full </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gad8d1fc29ca07312f09060b600580cc4a_icgraph.png" border="0" usemap="#agroup___main_loop_gad8d1fc29ca07312f09060b600580cc4a_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 3 -->
+</div>
+
+</div>
+</div>
+<a id="ga639431714666f8531bcef0d3b4b25f5d" name="ga639431714666f8531bcef0d3b4b25f5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga639431714666f8531bcef0d3b4b25f5d">&#9670;&#160;</a></span>change_volume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void change_volume </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>increase</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>uart_ready</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga639431714666f8531bcef0d3b4b25f5d_cgraph.png" border="0" usemap="#agroup___main_loop_ga639431714666f8531bcef0d3b4b25f5d_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 4 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga639431714666f8531bcef0d3b4b25f5d_icgraph.png" border="0" usemap="#agroup___main_loop_ga639431714666f8531bcef0d3b4b25f5d_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 5 -->
+</div>
+
+</div>
+</div>
+<a id="ga8a2730df6b18cef284d3737c3f42d42e" name="ga8a2730df6b18cef284d3737c3f42d42e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8a2730df6b18cef284d3737c3f42d42e">&#9670;&#160;</a></span>clamp_mouse_position()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void clamp_mouse_position </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga8a2730df6b18cef284d3737c3f42d42e_icgraph.png" border="0" usemap="#agroup___main_loop_ga8a2730df6b18cef284d3737c3f42d42e_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 6 -->
+</div>
+
+</div>
+</div>
+<a id="ga04af156c583720c91acd635ecd588ba5" name="ga04af156c583720c91acd635ecd588ba5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga04af156c583720c91acd635ecd588ba5">&#9670;&#160;</a></span>clear_audio_queue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void clear_audio_queue </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga04af156c583720c91acd635ecd588ba5_icgraph.png" border="0" usemap="#agroup___main_loop_ga04af156c583720c91acd635ecd588ba5_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 7 -->
+</div>
+
+</div>
+</div>
+<a id="ga06ac7bba92b69fda11856e8e85223bea" name="ga06ac7bba92b69fda11856e8e85223bea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga06ac7bba92b69fda11856e8e85223bea">&#9670;&#160;</a></span>draw_border_main()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void draw_border_main </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>w</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>h</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>color</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>thickness</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga06ac7bba92b69fda11856e8e85223bea_cgraph.png" border="0" usemap="#agroup___main_loop_ga06ac7bba92b69fda11856e8e85223bea_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 8 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga06ac7bba92b69fda11856e8e85223bea_icgraph.png" border="0" usemap="#agroup___main_loop_ga06ac7bba92b69fda11856e8e85223bea_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 9 -->
+</div>
+
+</div>
+</div>
+<a id="ga798002b77e07f52a300c6a9ba4fbf20b" name="ga798002b77e07f52a300c6a9ba4fbf20b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga798002b77e07f52a300c6a9ba4fbf20b">&#9670;&#160;</a></span>draw_game_over_screen()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void draw_game_over_screen </td>
+          <td>(</td>
+          <td class="paramtype">const uint32_t *</td>          <td class="paramname"><span class="paramname"><em>bg_map</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">xpm_image_t</td>          <td class="paramname"><span class="paramname"><em>bg_img</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga798002b77e07f52a300c6a9ba4fbf20b_cgraph.png" border="0" usemap="#agroup___main_loop_ga798002b77e07f52a300c6a9ba4fbf20b_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 10 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga798002b77e07f52a300c6a9ba4fbf20b_icgraph.png" border="0" usemap="#agroup___main_loop_ga798002b77e07f52a300c6a9ba4fbf20b_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 11 -->
+</div>
+
+</div>
+</div>
+<a id="gabb7b4b6990ae30e62f40d9d114f0b93d" name="gabb7b4b6990ae30e62f40d9d114f0b93d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabb7b4b6990ae30e62f40d9d114f0b93d">&#9670;&#160;</a></span>draw_health_bar()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void draw_health_bar </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gabb7b4b6990ae30e62f40d9d114f0b93d_cgraph.png" border="0" usemap="#agroup___main_loop_gabb7b4b6990ae30e62f40d9d114f0b93d_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 12 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gabb7b4b6990ae30e62f40d9d114f0b93d_icgraph.png" border="0" usemap="#agroup___main_loop_gabb7b4b6990ae30e62f40d9d114f0b93d_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 13 -->
+</div>
+
+</div>
+</div>
+<a id="gab51749f222425d66d7727feeca625149" name="gab51749f222425d66d7727feeca625149"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab51749f222425d66d7727feeca625149">&#9670;&#160;</a></span>draw_leaderboard_screen()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void draw_leaderboard_screen </td>
+          <td>(</td>
+          <td class="paramtype">const uint32_t *</td>          <td class="paramname"><span class="paramname"><em>bg_map</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">xpm_image_t</td>          <td class="paramname"><span class="paramname"><em>bg_img</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gab51749f222425d66d7727feeca625149_cgraph.png" border="0" usemap="#agroup___main_loop_gab51749f222425d66d7727feeca625149_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 14 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gab51749f222425d66d7727feeca625149_icgraph.png" border="0" usemap="#agroup___main_loop_gab51749f222425d66d7727feeca625149_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 15 -->
+</div>
+
+</div>
+</div>
+<a id="gaf90926c08d4664529dc5bead9dfdcd65" name="gaf90926c08d4664529dc5bead9dfdcd65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf90926c08d4664529dc5bead9dfdcd65">&#9670;&#160;</a></span>draw_leaderboard_summary()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void draw_leaderboard_summary </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gaf90926c08d4664529dc5bead9dfdcd65_cgraph.png" border="0" usemap="#agroup___main_loop_gaf90926c08d4664529dc5bead9dfdcd65_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 16 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gaf90926c08d4664529dc5bead9dfdcd65_icgraph.png" border="0" usemap="#agroup___main_loop_gaf90926c08d4664529dc5bead9dfdcd65_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 17 -->
+</div>
+
+</div>
+</div>
+<a id="ga7ccd6321c8cfbdd3a83e0be56d15f461" name="ga7ccd6321c8cfbdd3a83e0be56d15f461"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7ccd6321c8cfbdd3a83e0be56d15f461">&#9670;&#160;</a></span>draw_loading_progress()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void draw_loading_progress </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>current</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>total</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga7ccd6321c8cfbdd3a83e0be56d15f461_cgraph.png" border="0" usemap="#agroup___main_loop_ga7ccd6321c8cfbdd3a83e0be56d15f461_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 18 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga7ccd6321c8cfbdd3a83e0be56d15f461_icgraph.png" border="0" usemap="#agroup___main_loop_ga7ccd6321c8cfbdd3a83e0be56d15f461_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 19 -->
+</div>
+
+</div>
+</div>
+<a id="gaa35c2cc6f822a021ae0960f4feb00e85" name="gaa35c2cc6f822a021ae0960f4feb00e85"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa35c2cc6f822a021ae0960f4feb00e85">&#9670;&#160;</a></span>draw_neo_btn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void draw_neo_btn </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>w</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>h</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>bg_color</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>hovered</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gaa35c2cc6f822a021ae0960f4feb00e85_cgraph.png" border="0" usemap="#agroup___main_loop_gaa35c2cc6f822a021ae0960f4feb00e85_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 20 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gaa35c2cc6f822a021ae0960f4feb00e85_icgraph.png" border="0" usemap="#agroup___main_loop_gaa35c2cc6f822a021ae0960f4feb00e85_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 21 -->
+</div>
+
+</div>
+</div>
+<a id="ga6fdf127fdc2e5a7120927bcaa7eea552" name="ga6fdf127fdc2e5a7120927bcaa7eea552"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6fdf127fdc2e5a7120927bcaa7eea552">&#9670;&#160;</a></span>draw_pause_menu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void draw_pause_menu </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>mouse_x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>mouse_y</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga6fdf127fdc2e5a7120927bcaa7eea552_cgraph.png" border="0" usemap="#agroup___main_loop_ga6fdf127fdc2e5a7120927bcaa7eea552_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 22 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga6fdf127fdc2e5a7120927bcaa7eea552_icgraph.png" border="0" usemap="#agroup___main_loop_ga6fdf127fdc2e5a7120927bcaa7eea552_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 23 -->
+</div>
+
+</div>
+</div>
+<a id="ga677665e8509c92e0bea710da1b6a7f7b" name="ga677665e8509c92e0bea710da1b6a7f7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga677665e8509c92e0bea710da1b6a7f7b">&#9670;&#160;</a></span>draw_play_frame()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void draw_play_frame </td>
+          <td>(</td>
+          <td class="paramtype">const uint32_t *</td>          <td class="paramname"><span class="paramname"><em>bg_map</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">xpm_image_t</td>          <td class="paramname"><span class="paramname"><em>bg_img</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">xpm_image_t</td>          <td class="paramname"><span class="paramname"><em>img_notas</em></span>[NUM_LANES], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t *</td>          <td class="paramname"><span class="paramname"><em>mapas_notas</em></span>[NUM_LANES], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t</td>          <td class="paramname"><span class="paramname"><em>cores_pistas</em></span>[NUM_LANES], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>elapsed_ticks</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>animate_effects</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga677665e8509c92e0bea710da1b6a7f7b_cgraph.png" border="0" usemap="#agroup___main_loop_ga677665e8509c92e0bea710da1b6a7f7b_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 24 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga677665e8509c92e0bea710da1b6a7f7b_icgraph.png" border="0" usemap="#agroup___main_loop_ga677665e8509c92e0bea710da1b6a7f7b_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 25 -->
+</div>
+
+</div>
+</div>
+<a id="ga9e89b1afd19dd16af5070f706ea21265" name="ga9e89b1afd19dd16af5070f706ea21265"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9e89b1afd19dd16af5070f706ea21265">&#9670;&#160;</a></span>draw_progress_bar()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void draw_progress_bar </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>elapsed_ticks</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga9e89b1afd19dd16af5070f706ea21265_cgraph.png" border="0" usemap="#agroup___main_loop_ga9e89b1afd19dd16af5070f706ea21265_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 26 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga9e89b1afd19dd16af5070f706ea21265_icgraph.png" border="0" usemap="#agroup___main_loop_ga9e89b1afd19dd16af5070f706ea21265_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 27 -->
+</div>
+
+</div>
+</div>
+<a id="gafc4ee9aaaee2c7568e4977a5de4927a2" name="gafc4ee9aaaee2c7568e4977a5de4927a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafc4ee9aaaee2c7568e4977a5de4927a2">&#9670;&#160;</a></span>draw_score_hud()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void draw_score_hud </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gafc4ee9aaaee2c7568e4977a5de4927a2_cgraph.png" border="0" usemap="#agroup___main_loop_gafc4ee9aaaee2c7568e4977a5de4927a2_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 28 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gafc4ee9aaaee2c7568e4977a5de4927a2_icgraph.png" border="0" usemap="#agroup___main_loop_gafc4ee9aaaee2c7568e4977a5de4927a2_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 29 -->
+</div>
+
+</div>
+</div>
+<a id="ga662a308818bde4a60e2bc9f2999b1846" name="ga662a308818bde4a60e2bc9f2999b1846"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga662a308818bde4a60e2bc9f2999b1846">&#9670;&#160;</a></span>draw_text()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void draw_text </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>text</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>scale</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>color</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga662a308818bde4a60e2bc9f2999b1846_cgraph.png" border="0" usemap="#agroup___main_loop_ga662a308818bde4a60e2bc9f2999b1846_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 30 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga662a308818bde4a60e2bc9f2999b1846_icgraph.png" border="0" usemap="#agroup___main_loop_ga662a308818bde4a60e2bc9f2999b1846_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 31 -->
+</div>
+
+</div>
+</div>
+<a id="gabe6e6c061059dad8fbcda2a1427b3088" name="gabe6e6c061059dad8fbcda2a1427b3088"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabe6e6c061059dad8fbcda2a1427b3088">&#9670;&#160;</a></span>draw_text_centered()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void draw_text_centered </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>center_x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>text</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>scale</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>color</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gabe6e6c061059dad8fbcda2a1427b3088_cgraph.png" border="0" usemap="#agroup___main_loop_gabe6e6c061059dad8fbcda2a1427b3088_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 32 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gabe6e6c061059dad8fbcda2a1427b3088_icgraph.png" border="0" usemap="#agroup___main_loop_gabe6e6c061059dad8fbcda2a1427b3088_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 33 -->
+</div>
+
+</div>
+</div>
+<a id="gac63221be7963ece7895ecabe4e2485d4" name="gac63221be7963ece7895ecabe4e2485d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac63221be7963ece7895ecabe4e2485d4">&#9670;&#160;</a></span>draw_username_entry_screen()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void draw_username_entry_screen </td>
+          <td>(</td>
+          <td class="paramtype">const uint32_t *</td>          <td class="paramname"><span class="paramname"><em>bg_map</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">xpm_image_t</td>          <td class="paramname"><span class="paramname"><em>bg_img</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gac63221be7963ece7895ecabe4e2485d4_cgraph.png" border="0" usemap="#agroup___main_loop_gac63221be7963ece7895ecabe4e2485d4_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 34 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gac63221be7963ece7895ecabe4e2485d4_icgraph.png" border="0" usemap="#agroup___main_loop_gac63221be7963ece7895ecabe4e2485d4_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 35 -->
+</div>
+
+</div>
+</div>
+<a id="ga616224e8f01f8ccbfdf8a6b1400c54b2" name="ga616224e8f01f8ccbfdf8a6b1400c54b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga616224e8f01f8ccbfdf8a6b1400c54b2">&#9670;&#160;</a></span>enter_pause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void enter_pause </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>uart_ready</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga616224e8f01f8ccbfdf8a6b1400c54b2_cgraph.png" border="0" usemap="#agroup___main_loop_ga616224e8f01f8ccbfdf8a6b1400c54b2_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 36 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga616224e8f01f8ccbfdf8a6b1400c54b2_icgraph.png" border="0" usemap="#agroup___main_loop_ga616224e8f01f8ccbfdf8a6b1400c54b2_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 37 -->
+</div>
+
+</div>
+</div>
+<a id="ga1fc864af926e7989d0a1a3cdea5a738f" name="ga1fc864af926e7989d0a1a3cdea5a738f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1fc864af926e7989d0a1a3cdea5a738f">&#9670;&#160;</a></span>finish_current_run()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void finish_current_run </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>uart_ready</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga1fc864af926e7989d0a1a3cdea5a738f_cgraph.png" border="0" usemap="#agroup___main_loop_ga1fc864af926e7989d0a1a3cdea5a738f_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 38 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga1fc864af926e7989d0a1a3cdea5a738f_icgraph.png" border="0" usemap="#agroup___main_loop_ga1fc864af926e7989d0a1a3cdea5a738f_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 39 -->
+</div>
+
+</div>
+</div>
+<a id="gaa2895ab37d01ec80d0b2a9704992a7ef" name="gaa2895ab37d01ec80d0b2a9704992a7ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa2895ab37d01ec80d0b2a9704992a7ef">&#9670;&#160;</a></span>flush_audio_events()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void flush_audio_events </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>uart_ready</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gaa2895ab37d01ec80d0b2a9704992a7ef_cgraph.png" border="0" usemap="#agroup___main_loop_gaa2895ab37d01ec80d0b2a9704992a7ef_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 40 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gaa2895ab37d01ec80d0b2a9704992a7ef_icgraph.png" border="0" usemap="#agroup___main_loop_gaa2895ab37d01ec80d0b2a9704992a7ef_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 41 -->
+</div>
+
+</div>
+</div>
+<a id="gaad467f63d92c6cbd1e0a35443c957963" name="gaad467f63d92c6cbd1e0a35443c957963"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaad467f63d92c6cbd1e0a35443c957963">&#9670;&#160;</a></span>glyph_for_char()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint8_t * glyph_for_char </td>
+          <td>(</td>
+          <td class="paramtype">char</td>          <td class="paramname"><span class="paramname"><em>c</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gaad467f63d92c6cbd1e0a35443c957963_icgraph.png" border="0" usemap="#agroup___main_loop_gaad467f63d92c6cbd1e0a35443c957963_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 42 -->
+</div>
+
+</div>
+</div>
+<a id="ga3bf6dcbf222a1336d22f2dae7be80300" name="ga3bf6dcbf222a1336d22f2dae7be80300"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3bf6dcbf222a1336d22f2dae7be80300">&#9670;&#160;</a></span>handle_play_key()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void handle_play_key </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>scancode</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga3bf6dcbf222a1336d22f2dae7be80300_cgraph.png" border="0" usemap="#agroup___main_loop_ga3bf6dcbf222a1336d22f2dae7be80300_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 43 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga3bf6dcbf222a1336d22f2dae7be80300_icgraph.png" border="0" usemap="#agroup___main_loop_ga3bf6dcbf222a1336d22f2dae7be80300_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 44 -->
+</div>
+
+</div>
+</div>
+<a id="ga015c6108c0949208966e7d8a5c504875" name="ga015c6108c0949208966e7d8a5c504875"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga015c6108c0949208966e7d8a5c504875">&#9670;&#160;</a></span>handle_username_key()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void handle_username_key </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>scancode</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga015c6108c0949208966e7d8a5c504875_cgraph.png" border="0" usemap="#agroup___main_loop_ga015c6108c0949208966e7d8a5c504875_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 45 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga015c6108c0949208966e7d8a5c504875_icgraph.png" border="0" usemap="#agroup___main_loop_ga015c6108c0949208966e7d8a5c504875_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 46 -->
+</div>
+
+</div>
+</div>
+<a id="gaa2813dae21d7d054df22db207d861ff5" name="gaa2813dae21d7d054df22db207d861ff5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa2813dae21d7d054df22db207d861ff5">&#9670;&#160;</a></span>is_menu_state()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool is_menu_state </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group___menu.html#ga7899b65f1ea0f655e4bbf8d2a5714285">GameState</a></td>          <td class="paramname"><span class="paramname"><em>state</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gaa2813dae21d7d054df22db207d861ff5_icgraph.png" border="0" usemap="#agroup___main_loop_gaa2813dae21d7d054df22db207d861ff5_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 47 -->
+</div>
+
+</div>
+</div>
+<a id="ga9459c70951b53cecbae533a8526c557e" name="ga9459c70951b53cecbae533a8526c557e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9459c70951b53cecbae533a8526c557e">&#9670;&#160;</a></span>lane_from_make_code()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int lane_from_make_code </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>make_code</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga9459c70951b53cecbae533a8526c557e_icgraph.png" border="0" usemap="#agroup___main_loop_ga9459c70951b53cecbae533a8526c557e_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 48 -->
+</div>
+
+</div>
+</div>
+<a id="ga0ddf1224851353fc92bfbff6f499fa97" name="ga0ddf1224851353fc92bfbff6f499fa97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0ddf1224851353fc92bfbff6f499fa97">&#9670;&#160;</a></span>main()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>argc</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>argv</em></span>[]&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga4544d5b4c3046bc774c6df565c1a6f05" name="ga4544d5b4c3046bc774c6df565c1a6f05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4544d5b4c3046bc774c6df565c1a6f05">&#9670;&#160;</a></span>mouse_packet_has_input()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool mouse_packet_has_input </td>
+          <td>(</td>
+          <td class="paramtype">const struct packet *</td>          <td class="paramname"><span class="paramname"><em>packet</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga4544d5b4c3046bc774c6df565c1a6f05_icgraph.png" border="0" usemap="#agroup___main_loop_ga4544d5b4c3046bc774c6df565c1a6f05_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 49 -->
+</div>
+
+</div>
+</div>
+<a id="ga9c50fbba1cb984ec8d8eae6735508c58" name="ga9c50fbba1cb984ec8d8eae6735508c58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9c50fbba1cb984ec8d8eae6735508c58">&#9670;&#160;</a></span>note_collides_with_hit_zone()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool note_collides_with_hit_zone </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_note.html">Note</a> *</td>          <td class="paramname"><span class="paramname"><em>note</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga9c50fbba1cb984ec8d8eae6735508c58_icgraph.png" border="0" usemap="#agroup___main_loop_ga9c50fbba1cb984ec8d8eae6735508c58_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 50 -->
+</div>
+
+</div>
+</div>
+<a id="gac80d525216eadcf5b0d28ce5c4de1181" name="gac80d525216eadcf5b0d28ce5c4de1181"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac80d525216eadcf5b0d28ce5c4de1181">&#9670;&#160;</a></span>pause_quit_clicked()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool pause_quit_clicked </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>mouse_x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>mouse_y</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gac80d525216eadcf5b0d28ce5c4de1181_icgraph.png" border="0" usemap="#agroup___main_loop_gac80d525216eadcf5b0d28ce5c4de1181_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 51 -->
+</div>
+
+</div>
+</div>
+<a id="ga4bfc24f2eb1297eb0954112087df0bd5" name="ga4bfc24f2eb1297eb0954112087df0bd5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4bfc24f2eb1297eb0954112087df0bd5">&#9670;&#160;</a></span>pause_resume_clicked()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool pause_resume_clicked </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>mouse_x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>mouse_y</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga4bfc24f2eb1297eb0954112087df0bd5_icgraph.png" border="0" usemap="#agroup___main_loop_ga4bfc24f2eb1297eb0954112087df0bd5_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 52 -->
+</div>
+
+</div>
+</div>
+<a id="ga670f761147a96459883b090cce15833a" name="ga670f761147a96459883b090cce15833a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga670f761147a96459883b090cce15833a">&#9670;&#160;</a></span>points_for_combo_hit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int points_for_combo_hit </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>combo_after_hit</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga670f761147a96459883b090cce15833a_icgraph.png" border="0" usemap="#agroup___main_loop_ga670f761147a96459883b090cce15833a_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 53 -->
+</div>
+
+</div>
+</div>
+<a id="ga7a72220d8366dd84709e79ce415862e5" name="ga7a72220d8366dd84709e79ce415862e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7a72220d8366dd84709e79ce415862e5">&#9670;&#160;</a></span>proj_main_loop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int proj_main_loop </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>argc</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>argv</em></span>[]&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga7a72220d8366dd84709e79ce415862e5_icgraph.png" border="0" usemap="#agroup___main_loop_ga7a72220d8366dd84709e79ce415862e5_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 54 -->
+</div>
+
+</div>
+</div>
+<a id="gab12fdfc1f50825446965d1373637376d" name="gab12fdfc1f50825446965d1373637376d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab12fdfc1f50825446965d1373637376d">&#9670;&#160;</a></span>queue_audio_event()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool queue_audio_event </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>event_byte</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gab12fdfc1f50825446965d1373637376d_cgraph.png" border="0" usemap="#agroup___main_loop_gab12fdfc1f50825446965d1373637376d_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 55 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gab12fdfc1f50825446965d1373637376d_icgraph.png" border="0" usemap="#agroup___main_loop_gab12fdfc1f50825446965d1373637376d_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 56 -->
+</div>
+
+</div>
+</div>
+<a id="gac80c13224a0d0502c0bb7114b1e2c191" name="gac80c13224a0d0502c0bb7114b1e2c191"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac80c13224a0d0502c0bb7114b1e2c191">&#9670;&#160;</a></span>quit_paused_run()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void quit_paused_run </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>uart_ready</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gac80c13224a0d0502c0bb7114b1e2c191_cgraph.png" border="0" usemap="#agroup___main_loop_gac80c13224a0d0502c0bb7114b1e2c191_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 57 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gac80c13224a0d0502c0bb7114b1e2c191_icgraph.png" border="0" usemap="#agroup___main_loop_gac80c13224a0d0502c0bb7114b1e2c191_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 58 -->
+</div>
+
+</div>
+</div>
+<a id="ga055622b7ae4ca17484bee22717d0fa00" name="ga055622b7ae4ca17484bee22717d0fa00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga055622b7ae4ca17484bee22717d0fa00">&#9670;&#160;</a></span>register_hit_score()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int register_hit_score </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga055622b7ae4ca17484bee22717d0fa00_cgraph.png" border="0" usemap="#agroup___main_loop_ga055622b7ae4ca17484bee22717d0fa00_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 59 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga055622b7ae4ca17484bee22717d0fa00_icgraph.png" border="0" usemap="#agroup___main_loop_ga055622b7ae4ca17484bee22717d0fa00_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 60 -->
+</div>
+
+</div>
+</div>
+<a id="gaac3a9dd2fd7fc37f9d118c6cf6c5dfa2" name="gaac3a9dd2fd7fc37f9d118c6cf6c5dfa2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaac3a9dd2fd7fc37f9d118c6cf6c5dfa2">&#9670;&#160;</a></span>register_miss_score()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void register_miss_score </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gaac3a9dd2fd7fc37f9d118c6cf6c5dfa2_cgraph.png" border="0" usemap="#agroup___main_loop_gaac3a9dd2fd7fc37f9d118c6cf6c5dfa2_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 61 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gaac3a9dd2fd7fc37f9d118c6cf6c5dfa2_icgraph.png" border="0" usemap="#agroup___main_loop_gaac3a9dd2fd7fc37f9d118c6cf6c5dfa2_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 62 -->
+</div>
+
+</div>
+</div>
+<a id="ga0e1fa8559adf1ecb80ec87880cfca1ab" name="ga0e1fa8559adf1ecb80ec87880cfca1ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0e1fa8559adf1ecb80ec87880cfca1ab">&#9670;&#160;</a></span>reset_lane_key_state()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void reset_lane_key_state </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga0e1fa8559adf1ecb80ec87880cfca1ab_icgraph.png" border="0" usemap="#agroup___main_loop_ga0e1fa8559adf1ecb80ec87880cfca1ab_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 63 -->
+</div>
+
+</div>
+</div>
+<a id="gaf58c22e4d83f4d3a2dfd6a7f72c92967" name="gaf58c22e4d83f4d3a2dfd6a7f72c92967"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf58c22e4d83f4d3a2dfd6a7f72c92967">&#9670;&#160;</a></span>reset_score()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void reset_score </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gaf58c22e4d83f4d3a2dfd6a7f72c92967_icgraph.png" border="0" usemap="#agroup___main_loop_gaf58c22e4d83f4d3a2dfd6a7f72c92967_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 64 -->
+</div>
+
+</div>
+</div>
+<a id="ga0f3e2800aefcbf60110444b26db2ca8e" name="ga0f3e2800aefcbf60110444b26db2ca8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0f3e2800aefcbf60110444b26db2ca8e">&#9670;&#160;</a></span>reset_username_entry()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void reset_username_entry </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga0f3e2800aefcbf60110444b26db2ca8e_icgraph.png" border="0" usemap="#agroup___main_loop_ga0f3e2800aefcbf60110444b26db2ca8e_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 65 -->
+</div>
+
+</div>
+</div>
+<a id="ga3f123e3c0b53a9d9d9e862f1c14eaa3d" name="ga3f123e3c0b53a9d9d9e862f1c14eaa3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3f123e3c0b53a9d9d9e862f1c14eaa3d">&#9670;&#160;</a></span>resume_paused_run()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void resume_paused_run </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>uart_ready</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga3f123e3c0b53a9d9d9e862f1c14eaa3d_cgraph.png" border="0" usemap="#agroup___main_loop_ga3f123e3c0b53a9d9d9e862f1c14eaa3d_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 66 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga3f123e3c0b53a9d9d9e862f1c14eaa3d_icgraph.png" border="0" usemap="#agroup___main_loop_ga3f123e3c0b53a9d9d9e862f1c14eaa3d_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 67 -->
+</div>
+
+</div>
+</div>
+<a id="ga5878308d9d835451b0be1f0b20738307" name="ga5878308d9d835451b0be1f0b20738307"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5878308d9d835451b0be1f0b20738307">&#9670;&#160;</a></span>save_final_score()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void save_final_score </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga5878308d9d835451b0be1f0b20738307_cgraph.png" border="0" usemap="#agroup___main_loop_ga5878308d9d835451b0be1f0b20738307_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 68 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga5878308d9d835451b0be1f0b20738307_icgraph.png" border="0" usemap="#agroup___main_loop_ga5878308d9d835451b0be1f0b20738307_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 69 -->
+</div>
+
+</div>
+</div>
+<a id="ga21a0bbb3081525326fa469c3dd77d00e" name="ga21a0bbb3081525326fa469c3dd77d00e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga21a0bbb3081525326fa469c3dd77d00e">&#9670;&#160;</a></span>text_width_pixels()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int text_width_pixels </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>text</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>scale</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga21a0bbb3081525326fa469c3dd77d00e_icgraph.png" border="0" usemap="#agroup___main_loop_ga21a0bbb3081525326fa469c3dd77d00e_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 70 -->
+</div>
+
+</div>
+</div>
+<a id="ga59c2a193edbf58e2c2d51510e247328a" name="ga59c2a193edbf58e2c2d51510e247328a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga59c2a193edbf58e2c2d51510e247328a">&#9670;&#160;</a></span>try_hit_note()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int try_hit_note </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>make_code</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Tenta acertar numa nota na pista correspondente ao make_code premido. </p><dl class="section return"><dt>Retorna</dt><dd>A pista acertada (0-4) em caso de hit; -1 se a pista for invalida ou se nao houver nota na hit zone (miss ativo). </dd></dl>
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga59c2a193edbf58e2c2d51510e247328a_cgraph.png" border="0" usemap="#agroup___main_loop_ga59c2a193edbf58e2c2d51510e247328a_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 71 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga59c2a193edbf58e2c2d51510e247328a_icgraph.png" border="0" usemap="#agroup___main_loop_ga59c2a193edbf58e2c2d51510e247328a_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 72 -->
+</div>
+
+</div>
+</div>
+<a id="ga3440b48caf8b303e7c02d0fdf22978a1" name="ga3440b48caf8b303e7c02d0fdf22978a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3440b48caf8b303e7c02d0fdf22978a1">&#9670;&#160;</a></span>uart_send_audio_event()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool uart_send_audio_event </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>uart_ready</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>event_byte</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>event_name</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga3440b48caf8b303e7c02d0fdf22978a1_cgraph.png" border="0" usemap="#agroup___main_loop_ga3440b48caf8b303e7c02d0fdf22978a1_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 73 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga3440b48caf8b303e7c02d0fdf22978a1_icgraph.png" border="0" usemap="#agroup___main_loop_ga3440b48caf8b303e7c02d0fdf22978a1_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 74 -->
+</div>
+
+</div>
+</div>
+<a id="ga7bd7ff7f50291888ca0a3e5563b72cd4" name="ga7bd7ff7f50291888ca0a3e5563b72cd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7bd7ff7f50291888ca0a3e5563b72cd4">&#9670;&#160;</a></span>update_score_hud_cache()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void update_score_hud_cache </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga7bd7ff7f50291888ca0a3e5563b72cd4_icgraph.png" border="0" usemap="#agroup___main_loop_ga7bd7ff7f50291888ca0a3e5563b72cd4_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 75 -->
+</div>
+
+</div>
+</div>
+<a id="gae752003e66e5742cf3bd4a2ceff22141" name="gae752003e66e5742cf3bd4a2ceff22141"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae752003e66e5742cf3bd4a2ceff22141">&#9670;&#160;</a></span>username_char_from_make_code()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char username_char_from_make_code </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>make_code</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_gae752003e66e5742cf3bd4a2ceff22141_icgraph.png" border="0" usemap="#agroup___main_loop_gae752003e66e5742cf3bd4a2ceff22141_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 76 -->
+</div>
+
+</div>
+</div>
+<a id="ga6f6c9332db9f6cdaeeb60612008ffcfb" name="ga6f6c9332db9f6cdaeeb60612008ffcfb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6f6c9332db9f6cdaeeb60612008ffcfb">&#9670;&#160;</a></span>write_log()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void write_log </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>format</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>...</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___main_loop_ga6f6c9332db9f6cdaeeb60612008ffcfb_icgraph.png" border="0" usemap="#agroup___main_loop_ga6f6c9332db9f6cdaeeb60612008ffcfb_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 77 -->
+</div>
+
+</div>
+</div>
+<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Documentação das variáveis</h2>
+<a id="ga38c673b220814bac67522b3544a7f906" name="ga38c673b220814bac67522b3544a7f906"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga38c673b220814bac67522b3544a7f906">&#9670;&#160;</a></span>audio_q_head</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int audio_q_head = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga8b312ff351a9d7eb0c7d6cd699bc9691" name="ga8b312ff351a9d7eb0c7d6cd699bc9691"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8b312ff351a9d7eb0c7d6cd699bc9691">&#9670;&#160;</a></span>audio_q_tail</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int audio_q_tail = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gae3c50768a48444edb267609bebdb450f" name="gae3c50768a48444edb267609bebdb450f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae3c50768a48444edb267609bebdb450f">&#9670;&#160;</a></span>audio_queue</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t audio_queue[<a class="el" href="#ga1ce7e60d38e3fa2954e8cdc014b27a89">AUDIO_QUEUE_SIZE</a>]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga9ec54e2aa502fb09b2d3c045ced816d5" name="ga9ec54e2aa502fb09b2d3c045ced816d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9ec54e2aa502fb09b2d3c045ced816d5">&#9670;&#160;</a></span>beatmap</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_beatmap_entry.html">BeatmapEntry</a> beatmap[<a class="el" href="group___beatmap_loader.html#ga97b9a46c8f5b4495b6a59b72f38f574f">BEATMAP_MAX_NOTES</a>]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gafb2a20020f105c1bb21696abd6db23a1" name="gafb2a20020f105c1bb21696abd6db23a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafb2a20020f105c1bb21696abd6db23a1">&#9670;&#160;</a></span>beatmap_count</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int beatmap_count = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gad2383cd9f7346fdce340816355f001d5" name="gad2383cd9f7346fdce340816355f001d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad2383cd9f7346fdce340816355f001d5">&#9670;&#160;</a></span>best_combo</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int best_combo = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga289928528fff2f84b055e2cf4a74ba0f" name="ga289928528fff2f84b055e2cf4a74ba0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga289928528fff2f84b055e2cf4a74ba0f">&#9670;&#160;</a></span>combo_hits</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int combo_hits = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga474dbf74acf5225bb2371a1b1242e9bd" name="ga474dbf74acf5225bb2371a1b1242e9bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga474dbf74acf5225bb2371a1b1242e9bd">&#9670;&#160;</a></span>combo_text</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char combo_text[16] = &quot;0X&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga02ce9c5bde467489072cbde68b004ab9" name="ga02ce9c5bde467489072cbde68b004ab9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga02ce9c5bde467489072cbde68b004ab9">&#9670;&#160;</a></span>current_note_idx</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int current_note_idx = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga6ed9079283c2964b8f1c5bfccfc8727e" name="ga6ed9079283c2964b8f1c5bfccfc8727e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6ed9079283c2964b8f1c5bfccfc8727e">&#9670;&#160;</a></span>current_state</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group___menu.html#ga7899b65f1ea0f655e4bbf8d2a5714285">GameState</a> current_state = <a class="el" href="group___menu.html#gga7899b65f1ea0f655e4bbf8d2a5714285a4c40e60bc71a32b924ce1f08d57f9721">MENU</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga2dada1981e29d5b7516699a178b26da8" name="ga2dada1981e29d5b7516699a178b26da8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2dada1981e29d5b7516699a178b26da8">&#9670;&#160;</a></span>current_username</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char current_username[<a class="el" href="group___leaderboard.html#gae998797620e9bb9ecfde43bb95135ebb">LEADERBOARD_USERNAME_MAX</a>] = &quot;PLAYER&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga389cdd727088bf0c758fdfa4154b5228" name="ga389cdd727088bf0c758fdfa4154b5228"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga389cdd727088bf0c758fdfa4154b5228">&#9670;&#160;</a></span>hit_effect_frames</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hit_effect_frames[5] = {0, 0, 0, 0, 0}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga4c86211e938261542bcb2ab1d20b9e16" name="ga4c86211e938261542bcb2ab1d20b9e16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4c86211e938261542bcb2ab1d20b9e16">&#9670;&#160;</a></span>hover_pause_quit</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hover_pause_quit = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga01e04f2901db3e679d8c8fd0d4c5a289" name="ga01e04f2901db3e679d8c8fd0d4c5a289"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga01e04f2901db3e679d8c8fd0d4c5a289">&#9670;&#160;</a></span>hover_pause_resume</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hover_pause_resume = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga21c01d439880365221e594161817a351" name="ga21c01d439880365221e594161817a351"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga21c01d439880365221e594161817a351">&#9670;&#160;</a></span>hover_pause_vol_down</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hover_pause_vol_down = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gaa41b2f51fc48c91b845438cea87bd462" name="gaa41b2f51fc48c91b845438cea87bd462"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa41b2f51fc48c91b845438cea87bd462">&#9670;&#160;</a></span>hover_pause_vol_up</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hover_pause_vol_up = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga27f1e15cdf1307d174c98474563e06c8" name="ga27f1e15cdf1307d174c98474563e06c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga27f1e15cdf1307d174c98474563e06c8">&#9670;&#160;</a></span>kbd_gameover_idx</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int kbd_gameover_idx = 1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gac0483c637527e28b7a2118027d658c18" name="gac0483c637527e28b7a2118027d658c18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac0483c637527e28b7a2118027d658c18">&#9670;&#160;</a></span>kbd_leaderboard_idx</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int kbd_leaderboard_idx = 1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gadeb4919215bd1569bdf41c399cd0d94f" name="gadeb4919215bd1569bdf41c399cd0d94f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadeb4919215bd1569bdf41c399cd0d94f">&#9670;&#160;</a></span>kbd_username_idx</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int kbd_username_idx = 2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga2a7ff7871fd89fde61aefd7d9d133000" name="ga2a7ff7871fd89fde61aefd7d9d133000"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2a7ff7871fd89fde61aefd7d9d133000">&#9670;&#160;</a></span>lane_key_down</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool lane_key_down[<a class="el" href="group___game.html#ga83f67751a7904339f2d67104067a9aac">NUM_LANES</a>] = {false}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga5eb1c8ad7d93c1562359f468931708f3" name="ga5eb1c8ad7d93c1562359f468931708f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5eb1c8ad7d93c1562359f468931708f3">&#9670;&#160;</a></span>miss_effect_frames</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int miss_effect_frames[5] = {0, 0, 0, 0, 0}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga6c59af730728bf5260ef828aea2eebee" name="ga6c59af730728bf5260ef828aea2eebee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6c59af730728bf5260ef828aea2eebee">&#9670;&#160;</a></span>mouse_x</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int mouse_x = 400</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gab21653e455bbca86826aa5f628a5fdb2" name="gab21653e455bbca86826aa5f628a5fdb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab21653e455bbca86826aa5f628a5fdb2">&#9670;&#160;</a></span>mouse_y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int mouse_y = 500</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga20ee628707d267ddb7acfa8976f16d49" name="ga20ee628707d267ddb7acfa8976f16d49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga20ee628707d267ddb7acfa8976f16d49">&#9670;&#160;</a></span>music_started</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool music_started = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga4ec79c7a92ad220b5bf1daa87814f869" name="ga4ec79c7a92ad220b5bf1daa87814f869"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4ec79c7a92ad220b5bf1daa87814f869">&#9670;&#160;</a></span>no_interrupts</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t no_interrupts</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga14fc76cf1de7622f19982222234aeec4" name="ga14fc76cf1de7622f19982222234aeec4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga14fc76cf1de7622f19982222234aeec4">&#9670;&#160;</a></span>notes</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_note.html">Note</a> notes[]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga8f3e4694bf144989aff3df0d34b0f19e" name="ga8f3e4694bf144989aff3df0d34b0f19e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8f3e4694bf144989aff3df0d34b0f19e">&#9670;&#160;</a></span>pause_elapsed_ticks</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t pause_elapsed_ticks = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gafdd2ebf8a2162b5547d1606aaa9d8280" name="gafdd2ebf8a2162b5547d1606aaa9d8280"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafdd2ebf8a2162b5547d1606aaa9d8280">&#9670;&#160;</a></span>pause_start_tick</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t pause_start_tick = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gac40fa97163486f5a8c0f631691f55d2d" name="gac40fa97163486f5a8c0f631691f55d2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac40fa97163486f5a8c0f631691f55d2d">&#9670;&#160;</a></span>play_start_tick</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t play_start_tick = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga5a4f1375357f8319bdb4eb5521e3204b" name="ga5a4f1375357f8319bdb4eb5521e3204b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5a4f1375357f8319bdb4eb5521e3204b">&#9670;&#160;</a></span>player_health</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int player_health = <a class="el" href="#ga2cf38e1cf676620c959917828e2eac9d">MAX_HEALTH</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gaef160b7437d94056f1dc59646cd5b87d" name="gaef160b7437d94056f1dc59646cd5b87d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaef160b7437d94056f1dc59646cd5b87d">&#9670;&#160;</a></span>score</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int score = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gaf327b49c95291990111b11969422ad10" name="gaf327b49c95291990111b11969422ad10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf327b49c95291990111b11969422ad10">&#9670;&#160;</a></span>score_hud_dirty</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool score_hud_dirty = true</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga16aa4b953ace61e48c3b00aac8ba1d53" name="ga16aa4b953ace61e48c3b00aac8ba1d53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga16aa4b953ace61e48c3b00aac8ba1d53">&#9670;&#160;</a></span>score_text</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char score_text[16] = &quot;0&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gaf238f9c41918371ac712d79607a7f200" name="gaf238f9c41918371ac712d79607a7f200"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf238f9c41918371ac712d79607a7f200">&#9670;&#160;</a></span>session_best_combo</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int session_best_combo = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gaf41ab9d82ed9b3c9a46ed66a08013043" name="gaf41ab9d82ed9b3c9a46ed66a08013043"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf41ab9d82ed9b3c9a46ed66a08013043">&#9670;&#160;</a></span>session_best_score</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int session_best_score = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga17cf68e95ce765ba7627cfcee6266ac8" name="ga17cf68e95ce765ba7627cfcee6266ac8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga17cf68e95ce765ba7627cfcee6266ac8">&#9670;&#160;</a></span>song_id</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int song_id = 1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Variável que armazena a música selecionada. </p>
+
+</div>
+</div>
+<a id="ga3c471770d7a384fe5a84bd37df932d4d" name="ga3c471770d7a384fe5a84bd37df932d4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3c471770d7a384fe5a84bd37df932d4d">&#9670;&#160;</a></span>username_edit_buffer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char username_edit_buffer[<a class="el" href="group___leaderboard.html#gae998797620e9bb9ecfde43bb95135ebb">LEADERBOARD_USERNAME_MAX</a>] = &quot;&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga82fefc0719865656b946bdec6b7b8ac3" name="ga82fefc0719865656b946bdec6b7b8ac3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga82fefc0719865656b946bdec6b7b8ac3">&#9670;&#160;</a></span>username_edit_length</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int username_edit_length = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga9ff851ba762957f86f478c2facc0cd42" name="ga9ff851ba762957f86f478c2facc0cd42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9ff851ba762957f86f478c2facc0cd42">&#9670;&#160;</a></span>volume_percent</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int volume_percent = 50</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Gerado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
+</body>
+</html>

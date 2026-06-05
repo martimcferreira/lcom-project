@@ -1,0 +1,251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Guitar Hero LCOM: Referência à estrutura LeaderboardEntry</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="codefolding.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default';
+mermaid.initialize({ startOnLoad: true, theme: theme });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Guitar Hero LCOM<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">LCOM 2026 Project - Guitar Hero Visual Application</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.17.0 -->
+<script type="text/javascript">
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
+});
+</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Localizar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('struct_leaderboard_entry.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Carregando...</div>
+<div class="SRStatus" id="Searching">Procurando...</div>
+<div class="SRStatus" id="NoMatches">Nenhuma entrada encontrada</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Referência à estrutura LeaderboardEntry<div class="ingroups"><a class="el" href="group___leaderboard.html">Leaderboard</a></div></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Estrutura que representa uma entrada na leaderboard.  
+ <a href="#details">Mais...</a></p>
+
+<p><code>#include &lt;<a class="el" href="leaderboard_8h_source.html">leaderboard.h</a>&gt;</code></p>
+<div class="dynheader">
+Diagrama de colaboração para LeaderboardEntry:</div>
+<div class="dyncontent">
+<div class="center"><img src="struct_leaderboard_entry__coll__graph.png" border="0" usemap="#a_leaderboard_entry_coll__map" loading="lazy" alt="Collaboration graph"/></div>
+<!-- MAP 0 -->
+<center><span class="legend">[<a target="top" href="graph_legend.html">legenda</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Campos de Dados</h2></td></tr>
+<tr class="memitem:aa3b1e992c4724f011a42c857edf954e4" id="r_aa3b1e992c4724f011a42c857edf954e4"><td class="memItemLeft">char&#160;</td><td class="memItemRight"><a class="el" href="#aa3b1e992c4724f011a42c857edf954e4">username</a> [<a class="el" href="group___leaderboard.html#gae998797620e9bb9ecfde43bb95135ebb">LEADERBOARD_USERNAME_MAX</a>]</td></tr>
+<tr class="memdesc:aa3b1e992c4724f011a42c857edf954e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nome do jogador.  <br /></td></tr>
+<tr class="memitem:a3d3d97bd142d9de7352bdda2b21d88f9" id="r_a3d3d97bd142d9de7352bdda2b21d88f9"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a3d3d97bd142d9de7352bdda2b21d88f9">score</a></td></tr>
+<tr class="memdesc:a3d3d97bd142d9de7352bdda2b21d88f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pontuação obtida.  <br /></td></tr>
+<tr class="memitem:a651207e5a14bdc65bd521e78d876508b" id="r_a651207e5a14bdc65bd521e78d876508b"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a651207e5a14bdc65bd521e78d876508b">progress</a></td></tr>
+<tr class="memdesc:a651207e5a14bdc65bd521e78d876508b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Progresso na música (0 a 100%).  <br /></td></tr>
+<tr class="memitem:a52694244fb1663edda1e2ccd4957b772" id="r_a52694244fb1663edda1e2ccd4957b772"><td class="memItemLeft"><a class="el" href="structrtc__timestamp.html">rtc_timestamp</a>&#160;</td><td class="memItemRight"><a class="el" href="#a52694244fb1663edda1e2ccd4957b772">date</a></td></tr>
+<tr class="memdesc:a52694244fb1663edda1e2ccd4957b772"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data e hora em que a pontuação foi atingida.  <br /></td></tr>
+<tr class="memitem:a17247fa17f71a2e3830d9aa5a44f5f55" id="r_a17247fa17f71a2e3830d9aa5a44f5f55"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a17247fa17f71a2e3830d9aa5a44f5f55">song_id</a></td></tr>
+<tr class="memdesc:a17247fa17f71a2e3830d9aa5a44f5f55"><td class="mdescLeft">&#160;</td><td class="mdescRight">ID da música tocada.  <br /></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Descrição detalhada</h2>
+<div class="textblock"><p>Estrutura que representa uma entrada na leaderboard. </p>
+</div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Documentação dos campos e atributos</h2>
+<a id="a52694244fb1663edda1e2ccd4957b772" name="a52694244fb1663edda1e2ccd4957b772"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52694244fb1663edda1e2ccd4957b772">&#9670;&#160;</a></span>date</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structrtc__timestamp.html">rtc_timestamp</a> LeaderboardEntry::date</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Data e hora em que a pontuação foi atingida. </p>
+
+</div>
+</div>
+<a id="a651207e5a14bdc65bd521e78d876508b" name="a651207e5a14bdc65bd521e78d876508b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a651207e5a14bdc65bd521e78d876508b">&#9670;&#160;</a></span>progress</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int LeaderboardEntry::progress</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Progresso na música (0 a 100%). </p>
+
+</div>
+</div>
+<a id="a3d3d97bd142d9de7352bdda2b21d88f9" name="a3d3d97bd142d9de7352bdda2b21d88f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d3d97bd142d9de7352bdda2b21d88f9">&#9670;&#160;</a></span>score</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int LeaderboardEntry::score</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Pontuação obtida. </p>
+
+</div>
+</div>
+<a id="a17247fa17f71a2e3830d9aa5a44f5f55" name="a17247fa17f71a2e3830d9aa5a44f5f55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17247fa17f71a2e3830d9aa5a44f5f55">&#9670;&#160;</a></span>song_id</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int LeaderboardEntry::song_id</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>ID da música tocada. </p>
+
+</div>
+</div>
+<a id="aa3b1e992c4724f011a42c857edf954e4" name="aa3b1e992c4724f011a42c857edf954e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3b1e992c4724f011a42c857edf954e4">&#9670;&#160;</a></span>username</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char LeaderboardEntry::username[<a class="el" href="group___leaderboard.html#gae998797620e9bb9ecfde43bb95135ebb">LEADERBOARD_USERNAME_MAX</a>]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Nome do jogador. </p>
+
+</div>
+</div>
+<hr/>A documentação para esta estrutura foi gerada a partir do seguinte ficheiro:<ul>
+<li>structures/includes/<a class="el" href="leaderboard_8h_source.html">leaderboard.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="struct_leaderboard_entry.html">LeaderboardEntry</a></li>
+    <li class="footer">Gerado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
+</body>
+</html>

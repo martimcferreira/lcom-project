@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Guitar Hero LCOM: Código-Fonte de structures/includes/beatmap_loader.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="codefolding.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default';
+mermaid.initialize({ startOnLoad: true, theme: theme });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Guitar Hero LCOM<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">LCOM 2026 Project - Guitar Hero Visual Application</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.17.0 -->
+<script type="text/javascript">
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
+});
+</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Localizar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('beatmap__loader_8h_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Carregando...</div>
+<div class="SRStatus" id="Searching">Procurando...</div>
+<div class="SRStatus" id="NoMatches">Nenhuma entrada encontrada</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">beatmap_loader.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="beatmap__loader_8h.html">Ir para a documentação deste ficheiro.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="group___beatmap_loader.html#ga97b9a46c8f5b4495b6a59b72f38f574f">   20</a></span><span class="preprocessor">#define BEATMAP_MAX_NOTES 2048</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span></div>
+<div class="foldopen" id="foldopen00025" data-start="{" data-end="};">
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="struct_beatmap_entry.html">   25</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="struct_beatmap_entry.html#a4d1731e84640e5181dd2914672fe8052">   26</a></span>  uint32_t <a class="code hl_variable" href="struct_beatmap_entry.html#a4d1731e84640e5181dd2914672fe8052">spawn_tick</a>; </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="struct_beatmap_entry.html#a13289854857a61e6ecf3028c0dc156b8">   27</a></span>  uint8_t  <a class="code hl_variable" href="struct_beatmap_entry.html#a13289854857a61e6ecf3028c0dc156b8">lane</a>;       </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="struct_beatmap_entry.html#a073c437cd36834f2260f00a5aee925b4">   28</a></span>  <span class="keywordtype">bool</span>     <a class="code hl_variable" href="struct_beatmap_entry.html#a073c437cd36834f2260f00a5aee925b4">spawned</a>;    </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>} <a class="code hl_struct" href="struct_beatmap_entry.html">BeatmapEntry</a>;</div>
+</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="keywordtype">int</span> <a class="code hl_function" href="group___beatmap_loader.html#ga199ceb3163f2628eef700087b7d8d3b7">beatmap_load</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *path, <a class="code hl_struct" href="struct_beatmap_entry.html">BeatmapEntry</a> *out_notes, <span class="keywordtype">int</span> *out_count);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span></div>
+<div class="ttc" id="agroup___beatmap_loader_html_ga199ceb3163f2628eef700087b7d8d3b7"><div class="ttname"><a href="group___beatmap_loader.html#ga199ceb3163f2628eef700087b7d8d3b7">beatmap_load</a></div><div class="ttdeci">int beatmap_load(const char *path, BeatmapEntry *out_notes, int *out_count)</div><div class="ttdoc">Carrega um beatmap a partir de um ficheiro de texto.</div><div class="ttdef"><b>Definição</b> beatmap_loader.c:28</div></div>
+<div class="ttc" id="astruct_beatmap_entry_html"><div class="ttname"><a href="struct_beatmap_entry.html">BeatmapEntry</a></div><div class="ttdoc">Estrutura que representa o momento em que uma nota deve ser criada (&quot;spawn&quot;).</div><div class="ttdef"><b>Definição</b> beatmap_loader.h:25</div></div>
+<div class="ttc" id="astruct_beatmap_entry_html_a073c437cd36834f2260f00a5aee925b4"><div class="ttname"><a href="struct_beatmap_entry.html#a073c437cd36834f2260f00a5aee925b4">BeatmapEntry::spawned</a></div><div class="ttdeci">bool spawned</div><div class="ttdoc">Controlo interno: true quando a nota já foi criada no ecrã.</div><div class="ttdef"><b>Definição</b> beatmap_loader.h:28</div></div>
+<div class="ttc" id="astruct_beatmap_entry_html_a13289854857a61e6ecf3028c0dc156b8"><div class="ttname"><a href="struct_beatmap_entry.html#a13289854857a61e6ecf3028c0dc156b8">BeatmapEntry::lane</a></div><div class="ttdeci">uint8_t lane</div><div class="ttdoc">Pista (0=Verde, 1=Vermelha, 2=Azul, 3=Roxa, 4=Amarela).</div><div class="ttdef"><b>Definição</b> beatmap_loader.h:27</div></div>
+<div class="ttc" id="astruct_beatmap_entry_html_a4d1731e84640e5181dd2914672fe8052"><div class="ttname"><a href="struct_beatmap_entry.html#a4d1731e84640e5181dd2914672fe8052">BeatmapEntry::spawn_tick</a></div><div class="ttdeci">uint32_t spawn_tick</div><div class="ttdoc">Tick MINIX (a 60 Hz) em que a nota deve começar a cair.</div><div class="ttdef"><b>Definição</b> beatmap_loader.h:26</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_c9e20c30cf5906fba8f787a8f1a04eec.html">structures</a></li><li class="navelem"><a href="dir_62b269930b4584fbd0b2853ce7654eef.html">includes</a></li><li class="navelem"><a href="beatmap__loader_8h.html">beatmap_loader.h</a></li>
+    <li class="footer">Gerado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
+</body>
+</html>

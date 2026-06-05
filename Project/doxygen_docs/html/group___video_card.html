@@ -1,0 +1,784 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Guitar Hero LCOM: Video Card</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="codefolding.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default';
+mermaid.initialize({ startOnLoad: true, theme: theme });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Guitar Hero LCOM<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">LCOM 2026 Project - Guitar Hero Visual Application</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.17.0 -->
+<script type="text/javascript">
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
+});
+</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Localizar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('group___video_card.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Carregando...</div>
+<div class="SRStatus" id="Searching">Procurando...</div>
+<div class="SRStatus" id="NoMatches">Nenhuma entrada encontrada</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Video Card </div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Operações de desenho no ecrã (VBE).  
+<a href="#details">Mais...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Funções</h2></td></tr>
+<tr class="memitem:gacc11b311c479b1904fd45e8c6da5fcc3" id="r_gacc11b311c479b1904fd45e8c6da5fcc3"><td class="memItemLeft">void *&#160;</td><td class="memItemRight"><a class="el" href="#gacc11b311c479b1904fd45e8c6da5fcc3">vg_init</a> (uint16_t mode)</td></tr>
+<tr class="memdesc:gacc11b311c479b1904fd45e8c6da5fcc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inicializa o modo de vídeo especificado usando VBE.  <br /></td></tr>
+<tr class="memitem:ga6f895de9725f9f231f9a7f74b6087f60" id="r_ga6f895de9725f9f231f9a7f74b6087f60"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ga6f895de9725f9f231f9a7f74b6087f60">vg_draw_pixel</a> (uint16_t x, uint16_t y, uint32_t color)</td></tr>
+<tr class="memdesc:ga6f895de9725f9f231f9a7f74b6087f60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Desenha um píxel com uma determinada cor.  <br /></td></tr>
+<tr class="memitem:gadb08b276272848bc7f3bccc0f5e770c8" id="r_gadb08b276272848bc7f3bccc0f5e770c8"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#gadb08b276272848bc7f3bccc0f5e770c8">vg_draw_hline</a> (uint16_t x, uint16_t y, uint16_t len, uint32_t color)</td></tr>
+<tr class="memdesc:gadb08b276272848bc7f3bccc0f5e770c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Desenha uma linha horizontal.  <br /></td></tr>
+<tr class="memitem:ga4d53728322f948683b768482bf4906e8" id="r_ga4d53728322f948683b768482bf4906e8"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ga4d53728322f948683b768482bf4906e8">vg_draw_rectangle</a> (uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint32_t color)</td></tr>
+<tr class="memdesc:ga4d53728322f948683b768482bf4906e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Desenha um retângulo preenchido.  <br /></td></tr>
+<tr class="memitem:gaf9979d37c4242c6c107dfdaa4dd89c8f" id="r_gaf9979d37c4242c6c107dfdaa4dd89c8f"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#gaf9979d37c4242c6c107dfdaa4dd89c8f">vg_draw_xpm</a> (xpm_map_t xpm, uint16_t x, uint16_t y)</td></tr>
+<tr class="memdesc:gaf9979d37c4242c6c107dfdaa4dd89c8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Desenha um XPM (formato antigo/padrão) no ecrã.  <br /></td></tr>
+<tr class="memitem:gab0d487e77517d32f7d5aae7f5f9443e9" id="r_gab0d487e77517d32f7d5aae7f5f9443e9"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#gab0d487e77517d32f7d5aae7f5f9443e9">vg_draw_xpm_image</a> (const uint32_t *pixmap, uint16_t width, uint16_t height, int x, int y, uint32_t transparent_color, int use_transparency)</td></tr>
+<tr class="memdesc:gab0d487e77517d32f7d5aae7f5f9443e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Desenha um Pixmap (imagem pré-carregada) suportando transparência.  <br /></td></tr>
+<tr class="memitem:ga1c016c9d61f32ca6e42783a2dab52163" id="r_ga1c016c9d61f32ca6e42783a2dab52163"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ga1c016c9d61f32ca6e42783a2dab52163">vg_draw_xpm_image_tinted</a> (const uint32_t *pixmap, uint16_t width, uint16_t height, int x, int y, uint32_t transparent_color, uint32_t tint_color)</td></tr>
+<tr class="memdesc:ga1c016c9d61f32ca6e42783a2dab52163"><td class="mdescLeft">&#160;</td><td class="mdescRight">Desenha um Pixmap aplicando um tint (filtro de cor).  <br /></td></tr>
+<tr class="memitem:ga1cfb53c72cbb2bade51ab95060e25bc6" id="r_ga1cfb53c72cbb2bade51ab95060e25bc6"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ga1cfb53c72cbb2bade51ab95060e25bc6">vg_clear_back_buffer</a> (uint32_t color)</td></tr>
+<tr class="memdesc:ga1cfb53c72cbb2bade51ab95060e25bc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Limpa o buffer de desenho (back buffer) com uma cor sólida.  <br /></td></tr>
+<tr class="memitem:gaef0976392ff012451fc1a967fceb68f7" id="r_gaef0976392ff012451fc1a967fceb68f7"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#gaef0976392ff012451fc1a967fceb68f7">vg_swap_buffers</a> ()</td></tr>
+<tr class="memdesc:gaef0976392ff012451fc1a967fceb68f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Troca os buffers (Double Buffering). Copia o conteúdo do back buffer para o front buffer (VRAM real).  <br /></td></tr>
+<tr class="memitem:ga909ee75171691e9ec9ecce60cd9f4fe5" id="r_ga909ee75171691e9ec9ecce60cd9f4fe5"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ga909ee75171691e9ec9ecce60cd9f4fe5">vg_free_buffers</a> ()</td></tr>
+<tr class="memdesc:ga909ee75171691e9ec9ecce60cd9f4fe5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Liberta a memória alocada para os buffers.  <br /></td></tr>
+<tr class="memitem:ga3280ff4aaac9e64c8392770524e3e399" id="r_ga3280ff4aaac9e64c8392770524e3e399"><td class="memItemLeft">uint16_t&#160;</td><td class="memItemRight"><a class="el" href="#ga3280ff4aaac9e64c8392770524e3e399">vg_get_h_res</a> ()</td></tr>
+<tr class="memdesc:ga3280ff4aaac9e64c8392770524e3e399"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtém a resolução horizontal.  <br /></td></tr>
+<tr class="memitem:gaa1b81018b2c684a44fe827d388f3002b" id="r_gaa1b81018b2c684a44fe827d388f3002b"><td class="memItemLeft">uint16_t&#160;</td><td class="memItemRight"><a class="el" href="#gaa1b81018b2c684a44fe827d388f3002b">vg_get_v_res</a> ()</td></tr>
+<tr class="memdesc:gaa1b81018b2c684a44fe827d388f3002b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtém a resolução vertical.  <br /></td></tr>
+<tr class="memitem:gaf0c5978a42ca9541d48e18c3c19d95ea" id="r_gaf0c5978a42ca9541d48e18c3c19d95ea"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#gaf0c5978a42ca9541d48e18c3c19d95ea">vg_draw_sprite</a> (uint32_t *map, xpm_image_t img, int x, int y)</td></tr>
+<tr class="memdesc:gaf0c5978a42ca9541d48e18c3c19d95ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Desenha um sprite baseando-se no mapa de píxeis e struct xpm_image_t.  <br /></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Descrição detalhada</h2>
+<div class="textblock"><p>Operações de desenho no ecrã (VBE). </p>
+</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Documentação das funções</h2>
+<a id="ga1cfb53c72cbb2bade51ab95060e25bc6" name="ga1cfb53c72cbb2bade51ab95060e25bc6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1cfb53c72cbb2bade51ab95060e25bc6">&#9670;&#160;</a></span>vg_clear_back_buffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void vg_clear_back_buffer </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>color</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Limpa o buffer de desenho (back buffer) com uma cor sólida. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">color</td><td>Cor de fundo (geralmente preto: 0x000000). </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_ga1cfb53c72cbb2bade51ab95060e25bc6_cgraph.png" border="0" usemap="#agroup___video_card_ga1cfb53c72cbb2bade51ab95060e25bc6_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 0 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_ga1cfb53c72cbb2bade51ab95060e25bc6_icgraph.png" border="0" usemap="#agroup___video_card_ga1cfb53c72cbb2bade51ab95060e25bc6_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 1 -->
+</div>
+
+</div>
+</div>
+<a id="gadb08b276272848bc7f3bccc0f5e770c8" name="gadb08b276272848bc7f3bccc0f5e770c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadb08b276272848bc7f3bccc0f5e770c8">&#9670;&#160;</a></span>vg_draw_hline()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int vg_draw_hline </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>len</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>color</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Desenha uma linha horizontal. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>Coordenada X inicial. </td></tr>
+    <tr><td class="paramname">y</td><td>Coordenada Y. </td></tr>
+    <tr><td class="paramname">len</td><td>Comprimento da linha. </td></tr>
+    <tr><td class="paramname">color</td><td>Cor da linha. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Retorna</dt><dd>0 em sucesso, 1 em erro. </dd></dl>
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_gadb08b276272848bc7f3bccc0f5e770c8_cgraph.png" border="0" usemap="#agroup___video_card_gadb08b276272848bc7f3bccc0f5e770c8_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 2 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_gadb08b276272848bc7f3bccc0f5e770c8_icgraph.png" border="0" usemap="#agroup___video_card_gadb08b276272848bc7f3bccc0f5e770c8_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 3 -->
+</div>
+
+</div>
+</div>
+<a id="ga6f895de9725f9f231f9a7f74b6087f60" name="ga6f895de9725f9f231f9a7f74b6087f60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6f895de9725f9f231f9a7f74b6087f60">&#9670;&#160;</a></span>vg_draw_pixel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int vg_draw_pixel </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>color</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Desenha um píxel com uma determinada cor. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>Coordenada X. </td></tr>
+    <tr><td class="paramname">y</td><td>Coordenada Y. </td></tr>
+    <tr><td class="paramname">color</td><td>Cor do píxel (RGB/Indexada dependendo do modo). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Retorna</dt><dd>0 em sucesso, 1 em erro. </dd></dl>
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_ga6f895de9725f9f231f9a7f74b6087f60_cgraph.png" border="0" usemap="#agroup___video_card_ga6f895de9725f9f231f9a7f74b6087f60_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 4 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_ga6f895de9725f9f231f9a7f74b6087f60_icgraph.png" border="0" usemap="#agroup___video_card_ga6f895de9725f9f231f9a7f74b6087f60_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 5 -->
+</div>
+
+</div>
+</div>
+<a id="ga4d53728322f948683b768482bf4906e8" name="ga4d53728322f948683b768482bf4906e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4d53728322f948683b768482bf4906e8">&#9670;&#160;</a></span>vg_draw_rectangle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int vg_draw_rectangle </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>width</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>height</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>color</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Desenha um retângulo preenchido. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>Coordenada X do canto superior esquerdo. </td></tr>
+    <tr><td class="paramname">y</td><td>Coordenada Y do canto superior esquerdo. </td></tr>
+    <tr><td class="paramname">width</td><td>Largura. </td></tr>
+    <tr><td class="paramname">height</td><td>Altura. </td></tr>
+    <tr><td class="paramname">color</td><td>Cor do preenchimento. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Retorna</dt><dd>0 em sucesso, 1 em erro. </dd></dl>
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_ga4d53728322f948683b768482bf4906e8_cgraph.png" border="0" usemap="#agroup___video_card_ga4d53728322f948683b768482bf4906e8_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 6 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_ga4d53728322f948683b768482bf4906e8_icgraph.png" border="0" usemap="#agroup___video_card_ga4d53728322f948683b768482bf4906e8_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 7 -->
+</div>
+
+</div>
+</div>
+<a id="gaf0c5978a42ca9541d48e18c3c19d95ea" name="gaf0c5978a42ca9541d48e18c3c19d95ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf0c5978a42ca9541d48e18c3c19d95ea">&#9670;&#160;</a></span>vg_draw_sprite()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void vg_draw_sprite </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t *</td>          <td class="paramname"><span class="paramname"><em>map</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">xpm_image_t</td>          <td class="paramname"><span class="paramname"><em>img</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Desenha um sprite baseando-se no mapa de píxeis e struct xpm_image_t. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">map</td><td>Array de píxeis do sprite. </td></tr>
+    <tr><td class="paramname">img</td><td>Estrutura com metadata da imagem. </td></tr>
+    <tr><td class="paramname">x</td><td>Coordenada X. </td></tr>
+    <tr><td class="paramname">y</td><td>Coordenada Y. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_gaf0c5978a42ca9541d48e18c3c19d95ea_cgraph.png" border="0" usemap="#agroup___video_card_gaf0c5978a42ca9541d48e18c3c19d95ea_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 8 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_gaf0c5978a42ca9541d48e18c3c19d95ea_icgraph.png" border="0" usemap="#agroup___video_card_gaf0c5978a42ca9541d48e18c3c19d95ea_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 9 -->
+</div>
+
+</div>
+</div>
+<a id="gaf9979d37c4242c6c107dfdaa4dd89c8f" name="gaf9979d37c4242c6c107dfdaa4dd89c8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf9979d37c4242c6c107dfdaa4dd89c8f">&#9670;&#160;</a></span>vg_draw_xpm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int vg_draw_xpm </td>
+          <td>(</td>
+          <td class="paramtype">xpm_map_t</td>          <td class="paramname"><span class="paramname"><em>xpm</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Desenha um XPM (formato antigo/padrão) no ecrã. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xpm</td><td>Mapa XPM. </td></tr>
+    <tr><td class="paramname">x</td><td>Coordenada X. </td></tr>
+    <tr><td class="paramname">y</td><td>Coordenada Y. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Retorna</dt><dd>0 em sucesso. </dd></dl>
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_gaf9979d37c4242c6c107dfdaa4dd89c8f_cgraph.png" border="0" usemap="#agroup___video_card_gaf9979d37c4242c6c107dfdaa4dd89c8f_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 10 -->
+</div>
+
+</div>
+</div>
+<a id="gab0d487e77517d32f7d5aae7f5f9443e9" name="gab0d487e77517d32f7d5aae7f5f9443e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab0d487e77517d32f7d5aae7f5f9443e9">&#9670;&#160;</a></span>vg_draw_xpm_image()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int vg_draw_xpm_image </td>
+          <td>(</td>
+          <td class="paramtype">const uint32_t *</td>          <td class="paramname"><span class="paramname"><em>pixmap</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>width</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>height</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>transparent_color</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>use_transparency</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Desenha um Pixmap (imagem pré-carregada) suportando transparência. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pixmap</td><td>Array de píxeis da imagem. </td></tr>
+    <tr><td class="paramname">width</td><td>Largura da imagem. </td></tr>
+    <tr><td class="paramname">height</td><td>Altura da imagem. </td></tr>
+    <tr><td class="paramname">x</td><td>Coordenada X. </td></tr>
+    <tr><td class="paramname">y</td><td>Coordenada Y. </td></tr>
+    <tr><td class="paramname">transparent_color</td><td>Cor considerada como transparente. </td></tr>
+    <tr><td class="paramname">use_transparency</td><td>1 para ativar transparência, 0 para ignorar. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Retorna</dt><dd>0 em sucesso. </dd></dl>
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_gab0d487e77517d32f7d5aae7f5f9443e9_cgraph.png" border="0" usemap="#agroup___video_card_gab0d487e77517d32f7d5aae7f5f9443e9_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 11 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_gab0d487e77517d32f7d5aae7f5f9443e9_icgraph.png" border="0" usemap="#agroup___video_card_gab0d487e77517d32f7d5aae7f5f9443e9_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 12 -->
+</div>
+
+</div>
+</div>
+<a id="ga1c016c9d61f32ca6e42783a2dab52163" name="ga1c016c9d61f32ca6e42783a2dab52163"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1c016c9d61f32ca6e42783a2dab52163">&#9670;&#160;</a></span>vg_draw_xpm_image_tinted()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int vg_draw_xpm_image_tinted </td>
+          <td>(</td>
+          <td class="paramtype">const uint32_t *</td>          <td class="paramname"><span class="paramname"><em>pixmap</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>width</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>height</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>transparent_color</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>tint_color</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Desenha um Pixmap aplicando um tint (filtro de cor). </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pixmap</td><td>Array de píxeis. </td></tr>
+    <tr><td class="paramname">width</td><td>Largura. </td></tr>
+    <tr><td class="paramname">height</td><td>Altura. </td></tr>
+    <tr><td class="paramname">x</td><td>Coordenada X. </td></tr>
+    <tr><td class="paramname">y</td><td>Coordenada Y. </td></tr>
+    <tr><td class="paramname">transparent_color</td><td>Cor considerada transparente. </td></tr>
+    <tr><td class="paramname">tint_color</td><td>Cor de tint a sobrepor. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Retorna</dt><dd>0 em sucesso. </dd></dl>
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_ga1c016c9d61f32ca6e42783a2dab52163_cgraph.png" border="0" usemap="#agroup___video_card_ga1c016c9d61f32ca6e42783a2dab52163_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 13 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_ga1c016c9d61f32ca6e42783a2dab52163_icgraph.png" border="0" usemap="#agroup___video_card_ga1c016c9d61f32ca6e42783a2dab52163_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 14 -->
+</div>
+
+</div>
+</div>
+<a id="ga909ee75171691e9ec9ecce60cd9f4fe5" name="ga909ee75171691e9ec9ecce60cd9f4fe5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga909ee75171691e9ec9ecce60cd9f4fe5">&#9670;&#160;</a></span>vg_free_buffers()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void vg_free_buffers </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Liberta a memória alocada para os buffers. </p>
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_ga909ee75171691e9ec9ecce60cd9f4fe5_cgraph.png" border="0" usemap="#agroup___video_card_ga909ee75171691e9ec9ecce60cd9f4fe5_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 15 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_ga909ee75171691e9ec9ecce60cd9f4fe5_icgraph.png" border="0" usemap="#agroup___video_card_ga909ee75171691e9ec9ecce60cd9f4fe5_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 16 -->
+</div>
+
+</div>
+</div>
+<a id="ga3280ff4aaac9e64c8392770524e3e399" name="ga3280ff4aaac9e64c8392770524e3e399"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3280ff4aaac9e64c8392770524e3e399">&#9670;&#160;</a></span>vg_get_h_res()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t vg_get_h_res </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Obtém a resolução horizontal. </p>
+<dl class="section return"><dt>Retorna</dt><dd>Largura do ecrã em píxeis. </dd></dl>
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_ga3280ff4aaac9e64c8392770524e3e399_cgraph.png" border="0" usemap="#agroup___video_card_ga3280ff4aaac9e64c8392770524e3e399_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 17 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_ga3280ff4aaac9e64c8392770524e3e399_icgraph.png" border="0" usemap="#agroup___video_card_ga3280ff4aaac9e64c8392770524e3e399_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 18 -->
+</div>
+
+</div>
+</div>
+<a id="gaa1b81018b2c684a44fe827d388f3002b" name="gaa1b81018b2c684a44fe827d388f3002b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa1b81018b2c684a44fe827d388f3002b">&#9670;&#160;</a></span>vg_get_v_res()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t vg_get_v_res </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Obtém a resolução vertical. </p>
+<dl class="section return"><dt>Retorna</dt><dd>Altura do ecrã em píxeis. </dd></dl>
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_gaa1b81018b2c684a44fe827d388f3002b_cgraph.png" border="0" usemap="#agroup___video_card_gaa1b81018b2c684a44fe827d388f3002b_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 19 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_gaa1b81018b2c684a44fe827d388f3002b_icgraph.png" border="0" usemap="#agroup___video_card_gaa1b81018b2c684a44fe827d388f3002b_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 20 -->
+</div>
+
+</div>
+</div>
+<a id="gacc11b311c479b1904fd45e8c6da5fcc3" name="gacc11b311c479b1904fd45e8c6da5fcc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gacc11b311c479b1904fd45e8c6da5fcc3">&#9670;&#160;</a></span>vg_init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void * vg_init </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>mode</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Inicializa o modo de vídeo especificado usando VBE. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mode</td><td>Modo de vídeo (ex: 0x115). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Retorna</dt><dd>Apontador para o início do VRAM (Video RAM). </dd></dl>
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_gacc11b311c479b1904fd45e8c6da5fcc3_cgraph.png" border="0" usemap="#agroup___video_card_gacc11b311c479b1904fd45e8c6da5fcc3_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 21 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_gacc11b311c479b1904fd45e8c6da5fcc3_icgraph.png" border="0" usemap="#agroup___video_card_gacc11b311c479b1904fd45e8c6da5fcc3_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 22 -->
+</div>
+
+</div>
+</div>
+<a id="gaef0976392ff012451fc1a967fceb68f7" name="gaef0976392ff012451fc1a967fceb68f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaef0976392ff012451fc1a967fceb68f7">&#9670;&#160;</a></span>vg_swap_buffers()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void vg_swap_buffers </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Troca os buffers (Double Buffering). Copia o conteúdo do back buffer para o front buffer (VRAM real). </p>
+<div class="dynheader">
+Grafo de chamadas desta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_gaef0976392ff012451fc1a967fceb68f7_cgraph.png" border="0" usemap="#agroup___video_card_gaef0976392ff012451fc1a967fceb68f7_cgraph" loading="lazy" alt=""/></div>
+<!-- MAP 23 -->
+</div>
+<div class="dynheader">
+Este é o diagrama das funções que utilizam esta função:</div>
+<div class="dyncontent">
+<div class="center"><img src="group___video_card_gaef0976392ff012451fc1a967fceb68f7_icgraph.png" border="0" usemap="#agroup___video_card_gaef0976392ff012451fc1a967fceb68f7_icgraph" loading="lazy" alt=""/></div>
+<!-- MAP 24 -->
+</div>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Gerado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
+</body>
+</html>
