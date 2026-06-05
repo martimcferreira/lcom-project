@@ -29,6 +29,8 @@ EVENT_GAME_START_SONG3 = 0x06
 EVENT_GAME_START_SONG4 = 0x07
 EVENT_HIT = 0x0A
 EVENT_MISS = 0x0E
+EVENT_VOLUME_UP = 0x10
+EVENT_VOLUME_DOWN = 0x11
 
 SONGS = {
     1: os.path.join("songs", "song1.mp3"),
@@ -86,7 +88,9 @@ def main():
     args = parser.parse_args()
 
     pygame.mixer.init(frequency=44100, size=-16, channels=2, buffer=512)
+    pygame.mixer.music.set_volume(0.25)  # 50% de volume percebido (mapeamento quadrático)
     fail_sound = load_fail_sound(args.fail)
+    volume_idx = 5
 
     try:
         ser = serial.Serial(args.port, BAUD_RATE, timeout=0.01)
@@ -136,6 +140,16 @@ def main():
             elif event == EVENT_MISS:
                 print("💥 [MISS] Nota falhada.")
                 fail_sound.play()
+            elif event == EVENT_VOLUME_UP:
+                volume_idx = min(10, volume_idx + 1)
+                # Mapeamento quadrático para a curva de percepção auditiva humana
+                pygame.mixer.music.set_volume((volume_idx / 10.0) ** 2)
+                print(f"🔊 [VOLUME] Aumentado para: {volume_idx * 10}% (Pygame: {pygame.mixer.music.get_volume():.1%})")
+            elif event == EVENT_VOLUME_DOWN:
+                volume_idx = max(0, volume_idx - 1)
+                # Mapeamento quadrático para a curva de percepção auditiva humana
+                pygame.mixer.music.set_volume((volume_idx / 10.0) ** 2)
+                print(f"🔉 [VOLUME] Diminuído para: {volume_idx * 10}% (Pygame: {pygame.mixer.music.get_volume():.1%})")
             else:
                 print(f"[UART] Byte ignorado: {event:#04x}")
 

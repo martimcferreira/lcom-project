@@ -44,6 +44,8 @@
 #define UART_EVENT_GAME_START_SONG4 0x07  /* Iniciar Música 4 */
 #define UART_EVENT_HIT              0x0A  /* Nota acertada */
 #define UART_EVENT_MISS             0x0E  /* Erro / nota falhada */
+#define UART_EVENT_VOLUME_UP        0x10  /* Aumentar Volume */
+#define UART_EVENT_VOLUME_DOWN      0x11  /* Diminuir Volume */
 
 /* --- Resultado de envio nao-bloqueante --- */
 #define UART_SEND_OK                0

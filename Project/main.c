@@ -89,6 +89,9 @@ static uint32_t pause_start_tick = 0;
 static uint32_t pause_elapsed_ticks = 0;
 static bool hover_pause_resume = false;
 static bool hover_pause_quit = false;
+static bool hover_pause_vol_down = false;
+static bool hover_pause_vol_up = false;
+static int volume_percent = 50;
 
 #define AUDIO_QUEUE_SIZE 32
 static uint8_t audio_queue[AUDIO_QUEUE_SIZE];
@@ -112,7 +115,7 @@ static int audio_q_tail = 0;
 #define PAUSE_PANEL_X 230
 #define PAUSE_PANEL_Y 140
 #define PAUSE_PANEL_W 340
-#define PAUSE_PANEL_H 310
+#define PAUSE_PANEL_H 340
 #define PAUSE_BTN_W 220
 #define PAUSE_BTN_H 60
 #define PAUSE_RESUME_X 290
@@ -991,6 +994,24 @@ static void draw_play_frame(const uint32_t *bg_map,
   draw_text(450, 28, "PRESS M TO CHANGE BG", 2, 0xFFFFFF);
 }
 
+static void change_volume(bool increase, bool uart_ready) {
+  if (increase) {
+    if (volume_percent < 100) {
+      volume_percent += 10;
+      if (uart_send_audio_event(uart_ready, UART_EVENT_VOLUME_UP, "VOLUME_UP")) {
+        printf("[UART] Evento VOLUME_UP (0x%02x) enviado.\n", UART_EVENT_VOLUME_UP);
+      }
+    }
+  } else {
+    if (volume_percent > 0) {
+      volume_percent -= 10;
+      if (uart_send_audio_event(uart_ready, UART_EVENT_VOLUME_DOWN, "VOLUME_DOWN")) {
+        printf("[UART] Evento VOLUME_DOWN (0x%02x) enviado.\n", UART_EVENT_VOLUME_DOWN);
+      }
+    }
+  }
+}
+
 static void draw_pause_menu(int mouse_x, int mouse_y) {
   hover_pause_resume = (menu_mouse_active() &&
                         mouse_x >= PAUSE_RESUME_X && mouse_x <= PAUSE_RESUME_X + PAUSE_BTN_W &&
@@ -1000,6 +1021,13 @@ static void draw_pause_menu(int mouse_x, int mouse_y) {
                       mouse_x >= PAUSE_QUIT_X && mouse_x <= PAUSE_QUIT_X + PAUSE_BTN_W &&
                       mouse_y >= PAUSE_QUIT_Y && mouse_y <= PAUSE_QUIT_Y + PAUSE_BTN_H) ||
                      (menu_keyboard_active() && kbd_pause_idx == 2);
+  
+  hover_pause_vol_down = (menu_mouse_active() &&
+                          mouse_x >= 300 && mouse_x <= 335 &&
+                          mouse_y >= 415 && mouse_y <= 450);
+  hover_pause_vol_up = (menu_mouse_active() &&
+                        mouse_x >= 465 && mouse_x <= 500 &&
+                        mouse_y >= 415 && mouse_y <= 450);
 
   // Caixa central com design Sci-Fi
   vg_draw_rectangle(PAUSE_PANEL_X, PAUSE_PANEL_Y, PAUSE_PANEL_W, PAUSE_PANEL_H, 0x111122);
@@ -1018,6 +1046,19 @@ static void draw_pause_menu(int mouse_x, int mouse_y) {
   if (hover_pause_quit) draw_border_main(PAUSE_QUIT_X, PAUSE_QUIT_Y, PAUSE_BTN_W, PAUSE_BTN_H, 0xFF0000, 4);
   vg_draw_rectangle(PAUSE_QUIT_X, PAUSE_QUIT_Y, PAUSE_BTN_W, PAUSE_BTN_H, quit_color);
   draw_text_centered(400, PAUSE_QUIT_Y + 20, "QUIT SONG", 3, 0xFFFFFF);
+
+  // Controle de volume
+  char vol_str[16];
+  snprintf(vol_str, sizeof(vol_str), "VOL: %d%%", volume_percent);
+  draw_text_centered(400, 422, vol_str, 2, 0x00FFFF);
+
+  uint32_t vol_down_color = hover_pause_vol_down ? 0x00FFFF : 0x008888;
+  vg_draw_rectangle(300, 415, 35, 35, vol_down_color);
+  draw_text_centered(317, 422, "-", 2, 0xFFFFFF);
+
+  uint32_t vol_up_color = hover_pause_vol_up ? 0x00FFFF : 0x008888;
+  vg_draw_rectangle(465, 415, 35, 35, vol_up_color);
+  draw_text_centered(482, 422, "+", 2, 0xFFFFFF);
 }
 
 static bool pause_resume_clicked(int mouse_x, int mouse_y) {
@@ -1448,6 +1489,12 @@ int (proj_main_loop)(int argc, char *argv[]) {
                   menu_set_keyboard_input();
                   kbd_pause_idx++;
                   if (kbd_pause_idx > 2) kbd_pause_idx = 1;
+                } else if (scancode_byte == 0x4B) { // LEFT (Decrease Volume)
+                  menu_set_keyboard_input();
+                  change_volume(false, uart_ready);
+                } else if (scancode_byte == 0x4D) { // RIGHT (Increase Volume)
+                  menu_set_keyboard_input();
+                  change_volume(true, uart_ready);
                 } else if (scancode_byte == 0x1C) { // ENTER
                   menu_set_keyboard_input();
                   if (kbd_pause_idx == 1) resume_paused_run(uart_ready);
@@ -1521,10 +1568,15 @@ int (proj_main_loop)(int argc, char *argv[]) {
                   /* Ao entrar em PLAY a partir de SONG_SELECT, reset da musica */
                   if (current_state == PLAY) music_started = false;
                 } else if (current_state == PAUSE && mouse_packet.lb) {
+                  menu_set_mouse_input();
                   if (pause_resume_clicked(mouse_x, mouse_y)) {
                     resume_paused_run(uart_ready);
                   } else if (pause_quit_clicked(mouse_x, mouse_y)) {
                     quit_paused_run(uart_ready);
+                  } else if (mouse_x >= 300 && mouse_x <= 335 && mouse_y >= 415 && mouse_y <= 450) {
+                    change_volume(false, uart_ready);
+                  } else if (mouse_x >= 465 && mouse_x <= 500 && mouse_y >= 415 && mouse_y <= 450) {
+                    change_volume(true, uart_ready);
                   }
                 } else if ((current_state == GAME_OVER || current_state == LEADERBOARD) && mouse_packet.lb) {
                   if (current_state == LEADERBOARD &&
@@ -1580,17 +1632,17 @@ int (proj_main_loop)(int argc, char *argv[]) {
               draw_text(20, 20, current_username, 2, 0xFFFF00);
               
               // Textos das Músicas (Sombra nas músicas também para destacarem)
-              draw_text_centered(400 + 2, 140 + 2, "SONG 1 - EASY", 3, 0x000000);
-              draw_text_centered(400, 140, "SONG 1 - EASY", 3, 0xFFFFFF);
+              draw_text_centered(400 + 2, 145 + 2, "EVERY TIME WE TOUCH", 2, 0x000000);
+              draw_text_centered(400, 145, "EVERY TIME WE TOUCH", 2, 0xFFFFFF);
               
-              draw_text_centered(400 + 2, 230 + 2, "SONG 4 - MEDIUM", 3, 0x000000);
-              draw_text_centered(400, 230, "SONG 4 - MEDIUM", 3, 0xFFFFFF);
+              draw_text_centered(400 + 2, 235 + 2, "SUMMER", 2, 0x000000);
+              draw_text_centered(400, 235, "SUMMER", 2, 0xFFFFFF);
               
-              draw_text_centered(400 + 2, 320 + 2, "SONG 2 - HARD", 3, 0x000000);
-              draw_text_centered(400, 320, "SONG 2 - HARD", 3, 0xFFFFFF);
+              draw_text_centered(400 + 2, 325 + 2, "DIAMOND MORNING", 2, 0x000000);
+              draw_text_centered(400, 325, "DIAMOND MORNING", 2, 0xFFFFFF);
               
-              draw_text_centered(400 + 2, 410 + 2, "SONG 3 - EXPERT", 3, 0x000000);
-              draw_text_centered(400, 410, "SONG 3 - EXPERT", 3, 0xFFFFFF);
+              draw_text_centered(400 + 2, 415 + 2, "HIGHWAY TO HELL", 2, 0x000000);
+              draw_text_centered(400, 415, "HIGHWAY TO HELL", 2, 0xFFFFFF);
               
               // Texto Back
               draw_text_centered(400, 515, "BACK", 3, 0x000000);
