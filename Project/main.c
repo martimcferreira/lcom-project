@@ -264,6 +264,7 @@ static void register_miss_score(void) {
     player_health = 0;
     current_state = GAME_OVER;
     music_started = false;
+    queue_audio_event(UART_EVENT_GAME_END);
   }
 
   if (combo_hits == 0) return;
