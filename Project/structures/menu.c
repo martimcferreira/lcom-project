@@ -9,10 +9,12 @@ bool hover_exit  = false;
 bool hover_leaderboard = false;
 bool hover_song1 = false;
 bool hover_song2 = false;
+bool hover_song3 = false;
+bool hover_song4 = false;
 bool hover_back  = false;
 
 int kbd_menu_idx = 1; // 1: Play, 2: Leaderboard, 3: Exit
-int kbd_song_idx = 1; // 1: Song1, 2: Song2, 3: Back
+int kbd_song_idx = 1; // 1: Song1, 2: Song2, 3: Song3, 4: Song4, 5: Back
 int kbd_pause_idx = 1; // 1: Resume, 2: Quit
 
 // ============================================================
@@ -121,25 +123,33 @@ void draw_song_select(int mouse_x, int mouse_y, const uint32_t *bg_map, xpm_imag
     hover_song1 = (mouse_x >= SONG1_X && mouse_x <= SONG1_X + SONG_BTN_W &&
                    mouse_y >= SONG1_Y && mouse_y <= SONG1_Y + SONG_BTN_H) || (kbd_song_idx == 1);
 
-    hover_song2 = (mouse_x >= SONG2_X && mouse_x <= SONG2_X + SONG_BTN_W &&
+    hover_song4 = (mouse_x >= SONG2_X && mouse_x <= SONG2_X + SONG_BTN_W &&
                    mouse_y >= SONG2_Y && mouse_y <= SONG2_Y + SONG_BTN_H) || (kbd_song_idx == 2);
 
-    hover_back  = (mouse_x >= BACK_BTN_X && mouse_x <= BACK_BTN_X + BACK_BTN_W &&
-                   mouse_y >= BACK_BTN_Y && mouse_y <= BACK_BTN_Y + BACK_BTN_H) || (kbd_song_idx == 3);
+    hover_song2 = (mouse_x >= SONG3_X && mouse_x <= SONG3_X + SONG_BTN_W &&
+                   mouse_y >= SONG3_Y && mouse_y <= SONG3_Y + SONG_BTN_H) || (kbd_song_idx == 3);
 
-    // --- BOTÃO SONG 1 ---
+    hover_song3 = (mouse_x >= SONG4_X && mouse_x <= SONG4_X + SONG_BTN_W &&
+                   mouse_y >= SONG4_Y && mouse_y <= SONG4_Y + SONG_BTN_H) || (kbd_song_idx == 4);
+
+    hover_back  = (mouse_x >= BACK_BTN_X && mouse_x <= BACK_BTN_X + BACK_BTN_W &&
+                   mouse_y >= BACK_BTN_Y && mouse_y <= BACK_BTN_Y + BACK_BTN_H) || (kbd_song_idx == 5);
+
+    // --- BOTÃO SONG 1 (Row 1 - Easy) ---
     uint32_t s1_base  = (song_id == 1) ? 0x00CC66 : 0x008844;
     draw_neo_btn(SONG1_X, SONG1_Y, SONG_BTN_W, SONG_BTN_H, s1_base, hover_song1);
 
-    // --- BOTÃO SONG 2 ---
+    // --- BOTÃO SONG 4 (Row 2 - Medium) ---
+    uint32_t s4_base  = (song_id == 4) ? 0x3399FF : 0x0066CC;
+    draw_neo_btn(SONG2_X, SONG2_Y, SONG_BTN_W, SONG_BTN_H, s4_base, hover_song4);
+
+    // --- BOTÃO SONG 2 (Row 3 - Hard) ---
     uint32_t s2_base  = (song_id == 2) ? 0xCC3333 : 0x882222;
-    draw_neo_btn(SONG2_X, SONG2_Y, SONG_BTN_W, SONG_BTN_H, s2_base, hover_song2);
+    draw_neo_btn(SONG3_X, SONG3_Y, SONG_BTN_W, SONG_BTN_H, s2_base, hover_song2);
 
-    // --- BOTÃO SONG 3 (LOCKED) ---
-    draw_neo_btn(SONG3_X, SONG3_Y, SONG_BTN_W, SONG_BTN_H, 0x444444, false);
-
-    // --- BOTÃO SONG 4 (LOCKED) ---
-    draw_neo_btn(SONG4_X, SONG4_Y, SONG_BTN_W, SONG_BTN_H, 0x444444, false);
+    // --- BOTÃO SONG 3 (Row 4 - Expert) ---
+    uint32_t s3_base  = (song_id == 3) ? 0x9933FF : 0x6600CC;
+    draw_neo_btn(SONG4_X, SONG4_Y, SONG_BTN_W, SONG_BTN_H, s3_base, hover_song3);
 
     // --- BOTÃO BACK ---
     draw_neo_btn(BACK_BTN_X, BACK_BTN_Y, BACK_BTN_W, BACK_BTN_H, 0xFFCC00, hover_back);
@@ -155,7 +165,15 @@ void check_song_select_clicks(int mouse_x, int mouse_y, bool left_click,
         *current_state = PLAY;
     } else if (mouse_x >= SONG2_X && mouse_x <= SONG2_X + SONG_BTN_W &&
                mouse_y >= SONG2_Y && mouse_y <= SONG2_Y + SONG_BTN_H) {
+        song_id = 4;
+        *current_state = PLAY;
+    } else if (mouse_x >= SONG3_X && mouse_x <= SONG3_X + SONG_BTN_W &&
+               mouse_y >= SONG3_Y && mouse_y <= SONG3_Y + SONG_BTN_H) {
         song_id = 2;
+        *current_state = PLAY;
+    } else if (mouse_x >= SONG4_X && mouse_x <= SONG4_X + SONG_BTN_W &&
+               mouse_y >= SONG4_Y && mouse_y <= SONG4_Y + SONG_BTN_H) {
+        song_id = 3;
         *current_state = PLAY;
     } else if (mouse_x >= BACK_BTN_X && mouse_x <= BACK_BTN_X + BACK_BTN_W &&
                mouse_y >= BACK_BTN_Y && mouse_y <= BACK_BTN_Y + BACK_BTN_H) {

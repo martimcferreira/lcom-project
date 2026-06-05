@@ -22,6 +22,8 @@ extern bool hover_exit;
 extern bool hover_leaderboard;
 extern bool hover_song1;
 extern bool hover_song2;
+extern bool hover_song3;
+extern bool hover_song4;
 extern bool hover_back;
 
 extern int song_id;
