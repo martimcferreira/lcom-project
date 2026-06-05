@@ -455,23 +455,52 @@ static void draw_score_hud(void) {
 }
 
 static void draw_leaderboard_summary(void) {
-  char row[48];
+  char pos[8];
+  char score_val[16];
   LeaderboardEntry *scores = leaderboard_get_scores();
   int count = leaderboard_get_count();
 
-  draw_text(470, 185, "TOP 5", 3, 0xFFFFFF);
+  int box_x = 420;
+  int box_y = 180;
+  int box_w = 300;
+  int box_h = 280;
+
+  // Background Box (Purple/Magenta themed)
+  draw_border_main(box_x, box_y, box_w, box_h, 0xFF00FF, 4);
+  vg_draw_rectangle(box_x, box_y, box_w, box_h, 0x1A001A);
+  
+  // Subtle inner border
+  draw_border_main(box_x + 4, box_y + 4, box_w - 8, box_h - 8, 0x330033, 1);
+
+  // Title
+  draw_text_centered(box_x + box_w / 2, box_y + 20, "TOP 5 HEROES", 3, 0xFF00FF);
+  vg_draw_rectangle(box_x + 20, box_y + 60, box_w - 40, 2, 0xFF00FF);
 
   if (count == 0) {
-    draw_text(470, 230, "NO SCORES", 2, 0xAAAAAA);
+    draw_text_centered(box_x + box_w / 2, box_y + 140, "NO SCORES YET", 3, 0x555555);
     return;
   }
 
   for (int i = 0; i < count && i < 5; i++) {
-    snprintf(row, sizeof(row), "%d %s %d",
-             i + 1,
-             scores[i].username,
-             scores[i].score);
-    draw_text(470, 230 + i * 34, row, 2, 0xDDDDDD);
+    uint32_t color = 0xFFFFFF; // Default white
+    if (i == 0) color = 0xFFFF00; // Gold
+    else if (i == 1) color = 0xCCCCCC; // Silver
+    else if (i == 2) color = 0xCD7F32; // Bronze
+
+    int row_y = box_y + 80 + i * 36;
+    
+    // Rank
+    snprintf(pos, sizeof(pos), "#%d", i + 1);
+    draw_text(box_x + 20, row_y, pos, 2, color);
+    
+    // Name
+    draw_text(box_x + 80, row_y, scores[i].username, 2, color);
+    
+    // Score
+    snprintf(score_val, sizeof(score_val), "%d", scores[i].score);
+    // Align score to the right
+    int sw = text_width_pixels(score_val, 2);
+    draw_text(box_x + box_w - 20 - sw, row_y, score_val, 2, color);
   }
 }
 
@@ -1439,7 +1468,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
             if (current_state == MENU) {
               draw_main_menu(mouse_x, mouse_y, menu_map, menu_img);
               draw_text_centered(400, 260, "PLAY", 3, 0x000000);
-              draw_text_centered(400, 350, "LEADERBOARD", 3, 0x000000);
+              draw_text_centered(400, 350, "HALL OF FAME", 3, 0x000000);
               draw_text_centered(400, 440, "EXIT", 3, 0x000000);
             } else if (current_state == USERNAME_ENTRY) {
               draw_username_entry_screen(graffiti_user_map, graffiti_user_img);
