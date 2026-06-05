@@ -140,6 +140,23 @@ static void clamp_mouse_position(void) {
   if (mouse_y > 599) mouse_y = 599;
 }
 
+static bool is_menu_state(GameState state) {
+  return state == MENU ||
+         state == USERNAME_ENTRY ||
+         state == SONG_SELECT ||
+         state == PAUSE ||
+         state == GAME_OVER ||
+         state == LEADERBOARD;
+}
+
+static bool mouse_packet_has_input(const struct packet *packet) {
+  return packet->delta_x != 0 ||
+         packet->delta_y != 0 ||
+         packet->lb ||
+         packet->rb ||
+         packet->mb;
+}
+
 static int lane_from_make_code(uint8_t make_code) {
   switch (make_code) {
     case A_MAKE_CODE: return 0;
@@ -388,13 +405,21 @@ static void draw_score_hud(void) {
   update_score_hud_cache();
 
   int box_x = 10;
-  int box_y = 10;
+  int box_y = 55;
   int box_w = 170;
   int box_h = 135;
 
   uint32_t border_color = 0x00FFFF; // Default cyan
   if (combo_hits > SCORE_TIER_5_COMBO) border_color = 0xFF00FF; // Pink
   else if (combo_hits > SCORE_TIER_3_COMBO) border_color = 0xFFFF00; // Yellow
+
+  // Player Name Box (Separate)
+  int name_w = text_width_pixels(current_username, 3);
+  int name_box_w = name_w + 20 < box_w ? box_w : name_w + 20;
+  draw_border_main(10, 10, name_box_w, 36, 0x00FFFF, 2); 
+  vg_draw_rectangle(10, 10, name_box_w, 36, 0x222233); 
+  draw_text_centered(10 + name_box_w / 2 + 2, 10 + 8, current_username, 3, 0x000000);
+  draw_text_centered(10 + name_box_w / 2, 10 + 6, current_username, 3, 0x00FFFF);
 
   // Background HUD Box with neon styling
   draw_border_main(box_x, box_y, box_w, box_h, border_color, 4); // Neon Border
@@ -523,6 +548,7 @@ static void draw_game_over_screen(const uint32_t *bg_map, xpm_image_t bg_img) {
     vg_clear_back_buffer(0x100000); // Fundo vermelho muito escuro
   }
 
+  
 
   // Caixa do Score (Red themed)
   draw_border_main(80, 180, 280, 120, 0xFF0000, 4);
@@ -541,10 +567,19 @@ static void draw_game_over_screen(const uint32_t *bg_map, xpm_image_t bg_img) {
   // Leaderboard resumo desenha-se a si próprio
   draw_leaderboard_summary();
 
-  // Botão "PRESS ENTER" no fundo
-  draw_border_main(200, 520, 400, 50, 0xFF0000, 3);
-  vg_draw_rectangle(200, 520, 400, 50, 0x330000);
-  draw_text_centered(400, 535, "[ENTER] MAIN MENU", 3, 0xFFCCCC);
+  // Botões
+  bool hover_menu = (mouse_x >= 120 && mouse_x <= 380 && mouse_y >= 520 && mouse_y <= 570);
+  bool hover_restart = (mouse_x >= 420 && mouse_x <= 680 && mouse_y >= 520 && mouse_y <= 570);
+
+  // Main Menu
+  draw_border_main(120, 520, 260, 50, hover_menu ? 0xFF5555 : 0xFF0000, 3);
+  vg_draw_rectangle(120, 520, 260, 50, hover_menu ? 0x550000 : 0x330000);
+  draw_text_centered(250, 535, "[ENTER] MENU", 3, hover_menu ? 0xFFFFFF : 0xFFCCCC);
+
+  // Restart
+  draw_border_main(420, 520, 260, 50, hover_restart ? 0xFF5555 : 0xFF0000, 3);
+  vg_draw_rectangle(420, 520, 260, 50, hover_restart ? 0x550000 : 0x330000);
+  draw_text_centered(550, 535, "[R] RESTART", 3, hover_restart ? 0xFFFFFF : 0xFFCCCC);
 }
 
 static void reset_username_entry(void) {
@@ -567,6 +602,18 @@ extern void draw_neo_btn(int x, int y, int w, int h, uint32_t bg_color, bool hov
 
 int kbd_username_idx = 2; // 1: BACK, 2: DONE
 int kbd_leaderboard_idx = 1; // 1: BACK
+
+#define USERNAME_BACK_X 140
+#define USERNAME_BACK_Y 460
+#define USERNAME_DONE_X 500
+#define USERNAME_DONE_Y 460
+#define USERNAME_BTN_W 160
+#define USERNAME_BTN_H 60
+
+#define LEADERBOARD_BACK_X 300
+#define LEADERBOARD_BACK_Y 530
+#define LEADERBOARD_BACK_W 200
+#define LEADERBOARD_BACK_H 50
 
 static char username_char_from_make_code(uint8_t make_code) {
   switch (make_code) {
@@ -660,6 +707,10 @@ static void draw_username_entry_screen(const uint32_t *bg_map, xpm_image_t bg_im
     vg_clear_back_buffer(0xCCCCCC); // Neo-brutalism light background fallback
   }
   
+  // Cabeçalho Background Box
+  draw_border_main(180, 20, 440, 120, 0x00FFFF, 3);
+  vg_draw_rectangle(180, 20, 440, 120, 0x111122);
+
   // Cabeçalho (move up to fit the background better)
   draw_text_centered(400 + 4, 40 + 4, "NEW SINGER", 5, 0x000000); // 3D Black Shadow
   draw_text_centered(400, 40, "NEW SINGER", 5, 0x00FFFF); // Cyan Main
@@ -674,12 +725,18 @@ static void draw_username_entry_screen(const uint32_t *bg_map, xpm_image_t bg_im
   draw_text_centered(400, 295, visible_name, 4, 0x00FFFF); // Cyan text
 
   // Botões
-  bool hover_bk = (mouse_x >= 140 && mouse_x <= 300 && mouse_y >= 460 && mouse_y <= 520) || (kbd_username_idx == 1);
-  draw_neo_btn(140, 460, 160, 60, 0xFF5555, hover_bk);
+  bool hover_bk = (menu_mouse_active() &&
+                   mouse_x >= USERNAME_BACK_X && mouse_x <= USERNAME_BACK_X + USERNAME_BTN_W &&
+                   mouse_y >= USERNAME_BACK_Y && mouse_y <= USERNAME_BACK_Y + USERNAME_BTN_H) ||
+                  (menu_keyboard_active() && kbd_username_idx == 1);
+  draw_neo_btn(USERNAME_BACK_X, USERNAME_BACK_Y, USERNAME_BTN_W, USERNAME_BTN_H, 0xFF5555, hover_bk);
   draw_text_centered(220, 480, "BACK", 3, 0x000000);
 
-  bool hover_dn = (mouse_x >= 500 && mouse_x <= 660 && mouse_y >= 460 && mouse_y <= 520) || (kbd_username_idx == 2);
-  draw_neo_btn(500, 460, 160, 60, 0x55FF55, hover_dn);
+  bool hover_dn = (menu_mouse_active() &&
+                   mouse_x >= USERNAME_DONE_X && mouse_x <= USERNAME_DONE_X + USERNAME_BTN_W &&
+                   mouse_y >= USERNAME_DONE_Y && mouse_y <= USERNAME_DONE_Y + USERNAME_BTN_H) ||
+                  (menu_keyboard_active() && kbd_username_idx == 2);
+  draw_neo_btn(USERNAME_DONE_X, USERNAME_DONE_Y, USERNAME_BTN_W, USERNAME_BTN_H, 0x55FF55, hover_dn);
   draw_text_centered(580, 480, "DONE", 3, 0x000000);
 }
 
@@ -706,8 +763,9 @@ static void draw_leaderboard_screen(const uint32_t *bg_map, xpm_image_t bg_img) 
   draw_text(560, 120, "DATE", 2, 0xFF00FF);
   vg_draw_rectangle(110, 150, 580, 2, 0x00FFFF); // Neon Cyan separador
 
-  // Fundo Tabela (Transparente para mostrar a Arcade machine!)
+  // Fundo Tabela escuro para contraste
   draw_border_main(100, 160, 600, 340, 0x00FFFF, 2); // Borda fina Cyan
+  vg_draw_rectangle(100, 160, 600, 340, 0x111122); // Fundo escuro azulado
 
   if (count == 0) {
     draw_text_centered(400, 300, "NO SCORES FOUND", 3, 0xFFFFFF);
@@ -736,8 +794,11 @@ static void draw_leaderboard_screen(const uint32_t *bg_map, xpm_image_t bg_img) 
   }
 
   // Botão "BACK" em baixo
-  bool hover_lb_bk = (mouse_x >= 300 && mouse_x <= 500 && mouse_y >= 530 && mouse_y <= 580) || (kbd_leaderboard_idx == 1);
-  draw_neo_btn(300, 530, 200, 50, 0xFF00FF, hover_lb_bk);
+  bool hover_lb_bk = (menu_mouse_active() &&
+                      mouse_x >= LEADERBOARD_BACK_X && mouse_x <= LEADERBOARD_BACK_X + LEADERBOARD_BACK_W &&
+                      mouse_y >= LEADERBOARD_BACK_Y && mouse_y <= LEADERBOARD_BACK_Y + LEADERBOARD_BACK_H) ||
+                     (menu_keyboard_active() && kbd_leaderboard_idx == 1);
+  draw_neo_btn(LEADERBOARD_BACK_X, LEADERBOARD_BACK_Y, LEADERBOARD_BACK_W, LEADERBOARD_BACK_H, 0xFF00FF, hover_lb_bk);
   draw_text_centered(400, 545, "BACK", 3, 0xFFFFFF);
 }
 
@@ -930,10 +991,14 @@ static void draw_play_frame(const uint32_t *bg_map,
 }
 
 static void draw_pause_menu(int mouse_x, int mouse_y) {
-  hover_pause_resume = (mouse_x >= PAUSE_RESUME_X && mouse_x <= PAUSE_RESUME_X + PAUSE_BTN_W &&
-                        mouse_y >= PAUSE_RESUME_Y && mouse_y <= PAUSE_RESUME_Y + PAUSE_BTN_H) || (kbd_pause_idx == 1);
-  hover_pause_quit = (mouse_x >= PAUSE_QUIT_X && mouse_x <= PAUSE_QUIT_X + PAUSE_BTN_W &&
-                      mouse_y >= PAUSE_QUIT_Y && mouse_y <= PAUSE_QUIT_Y + PAUSE_BTN_H) || (kbd_pause_idx == 2);
+  hover_pause_resume = (menu_mouse_active() &&
+                        mouse_x >= PAUSE_RESUME_X && mouse_x <= PAUSE_RESUME_X + PAUSE_BTN_W &&
+                        mouse_y >= PAUSE_RESUME_Y && mouse_y <= PAUSE_RESUME_Y + PAUSE_BTN_H) ||
+                       (menu_keyboard_active() && kbd_pause_idx == 1);
+  hover_pause_quit = (menu_mouse_active() &&
+                      mouse_x >= PAUSE_QUIT_X && mouse_x <= PAUSE_QUIT_X + PAUSE_BTN_W &&
+                      mouse_y >= PAUSE_QUIT_Y && mouse_y <= PAUSE_QUIT_Y + PAUSE_BTN_H) ||
+                     (menu_keyboard_active() && kbd_pause_idx == 2);
 
   // Caixa central com design Sci-Fi
   vg_draw_rectangle(PAUSE_PANEL_X, PAUSE_PANEL_Y, PAUSE_PANEL_W, PAUSE_PANEL_H, 0x111122);
@@ -1115,6 +1180,45 @@ int main(int argc, char *argv[]) {
   lcf_cleanup();
   return 0;
 }
+static void draw_loading_progress(int current, int total) {
+  vg_clear_back_buffer(0x111122); // Fundo escuro azulado
+  draw_text_centered(400, 100, "FEUP HERO", 6, 0x00FFFF); // Título adicionado
+
+  draw_border_main(200, 220, 400, 180, 0x00FFFF, 4); // Borda Ciano Néon
+  vg_draw_rectangle(200, 220, 400, 180, 0x000000); // Fundo preto
+  draw_text_centered(400, 240, "LOADING ASSETS...", 3, 0x00FFFF);
+
+  // Mensagens divertidas dependendo do progresso
+  const char* funny_msgs[] = {
+      "WARMING UP THE BAND...",
+      "TUNING THE GUITARS...",
+      "TIME TO STRETCH FINGERS...",
+      "TESTING THE MICS...",
+      "GET READY TO ROCK..."
+  };
+  int msg_idx = (current * 5) / (total > 0 ? total : 1);
+  if (msg_idx >= 5) msg_idx = 4;
+  draw_text_centered(400, 280, funny_msgs[msg_idx], 2, 0xFFFF00);
+
+  // Loading bar outline
+  int bar_x = 240;
+  int bar_y = 320;
+  int bar_w = 320;
+  int bar_h = 24;
+  draw_border_main(bar_x, bar_y, bar_w, bar_h, 0x555555, 2);
+  vg_draw_rectangle(bar_x, bar_y, bar_w, bar_h, 0x222222);
+
+  if (total > 0) {
+    int fill_w = (bar_w * current) / total;
+    vg_draw_rectangle(bar_x, bar_y, fill_w, bar_h, 0x00FF00); // Green fill
+  }
+
+  char text[32];
+  snprintf(text, sizeof(text), "%d / %d", current, total);
+  draw_text_centered(400, 360, text, 2, 0xFFFFFF);
+
+  vg_swap_buffers();
+}
 
 int (proj_main_loop)(int argc, char *argv[]) {
 
@@ -1137,6 +1241,10 @@ int (proj_main_loop)(int argc, char *argv[]) {
     return 1;
   }
 
+  int total_assets = 13;
+  int current_asset = 0;
+  draw_loading_progress(current_asset, total_assets);
+
   for (int i = 0; i < 5; i++) {
     hit_effect_frames[i] = 0;
     miss_effect_frames[i] = 0;
@@ -1145,25 +1253,35 @@ int (proj_main_loop)(int argc, char *argv[]) {
   xpm_image_t bg_img;
   uint32_t *bg_maps[3];
   bg_maps[0] = (uint32_t *)xpm_load((xpm_map_t)bg1_xpm, XPM_8_8_8_8, &bg_img);
+  draw_loading_progress(++current_asset, total_assets);
+  
   bg_maps[1] = (uint32_t *)xpm_load((xpm_map_t)bg2_xpm, XPM_8_8_8_8, &bg_img);
+  draw_loading_progress(++current_asset, total_assets);
+  
   bg_maps[2] = (uint32_t *)xpm_load((xpm_map_t)bg3_xpm, XPM_8_8_8_8, &bg_img);
+  draw_loading_progress(++current_asset, total_assets);
   int current_bg_idx = 0;
 
   xpm_image_t arcade_leaderboard_img;
   uint32_t *arcade_leaderboard_map = (uint32_t *)xpm_load((xpm_map_t)arcade_leaderboard_xpm, XPM_8_8_8_8, &arcade_leaderboard_img);
+  draw_loading_progress(++current_asset, total_assets);
 
   xpm_image_t menu_img;
   uint32_t *menu_map_bytes = (uint32_t *)xpm_load((xpm_map_t)menu_xpm, XPM_8_8_8_8, &menu_img);
+  draw_loading_progress(++current_asset, total_assets);
 
   xpm_image_t graffiti_song_img;
   uint32_t *graffiti_song_map = (uint32_t *)xpm_load((xpm_map_t)graffiti_song_select_xpm, XPM_8_8_8_8, &graffiti_song_img);
+  draw_loading_progress(++current_asset, total_assets);
 
   xpm_image_t graffiti_user_img;
   uint32_t *graffiti_user_map = (uint32_t *)xpm_load((xpm_map_t)graffiti_username_entry_xpm, XPM_8_8_8_8, &graffiti_user_img);
   uint32_t *menu_map = (uint32_t *) menu_map_bytes;
+  draw_loading_progress(++current_asset, total_assets);
 
   xpm_image_t mission_failed_img;
   uint32_t *mission_failed_map = (uint32_t *)xpm_load((xpm_map_t)mission_failed_xpm, XPM_8_8_8_8, &mission_failed_img);
+  draw_loading_progress(++current_asset, total_assets);
 
   if (bg_maps[0] == NULL || bg_maps[1] == NULL || bg_maps[2] == NULL) {
     printf("Aviso: Falha ao pré-carregar os XPMs de fundo!\n");
@@ -1173,10 +1291,19 @@ int (proj_main_loop)(int argc, char *argv[]) {
   uint32_t *mapas_notas[5];
 
   mapas_notas[0] = (uint32_t *)xpm_load((xpm_map_t)nota_verde_xpm, XPM_8_8_8_8, &img_notas[0]);
+  draw_loading_progress(++current_asset, total_assets);
+  
   mapas_notas[1] = (uint32_t *)xpm_load((xpm_map_t)nota_vermelha_xpm, XPM_8_8_8_8, &img_notas[1]);
+  draw_loading_progress(++current_asset, total_assets);
+  
   mapas_notas[2] = (uint32_t *)xpm_load((xpm_map_t)nota_azul_xpm, XPM_8_8_8_8, &img_notas[2]);
+  draw_loading_progress(++current_asset, total_assets);
+  
   mapas_notas[3] = (uint32_t *)xpm_load((xpm_map_t)nota_roxa_xpm, XPM_8_8_8_8, &img_notas[3]);
+  draw_loading_progress(++current_asset, total_assets);
+  
   mapas_notas[4] = (uint32_t *)xpm_load((xpm_map_t)nota_amarela_xpm, XPM_8_8_8_8, &img_notas[4]);
+  draw_loading_progress(++current_asset, total_assets);
 
   uint32_t cores_pistas[5] = {0x00FF00, 0xFF0000, 0x0000FF, 0x800080, 0xFFFF00};
   {
@@ -1259,6 +1386,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
             if (!ih_error) {
               if (scancode_byte == ESC_MAKE_CODE) {
                 if (current_state == PLAY && music_started) {
+                  menu_set_keyboard_input();
                   enter_pause(uart_ready);
                 } else if (current_state == PAUSE) {
                   resume_paused_run(uart_ready);
@@ -1269,6 +1397,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
                     current_state == SONG_SELECT ||
                     current_state == GAME_OVER ||
                     current_state == LEADERBOARD) {
+                  menu_set_keyboard_input();
                   current_state = MENU;
                   music_started = false;
                 } else if (current_state == MENU) {
@@ -1277,12 +1406,15 @@ int (proj_main_loop)(int argc, char *argv[]) {
               }
               else if (current_state == MENU) {
                 if (scancode_byte == 0x48) { // UP
+                  menu_set_keyboard_input();
                   kbd_menu_idx--;
                   if (kbd_menu_idx < 1) kbd_menu_idx = 3;
                 } else if (scancode_byte == 0x50) { // DOWN
+                  menu_set_keyboard_input();
                   kbd_menu_idx++;
                   if (kbd_menu_idx > 3) kbd_menu_idx = 1;
                 } else if (scancode_byte == 0x1C) { // ENTER
+                  menu_set_keyboard_input();
                   if (kbd_menu_idx == 1) { current_state = USERNAME_ENTRY; reset_username_entry(); }
                   else if (kbd_menu_idx == 2) current_state = LEADERBOARD;
                   else if (kbd_menu_idx == 3) game_running = false;
@@ -1290,12 +1422,15 @@ int (proj_main_loop)(int argc, char *argv[]) {
               }
               else if (current_state == SONG_SELECT) {
                 if (scancode_byte == 0x48) { // UP
+                  menu_set_keyboard_input();
                   kbd_song_idx--;
                   if (kbd_song_idx < 1) kbd_song_idx = 3;
                 } else if (scancode_byte == 0x50) { // DOWN
+                  menu_set_keyboard_input();
                   kbd_song_idx++;
                   if (kbd_song_idx > 3) kbd_song_idx = 1;
                 } else if (scancode_byte == 0x1C) { // ENTER
+                  menu_set_keyboard_input();
                   if (kbd_song_idx == 1) { song_id = 1; current_state = PLAY; music_started = false; }
                   else if (kbd_song_idx == 2) { song_id = 2; current_state = PLAY; music_started = false; }
                   else if (kbd_song_idx == 3) { current_state = MENU; music_started = false; }
@@ -1303,23 +1438,31 @@ int (proj_main_loop)(int argc, char *argv[]) {
               }
               else if (current_state == PAUSE) {
                 if (scancode_byte == 0x48) { // UP
+                  menu_set_keyboard_input();
                   kbd_pause_idx--;
                   if (kbd_pause_idx < 1) kbd_pause_idx = 2;
                 } else if (scancode_byte == 0x50) { // DOWN
+                  menu_set_keyboard_input();
                   kbd_pause_idx++;
                   if (kbd_pause_idx > 2) kbd_pause_idx = 1;
                 } else if (scancode_byte == 0x1C) { // ENTER
+                  menu_set_keyboard_input();
                   if (kbd_pause_idx == 1) resume_paused_run(uart_ready);
                   else if (kbd_pause_idx == 2) quit_paused_run(uart_ready);
                 }
               }
               else if (current_state == GAME_OVER || current_state == LEADERBOARD) {
                 if (scancode_byte == 0x1C) { // ENTER
+                  menu_set_keyboard_input();
                   current_state = MENU;
+                  music_started = false;
+                } else if (current_state == GAME_OVER && scancode_byte == 0x13) { // 'R' key
+                  current_state = PLAY;
                   music_started = false;
                 }
               }
               else if (current_state == USERNAME_ENTRY) {
+                if (!(scancode_byte & BIT(7))) menu_set_keyboard_input();
                 handle_username_key(scancode_byte);
               }
               else if (current_state == PLAY) {
@@ -1348,6 +1491,10 @@ int (proj_main_loop)(int argc, char *argv[]) {
                 mouse_y -= mouse_packet.delta_y;
                 clamp_mouse_position();
 
+                if (is_menu_state(current_state) && mouse_packet_has_input(&mouse_packet)) {
+                  menu_set_mouse_input();
+                }
+
                 if (current_state == MENU) {
                   GameState previous_state = current_state;
                   check_menu_clicks(mouse_x, mouse_y, mouse_packet.lb, &current_state, &game_running);
@@ -1356,12 +1503,14 @@ int (proj_main_loop)(int argc, char *argv[]) {
                   }
                 } else if (current_state == USERNAME_ENTRY && mouse_packet.lb) {
                   // BACK
-                  if (mouse_x >= 140 && mouse_x <= 300 && mouse_y >= 420 && mouse_y <= 480) {
+                  if (mouse_x >= USERNAME_BACK_X && mouse_x <= USERNAME_BACK_X + USERNAME_BTN_W &&
+                      mouse_y >= USERNAME_BACK_Y && mouse_y <= USERNAME_BACK_Y + USERNAME_BTN_H) {
                     current_state = MENU;
                     music_started = false;
                   }
                   // DONE
-                  else if (mouse_x >= 500 && mouse_x <= 660 && mouse_y >= 420 && mouse_y <= 480) {
+                  else if (mouse_x >= USERNAME_DONE_X && mouse_x <= USERNAME_DONE_X + USERNAME_BTN_W &&
+                           mouse_y >= USERNAME_DONE_Y && mouse_y <= USERNAME_DONE_Y + USERNAME_BTN_H) {
                     accept_username_entry();
                   }
                 } else if (current_state == SONG_SELECT) {
@@ -1375,12 +1524,22 @@ int (proj_main_loop)(int argc, char *argv[]) {
                     quit_paused_run(uart_ready);
                   }
                 } else if ((current_state == GAME_OVER || current_state == LEADERBOARD) && mouse_packet.lb) {
-                  if (current_state == LEADERBOARD && mouse_x >= 300 && mouse_x <= 500 && mouse_y >= 530 && mouse_y <= 580) {
+                  if (current_state == LEADERBOARD &&
+                      mouse_x >= LEADERBOARD_BACK_X && mouse_x <= LEADERBOARD_BACK_X + LEADERBOARD_BACK_W &&
+                      mouse_y >= LEADERBOARD_BACK_Y && mouse_y <= LEADERBOARD_BACK_Y + LEADERBOARD_BACK_H) {
                     current_state = MENU;
+                    music_started = false;
                   } else if (current_state == GAME_OVER) {
-                    current_state = MENU;
+                    if (mouse_y >= 520 && mouse_y <= 570) {
+                      if (mouse_x >= 120 && mouse_x <= 380) { // Main Menu button
+                        current_state = MENU;
+                        music_started = false;
+                      } else if (mouse_x >= 420 && mouse_x <= 680) { // Restart button
+                        current_state = PLAY;
+                        music_started = false;
+                      }
+                    }
                   }
-                  music_started = false;
                 }
                 mouse_byte_index = 0;
               }
@@ -1410,8 +1569,12 @@ int (proj_main_loop)(int argc, char *argv[]) {
               draw_text_centered(400 + 4, 40 + 4, "SELECT TRACK", 5, 0x000000);
               draw_text_centered(400, 40, "SELECT TRACK", 5, 0x00FFFF);
               
-              draw_text(600 + 2, 20 + 2, current_username, 2, 0x000000);
-              draw_text(600, 20, current_username, 2, 0xFFFF00);
+              // Desenha o nome do jogador com fundo à esquerda
+              int name_w = text_width_pixels(current_username, 2);
+              draw_border_main(10, 10, name_w + 20, 36, 0x00FFFF, 2); // borda ciano fina
+              vg_draw_rectangle(10, 10, name_w + 20, 36, 0x222233); // fundo escuro
+              draw_text(20 + 2, 20 + 2, current_username, 2, 0x000000);
+              draw_text(20, 20, current_username, 2, 0xFFFF00);
               
               // Textos das Músicas (Sombra nas músicas também para destacarem)
               draw_text_centered(400 + 2, 140 + 2, "SONG 1 - EASY", 3, 0x000000);
@@ -1591,7 +1754,20 @@ int (proj_main_loop)(int argc, char *argv[]) {
   kbd_unsubscribe_int();
   timer_unsubscribe_int();
 
-  kbd_enable_interrupts();
+  // Esvaziar Out Buffer do KBC para o MINIX não bloquear o teclado
+  {
+    uint32_t stat, trash;
+    int limit = 20; 
+    while (limit-- > 0) {
+      if (sys_inb(KBC_STAT_REG, &stat) != 0) break;
+      if (stat & KBC_OBF) {
+        sys_inb(KBC_OUT_BUF, &trash);
+        tickdelay(micros_to_ticks(DELAY_US));
+      } else {
+        break;
+      }
+    }
+  }
   vg_exit();
 
   // --- LOGICA DE GAME OVER COM RTC ---
