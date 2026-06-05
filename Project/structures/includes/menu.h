@@ -1,13 +1,12 @@
 /**
  * @file menu.h
- * @brief Funções e estruturas para a gestão do fluxo e interfaces do Menu.
+ * @brief Menus e state machine.
  *
- * Declara as máquinas de estados do jogo e controla os menus, botões e interfaces
- * gráficas fora da fase de gameplay.
+ * Máquina de estados do jogo, menus e UI.
  * 
  * @defgroup Menu Menu & States
  * @ingroup Core
- * @brief Gestão das interfaces e máquina de estados global.
+ * @brief Gestão dos menus.
  * @{
  */
 
@@ -19,25 +18,25 @@
 #include "devices/video/video.h" 
 
 /**
- * @brief Enumeração global que define a Máquina de Estados principal do jogo.
+ * @brief States do jogo.
  */
 typedef enum {
-  MENU,             /**< @brief Ecrã do Menu Principal. */
-  USERNAME_ENTRY,   /**< @brief Ecrã de inserção do nome de utilizador. */
-  SONG_SELECT,      /**< @brief Ecrã de seleção da música a jogar. */
-  PLAY,             /**< @brief Gameplay ativo. */
-  PAUSE,            /**< @brief Jogo em pausa. */
-  GAME_OVER,        /**< @brief Ecrã de Game Over (vida chegou a 0). */
-  GAME_WON,         /**< @brief Ecrã de Vitória (música chegou ao fim). */
-  LEADERBOARD       /**< @brief Ecrã da Leaderboard (Top 5 Heroes). */
+  MENU,             /**< @brief Menu principal. */
+  USERNAME_ENTRY,   /**< @brief Inserir o nome. */
+  SONG_SELECT,      /**< @brief Escolher a música. */
+  PLAY,             /**< @brief A jogar. */
+  PAUSE,            /**< @brief Pausa. */
+  GAME_OVER,        /**< @brief Perdeu (0 HP). */
+  GAME_WON,         /**< @brief Ganhou. */
+  LEADERBOARD       /**< @brief Menu da leaderboard. */
 } GameState;
 
 /**
- * @brief Enumeração para definir qual o periférico que está a controlar os menus no momento.
+ * @brief Modo de controlo do menu.
  */
 typedef enum {
-  MENU_INPUT_KEYBOARD, /**< @brief O menu está a ser navegado através do Teclado (setas). */
-  MENU_INPUT_MOUSE     /**< @brief O menu está a ser navegado através do Rato. */
+  MENU_INPUT_KEYBOARD, /**< @brief A usar as setas. */
+  MENU_INPUT_MOUSE     /**< @brief A usar o rato. */
 } MenuInputMode;
 
 /** @name Variáveis Externas de Hover do Rato nos Menus */

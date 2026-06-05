@@ -1,13 +1,12 @@
 /**
  * @file library.h
- * @brief Ficheiro principal que agrupa as sub-bibliotecas e drivers de hardware.
+ * @brief Includes principais do projeto.
  *
- * Centraliza as inclusões dos drivers (I/O) facilitando o `include`
- * no resto dos componentes lógicos.
+ * Junta todos os drivers do MINIX num só ficheiro para ser mais fácil de dar include.
  * 
  * @defgroup Library Core Library Includes
  * @ingroup Devices
- * @brief Agregação dos drivers do sistema (Minix).
+ * @brief Drivers do Minix.
  * @{
  */
 

@@ -1,13 +1,12 @@
 /**
  * @file video.h
- * @brief Funções e estruturas para gestão da Placa Gráfica (Video Card).
+ * @brief Operações gráficas.
  *
- * Utiliza o modo VBE (VESA BIOS Extensions) para alterar o modo de vídeo
- * e desenhar píxeis, retângulos, XPMs e sprites, com suporte a double buffering.
+ * Modo de vídeo, double buffering, desenhar coisas no ecrã com VBE.
  * 
  * @defgroup VideoCard Video Card
  * @ingroup Devices
- * @brief Operações de desenho no ecrã (VBE).
+ * @brief Placa gráfica.
  * @{
  */
 
@@ -97,13 +96,12 @@ int(vg_draw_xpm_image_tinted)(const uint32_t *pixmap, uint16_t width, uint16_t h
 void(vg_clear_back_buffer)(uint32_t color);
 
 /**
- * @brief Troca os buffers (Double Buffering).
- * Copia o conteúdo do back buffer para o front buffer (VRAM real).
+ * @brief Faz swap dos buffers (back -> front).
  */
 void(vg_swap_buffers)();
 
 /**
- * @brief Liberta a memória alocada para os buffers.
+ * @brief Liberta a memória do back buffer.
  */
 void(vg_free_buffers)();
 

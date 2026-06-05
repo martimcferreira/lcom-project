@@ -1,12 +1,12 @@
 /**
  * @file game.h
- * @brief Funções e estruturas relacionadas com a lógica de jogo.
+ * @brief Lógica de jogo e notas.
  *
- * Lida com o processamento das notas (criação, queda e verificação de hits/misses).
+ * Atualiza e processa as notas a cair no ecrã.
  * 
  * @defgroup Game Game Logic
  * @ingroup Core
- * @brief Módulo responsável por gerir o estado principal do jogo rítmico.
+ * @brief Core do jogo.
  * @{
  */
 
@@ -14,14 +14,14 @@
 #include <stdbool.h>
 
 /**
- * @brief Estrutura que representa uma nota no ecrã.
+ * @brief Estrutura duma nota no ecrã.
  */
 typedef struct {
-    int x;         /**< @brief Posição horizontal da nota no ecrã. */
-    int y;         /**< @brief Posição vertical atual da nota. */
-    int speed;     /**< @brief Velocidade de descida da nota. */
-    bool active;   /**< @brief Indica se a nota está a cair e visível no ecrã. */
-    bool missed;   /**< @brief Indica se o jogador falhou a nota (passou do hit zone sem ser atingida). */
+    int x;         /**< @brief Posição X da nota. */
+    int y;         /**< @brief Posição Y da nota. */
+    int speed;     /**< @brief Velocidade. */
+    bool active;   /**< @brief True se a nota estiver a ser mostrada. */
+    bool missed;   /**< @brief True se o jogador falhou. */
 } Note;
 
 /** @brief Número máximo de notas que podem estar ativas em simultâneo. */
@@ -46,17 +46,16 @@ typedef struct {
 #define NOTE_HIT_HEIGHT 60
 
 /**
- * @brief Inicializa o array de notas, desativando-as a todas no início da partida.
+ * @brief Inicializa (limpa) o array de notas.
  */
 void init_notes();
 
 /**
- * @brief Atualiza a posição de todas as notas ativas.
+ * @brief Dá update à posição de todas as notas a cair.
  * 
- * Faz as notas descerem no ecrã de acordo com a sua velocidade.
- * Também verifica se alguma nota passou a HIT_ZONE sem ser tocada, contabilizando como um "miss".
+ * Move as notas para baixo e verifica se o jogador deixou passar alguma (miss).
  * 
- * @return int Número de notas que passaram o limite inferior (misses) neste frame.
+ * @return int Número de misses neste frame.
  */
 int update_notes();
 

@@ -1,10 +1,10 @@
 /**
  * @file video_gr_extra.h
- * @brief Funções extra da placa gráfica.
+ * @brief Funções gráficas extra.
  * 
  * @defgroup VideoExtra Video Card Extra
  * @ingroup Devices
- * @brief Funções auxiliares obsoletas ou redundantes da placa gráfica.
+ * @brief Funções gráficas não usadas ou redundantes.
  * @{
  */
 

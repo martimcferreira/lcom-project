@@ -1,13 +1,12 @@
 /**
  * @file leaderboard.h
- * @brief Funções e estruturas para gestão da leaderboard.
+ * @brief Leaderboard e scores.
  *
- * Este ficheiro contém as definições para guardar, carregar e apresentar
- * as pontuações máximas dos jogadores.
+ * Guarda, carrega e mostra os top scores.
  * 
  * @defgroup Leaderboard Leaderboard
  * @ingroup Core
- * @brief Módulo responsável pela gestão das pontuações dos jogadores.
+ * @brief Ficheiro de high scores.
  * @{
  */
 
@@ -40,10 +39,7 @@ typedef struct {
 } LeaderboardEntry;
 
 /**
- * @brief Inicializa a leaderboard.
- * 
- * Tenta ler o ficheiro de pontuações (principal ou fallback) e preenche a
- * lista de scores em memória.
+ * @brief Lê o ficheiro e inicializa a leaderboard em memória.
  */
 void leaderboard_init(void);
 
@@ -69,9 +65,9 @@ void leaderboard_add_score(const char *username, int score, int progress, int so
 LeaderboardEntry* leaderboard_get_scores(void);
 
 /**
- * @brief Obtém o número total de pontuações atualmente registadas.
+ * @brief Retorna o número de scores guardados.
  * 
- * @return int Número de scores (entre 0 e MAX_SCORES).
+ * @return int Número de scores (0 a MAX_SCORES).
  */
 int leaderboard_get_count(void);
 

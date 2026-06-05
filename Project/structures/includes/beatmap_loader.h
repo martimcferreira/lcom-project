@@ -1,13 +1,12 @@
 /**
  * @file beatmap_loader.h
- * @brief Lida com a leitura e processamento de ficheiros de beatmap.
+ * @brief Parser dos ficheiros de beatmap (.txt).
  *
- * Carrega a sequência de notas musicais a partir de ficheiros de texto para
- * sincronizar as notas geradas com a música reproduzida.
+ * Lê a sequência de notas de uma música a partir do txt.
  * 
  * @defgroup BeatmapLoader Beatmap Loader
  * @ingroup Core
- * @brief Módulo responsável por carregar os mapas rítmicos das músicas.
+ * @brief Loader das notas.
  * @{
  */
 
@@ -20,12 +19,12 @@
 #define BEATMAP_MAX_NOTES 2048
 
 /**
- * @brief Estrutura que representa o momento em que uma nota deve ser criada ("spawn").
+ * @brief Estrutura duma nota no ficheiro (momento em que spawna).
  */
 typedef struct {
-  uint32_t spawn_tick; /**< @brief Tick MINIX (a 60 Hz) em que a nota deve começar a cair. */
-  uint8_t  lane;       /**< @brief Pista (0=Verde, 1=Vermelha, 2=Azul, 3=Roxa, 4=Amarela). */
-  bool     spawned;    /**< @brief Controlo interno: true quando a nota já foi criada no ecrã. */
+  uint32_t spawn_tick; /**< @brief Tick (a 60Hz) em que a nota aparece. */
+  uint8_t  lane;       /**< @brief Pista (0 a 4). */
+  bool     spawned;    /**< @brief True se já deu spawn. */
 } BeatmapEntry;
 
 /**
