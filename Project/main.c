@@ -38,7 +38,10 @@ static void write_log(const char *format, ...) {
 #endif
 
 // Assets Visuais
-#include "devices/video/assets/fundo_plateia.xpm"
+#include "devices/video/assets/bg1.xpm"
+#include "devices/video/assets/bg2.xpm"
+#include "devices/video/assets/bg3.xpm"
+#include "devices/video/assets/arcade_leaderboard.xpm"
 #include "devices/video/assets/nota_verde.xpm"
 #include "devices/video/assets/nota_vermelha.xpm"
 #include "devices/video/assets/nota_azul.xpm"
@@ -574,35 +577,38 @@ static void draw_username_entry_screen(const uint32_t *bg_map, xpm_image_t bg_im
   draw_text_centered(580, 480, "DONE", 3, 0x000000);
 }
 
-static void draw_leaderboard_screen(void) {
+static void draw_leaderboard_screen(const uint32_t *bg_map, xpm_image_t bg_img) {
   LeaderboardEntry *scores = leaderboard_get_scores();
   int count = leaderboard_get_count();
   char row[64];
 
-  vg_clear_back_buffer(0xDDDDDD); // Fundo cinzento claro
+  if (bg_map != NULL) {
+    vg_draw_xpm_image(bg_map, bg_img.width, bg_img.height, 0, 0, 0, false);
+  } else {
+    vg_clear_back_buffer(0xDDDDDD);
+  }
   
-  // Título e sublinhado
-  draw_text_centered(400, 40, "HALL OF FAME", 5, 0x000000);
+  // Título e sublinhado (Drop shadow para destacar do Placard)
+  draw_text_centered(400 + 4, 40 + 4, "HALL OF FAME", 5, 0x000000);
+  draw_text_centered(400, 40, "HALL OF FAME", 5, 0xFFFF00); // Yellow
   vg_draw_rectangle(100, 90, 600, 4, 0x000000);
 
   // Cabeçalhos
-  draw_text(125, 120, "RANK", 2, 0x000000);
-  draw_text(235, 120, "NAME", 2, 0x000000);
-  draw_text(430, 120, "SCORE", 2, 0x000000);
-  draw_text(560, 120, "DATE", 2, 0x000000);
-  vg_draw_rectangle(110, 150, 580, 4, 0x000000);
+  draw_text(125, 120, "RANK", 2, 0xFF00FF); // Neon Pink
+  draw_text(235, 120, "NAME", 2, 0xFF00FF);
+  draw_text(430, 120, "SCORE", 2, 0xFF00FF);
+  draw_text(560, 120, "DATE", 2, 0xFF00FF);
+  vg_draw_rectangle(110, 150, 580, 2, 0x00FFFF); // Neon Cyan separador
 
-  // Fundo Tabela Neobrutalism
-  vg_draw_rectangle(108, 168, 600, 340, 0x000000); // Sombra
-  vg_draw_rectangle(100, 160, 600, 340, 0xFFFFFF); // Fundo Tabela
-  draw_border_main(100, 160, 600, 340, 0x000000, 4);
+  // Fundo Tabela (Transparente para mostrar a Arcade machine!)
+  draw_border_main(100, 160, 600, 340, 0x00FFFF, 2); // Borda fina Cyan
 
   if (count == 0) {
-    draw_text_centered(400, 300, "NO SCORES FOUND", 3, 0x000000);
+    draw_text_centered(400, 300, "NO SCORES FOUND", 3, 0xFFFFFF);
   } else {
     int rows = (count < MAX_SCORES) ? count : MAX_SCORES;
     for (int i = 0; i < rows; i++) {
-      uint32_t color = 0xAAAA00; // Dark Yellow to be readable on white
+      uint32_t color = 0xFFFFFF; // Branco para contrastar com o fundo
       
       snprintf(row, sizeof(row), "#%d", i + 1);
       draw_text(130, 180 + i * 32, row, 2, color);
@@ -617,13 +623,16 @@ static void draw_leaderboard_screen(void) {
                scores[i].date.month,
                scores[i].date.year);
       draw_text(560, 180 + i * 32, row, 2, color);
+      
+      // Linha separadora subtil por baixo de cada entrada
+      vg_draw_rectangle(110, 180 + i * 32 + 25, 580, 1, 0x333333);
     }
   }
 
   // Botão "BACK" em baixo
   bool hover_lb_bk = (mouse_x >= 300 && mouse_x <= 500 && mouse_y >= 530 && mouse_y <= 580) || (kbd_leaderboard_idx == 1);
-  draw_neo_btn(300, 530, 200, 50, 0xFF5555, hover_lb_bk);
-  draw_text_centered(400, 545, "BACK", 3, 0x000000);
+  draw_neo_btn(300, 530, 200, 50, 0xFF00FF, hover_lb_bk);
+  draw_text_centered(400, 545, "BACK", 3, 0xFFFFFF);
 }
 
 static void draw_play_frame(const uint32_t *bg_map,
@@ -640,47 +649,78 @@ static void draw_play_frame(const uint32_t *bg_map,
     vg_clear_back_buffer(0x000000);
   }
 
-  // --- 1.5. O BRAÇO DE MADEIRA REALISTA ---
-  vg_draw_rectangle(200, 0, 400, 600, 0x30190E);
+  // --- 1.5. BRAÇO DA GUITARRA NEON (GLOW EFFECT) ---
+  int HORIZON_Y = 0; // O braço começa no topo para dar tempo de reação ao jogador!
+  int TRACK_H = 600 - HORIZON_Y;
 
-  // Veios da madeira dinâmicos
-  for (int v = 205; v < 595; v += 15) {
-    vg_draw_rectangle(v, 0, 3, 600, 0x241109);
-  }
+  // Fundo Negro da Pista (Mascara a perspetiva 3D da imagem e cria a nossa pista Arcade reta)
+  vg_draw_rectangle(196, HORIZON_Y, 408, TRACK_H, 0x030303); // Fundo quase preto absoluto
 
-  // Bordas 3D do braço
-  vg_draw_rectangle(200, 0, 10, 600, 0x110804);
-  vg_draw_rectangle(590, 0, 10, 600, 0x110804);
+  // Bordas Esquerda (Glow + Core)
+  vg_draw_rectangle(188, HORIZON_Y, 14, TRACK_H, 0x550055); // Glow exterior rosa escuro
+  vg_draw_rectangle(192, HORIZON_Y, 8, TRACK_H, 0xFF00FF);  // Cor principal Rosa Choque
+  vg_draw_rectangle(195, HORIZON_Y, 2, TRACK_H, 0xFFFFFF);  // Núcleo branco brilhante
 
-  // --- 2. AS CORDAS DA GUITARRA (Efeito Metálico 3D) ---
+  // Bordas Direita (Glow + Core)
+  vg_draw_rectangle(598, HORIZON_Y, 14, TRACK_H, 0x550055);
+  vg_draw_rectangle(600, HORIZON_Y, 8, TRACK_H, 0xFF00FF);
+  vg_draw_rectangle(603, HORIZON_Y, 2, TRACK_H, 0xFFFFFF);
+
+  // --- 2. AS CORDAS DA GUITARRA (Neon Cyan Layers) ---
   for (int i = 0; i <= 5; i++) {
     int linha_x = 200 + (i * 80);
-    vg_draw_rectangle(linha_x - 1, 0, 1, 600, 0x111111); // Sombra esquerda
-    vg_draw_rectangle(linha_x, 0, 2, 600, 0xEEEEEE);     // Brilho central
-    vg_draw_rectangle(linha_x + 2, 0, 1, 600, 0x444444); // Sombra direita
+    vg_draw_rectangle(linha_x - 2, HORIZON_Y, 5, TRACK_H, 0x005555); // Glow exterior
+    vg_draw_rectangle(linha_x - 1, HORIZON_Y, 3, TRACK_H, 0x00FFFF); // Cor principal Cyan
+    vg_draw_rectangle(linha_x, HORIZON_Y, 1, TRACK_H, 0xFFFFFF);     // Núcleo branco
   }
 
-  // --- 2.5. OS TRASTES ---
+  // --- 2.5. OS TRASTES (Lasers Rosa Que Descem com Glow) ---
   int distancia_trastes = 150;
   int velocidade_scroll = 4;
   int offset = (elapsed_ticks * velocidade_scroll) % distancia_trastes;
 
-  for (int i = -1; i <= 4; i++) {
+  for (int i = -2; i <= 4; i++) {
     int traste_y = (i * distancia_trastes) + offset;
-    if (traste_y >= 0 && traste_y < 596) {
-      vg_draw_rectangle(200, traste_y + 2, 400, 3, 0x111111);
-      vg_draw_rectangle(200, traste_y, 400, 2, 0x999999);
+    if (traste_y >= HORIZON_Y && traste_y < 596) {
+      // Efeito Néon com 3 camadas
+      vg_draw_rectangle(200, traste_y - 3, 400, 9, 0x550055); // Glow rosa escuro espesso
+      vg_draw_rectangle(200, traste_y - 1, 400, 5, 0xFF00FF); // Cor principal
+      vg_draw_rectangle(200, traste_y + 1, 400, 1, 0xFFFFFF); // Fio laser branco no meio
     }
   }
 
-  // --- 3. A ZONA DE ACERTO ---
-  vg_draw_rectangle(LANE_BASE_X, HIT_ZONE_TOP - 2, NUM_LANES * LANE_WIDTH, 2, 0x555555);
-  vg_draw_rectangle(LANE_BASE_X, HIT_ZONE_TOP, NUM_LANES * LANE_WIDTH, HIT_ZONE_BOTTOM - HIT_ZONE_TOP, 0x222222);
-  vg_draw_rectangle(LANE_BASE_X, HIT_ZONE_BOTTOM, NUM_LANES * LANE_WIDTH, 4, 0x000000);
+  // --- 3. A ZONA DE ACERTO (High-Tech Laser Grid) ---
+  // Fundo estilo "vidro fumado"
+  vg_draw_rectangle(LANE_BASE_X, HIT_ZONE_TOP, NUM_LANES * LANE_WIDTH, HIT_ZONE_BOTTOM - HIT_ZONE_TOP, 0x111122); 
+  
+  // Linha superior a pulsar (Amarelo Neon)
+  uint32_t pulse_color = ((elapsed_ticks / 15) % 2 == 0) ? 0xFFFF00 : 0xAAAA00;
+  vg_draw_rectangle(LANE_BASE_X, HIT_ZONE_TOP - 3, NUM_LANES * LANE_WIDTH, 6, 0x555500); // Glow
+  vg_draw_rectangle(LANE_BASE_X, HIT_ZONE_TOP - 1, NUM_LANES * LANE_WIDTH, 2, pulse_color); // Core
+  
+  // Linha inferior
+  vg_draw_rectangle(LANE_BASE_X, HIT_ZONE_BOTTOM - 3, NUM_LANES * LANE_WIDTH, 6, 0x555500);
+  vg_draw_rectangle(LANE_BASE_X, HIT_ZONE_BOTTOM - 1, NUM_LANES * LANE_WIDTH, 2, pulse_color);
 
   for (int i = 0; i < NUM_LANES; i++) {
     int lane_x_center = LANE_BASE_X + i * LANE_WIDTH + LANE_WIDTH / 2;
     uint32_t lane_colors[NUM_LANES] = {0x00FF00, 0xFF0000, 0x0000FF, 0x800080, 0xFFFF00};
+
+    // --- 3.5 DESENHO DOS BOTÕES (RECEPTORES) ---
+    int btn_w = 60;
+    int btn_h = 24;
+    int btn_y = (HIT_ZONE_TOP + HIT_ZONE_BOTTOM) / 2 - btn_h / 2;
+    
+    if (lane_key_down[i]) {
+      // Botão Pressionado (brilhante e descido)
+      vg_draw_rectangle(lane_x_center - btn_w / 2, btn_y + 4, btn_w, btn_h - 4, lane_colors[i]);
+      vg_draw_rectangle(lane_x_center - btn_w / 2 + 15, btn_y + 8, btn_w - 30, btn_h - 12, 0xFFFFFF);
+    } else {
+      // Botão Solto (Borda e miolo)
+      vg_draw_rectangle(lane_x_center - btn_w / 2, btn_y, btn_w, btn_h, 0x222233);
+      draw_border_main(lane_x_center - btn_w / 2, btn_y, btn_w, btn_h, lane_colors[i], 3);
+      vg_draw_rectangle(lane_x_center - btn_w / 2 + 15, btn_y + 8, btn_w - 30, btn_h - 16, lane_colors[i]);
+    }
 
     if (miss_effect_frames[i] > 0) {
       vg_draw_rectangle(LANE_BASE_X + i * LANE_WIDTH + 10, HIT_ZONE_TOP,
@@ -693,6 +733,55 @@ static void draw_play_frame(const uint32_t *bg_map,
       int w = 20 + frame_diff * 4;
       int h = 8 + frame_diff * 2;
 
+      // 1. Público a explodir (Muitas partículas gigantes e brilhantes)
+      int cx_l1 = 30 + (i * 10) + (frame_diff % 3) * 15;
+      int cy_l1 = 350 - (frame_diff * 6);
+      int cx_l2 = 100 - (frame_diff % 4) * 12;
+      int cy_l2 = 400 - (frame_diff * 8);
+      int cx_l3 = 70 + (frame_diff % 2) * 20;
+      int cy_l3 = 450 - (frame_diff * 4);
+      
+      int cx_r1 = 670 - (i * 10) + (frame_diff % 3) * 12;
+      int cy_r1 = 350 - (frame_diff * 6);
+      int cx_r2 = 750 - (frame_diff % 2) * 14;
+      int cy_r2 = 400 - (frame_diff * 8);
+      int cx_r3 = 700 + (frame_diff % 4) * 15;
+      int cy_r3 = 460 - (frame_diff * 5);
+
+      // Plateia Esquerda - Tamanhos Grandes e Brilhantes
+      vg_draw_rectangle(cx_l1, cy_l1, 10, 10, 0xFFFF00);
+      vg_draw_rectangle(cx_l2, cy_l2, 12, 12, 0xFFCC00);
+      vg_draw_rectangle(cx_l3, cy_l3, 8, 8, 0xFFFFFF);
+      vg_draw_rectangle(cx_l1 + 50, cy_l1 + 40, 10, 10, 0xFFEE00);
+      vg_draw_rectangle(cx_l2 - 30, cy_l2 - 30, 14, 14, 0xFFFF55);
+      vg_draw_rectangle(cx_l3 + 40, cy_l3 - 50, 12, 12, 0xFFFFAA);
+
+      // Plateia Direita - Tamanhos Grandes e Brilhantes
+      vg_draw_rectangle(cx_r1, cy_r1, 10, 10, 0xFFFF00);
+      vg_draw_rectangle(cx_r2, cy_r2, 12, 12, 0xFFCC00);
+      vg_draw_rectangle(cx_r3, cy_r3, 8, 8, 0xFFFFFF);
+      vg_draw_rectangle(cx_r1 - 40, cy_r1 + 50, 10, 10, 0xFFEE00);
+      vg_draw_rectangle(cx_r2 + 30, cy_r2 - 20, 14, 14, 0xFFFF55);
+      vg_draw_rectangle(cx_r3 - 50, cy_r3 - 40, 12, 12, 0xFFFFAA);
+      
+      // Mais intensidade extrema nas laterais distantes!
+      vg_draw_rectangle(cx_l1 - 60, cy_l1 + 10, 16, 16, 0xFFFF00);
+      vg_draw_rectangle(cx_r1 + 70, cy_r1 + 20, 16, 16, 0xFFFF00);
+
+      // 2. Ondas de Choque (Shockwave) expandindo
+      draw_border_main(lane_x_center - w, (HIT_ZONE_TOP + HIT_ZONE_BOTTOM) / 2 - h,
+                       w * 2, h * 2, lane_colors[i], 2);
+
+      // 3. Faíscas (Sparks) a voar para cima
+      int spark_y = (HIT_ZONE_TOP + HIT_ZONE_BOTTOM) / 2 - (frame_diff * 8);
+      int spark_x1 = lane_x_center - (frame_diff * 6);
+      int spark_x2 = lane_x_center + (frame_diff * 6);
+      vg_draw_rectangle(spark_x1, spark_y, 4, 4, 0xFFFFFF);
+      vg_draw_rectangle(spark_x2, spark_y, 4, 4, 0xFFFFFF);
+      vg_draw_rectangle(spark_x1 - 8, spark_y + 10, 6, 6, lane_colors[i]);
+      vg_draw_rectangle(spark_x2 + 8, spark_y + 10, 6, 6, lane_colors[i]);
+
+      // 4. Hit Box Central
       vg_draw_rectangle(lane_x_center - w / 2,
                         (HIT_ZONE_TOP + HIT_ZONE_BOTTOM) / 2 - h / 2,
                         w, h, lane_colors[i]);
@@ -708,7 +797,7 @@ static void draw_play_frame(const uint32_t *bg_map,
   }
 
   for (int i = 0; i < MAX_NOTES; i++) {
-    if (notes[i].active) {
+    if (notes[i].active && notes[i].y >= HORIZON_Y - 10) { // Ocultar notas acima do horizonte
       int pista = (notes[i].x - LANE_BASE_X) / LANE_WIDTH;
       if (pista < 0) pista = 0;
       if (pista > 4) pista = 4;
@@ -726,6 +815,11 @@ static void draw_play_frame(const uint32_t *bg_map,
   }
 
   draw_score_hud();
+
+  // Instrução para mudar de fundo (Canto superior direito)
+  vg_draw_rectangle(440, 20, 340, 32, 0x111122);
+  draw_border_main(440, 20, 340, 32, 0x00FFFF, 2);
+  draw_text(450, 28, "PRESS M TO CHANGE BG", 2, 0xFFFFFF);
 }
 
 static void draw_pause_menu(int mouse_x, int mouse_y) {
@@ -940,9 +1034,16 @@ int (proj_main_loop)(int argc, char *argv[]) {
     hit_effect_frames[i] = 0;
     miss_effect_frames[i] = 0;
   }
-  // --- PRÉ-CARREGAMENTO DO XPM NA RAM ---
+  // --- PRÉ-CARREGAMENTO DOS FUNDOS DE GAMEPLAY ---
   xpm_image_t bg_img;
-  uint32_t *bg_map = (uint32_t *)xpm_load((xpm_map_t)fundo_plateia_xpm, XPM_8_8_8_8, &bg_img);
+  uint32_t *bg_maps[3];
+  bg_maps[0] = (uint32_t *)xpm_load((xpm_map_t)bg1_xpm, XPM_8_8_8_8, &bg_img);
+  bg_maps[1] = (uint32_t *)xpm_load((xpm_map_t)bg2_xpm, XPM_8_8_8_8, &bg_img);
+  bg_maps[2] = (uint32_t *)xpm_load((xpm_map_t)bg3_xpm, XPM_8_8_8_8, &bg_img);
+  int current_bg_idx = 0;
+
+  xpm_image_t arcade_leaderboard_img;
+  uint32_t *arcade_leaderboard_map = (uint32_t *)xpm_load((xpm_map_t)arcade_leaderboard_xpm, XPM_8_8_8_8, &arcade_leaderboard_img);
 
   xpm_image_t menu_img;
   uint32_t *menu_map_bytes = (uint32_t *)xpm_load((xpm_map_t)menu_xpm, XPM_8_8_8_8, &menu_img);
@@ -954,8 +1055,8 @@ int (proj_main_loop)(int argc, char *argv[]) {
   uint32_t *graffiti_user_map = (uint32_t *)xpm_load((xpm_map_t)graffiti_username_entry_xpm, XPM_8_8_8_8, &graffiti_user_img);
   uint32_t *menu_map = (uint32_t *) menu_map_bytes;
 
-  if (bg_map == NULL) {
-    printf("Aviso: Falha ao pré-carregar o XPM de fundo!\n");
+  if (bg_maps[0] == NULL || bg_maps[1] == NULL || bg_maps[2] == NULL) {
+    printf("Aviso: Falha ao pré-carregar os XPMs de fundo!\n");
   }
 
   xpm_image_t img_notas[5];
@@ -1112,7 +1213,11 @@ int (proj_main_loop)(int argc, char *argv[]) {
                 handle_username_key(scancode_byte);
               }
               else if (current_state == PLAY) {
-                handle_play_key(scancode_byte);
+                if (scancode_byte == 0x32) { // 'M' key Make Code
+                  current_bg_idx = (current_bg_idx + 1) % 3;
+                } else {
+                  handle_play_key(scancode_byte);
+                }
               }
             }
           }
@@ -1290,6 +1395,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
                     notes[j].y = 0;
                     notes[j].speed = 8;
                     notes[j].active = true;
+                    notes[j].missed = false;
                     break;
                   }
                 }
@@ -1314,7 +1420,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
                 }
               }
 
-              draw_play_frame(bg_map, bg_img, img_notas, mapas_notas, cores_pistas,
+              draw_play_frame(bg_maps[current_bg_idx], bg_img, img_notas, mapas_notas, cores_pistas,
                               no_interrupts - play_start_tick, true);
 
               if (beatmap_count > 0 && current_note_idx >= beatmap_count && !any_active_notes()) {
@@ -1322,7 +1428,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
               }
             } // fecho do else if (current_state == PLAY)
             else if (current_state == PAUSE) {
-              draw_play_frame(bg_map, bg_img, img_notas, mapas_notas, cores_pistas,
+              draw_play_frame(bg_maps[current_bg_idx], bg_img, img_notas, mapas_notas, cores_pistas,
                               pause_elapsed_ticks, false);
               draw_pause_menu(mouse_x, mouse_y);
             }
@@ -1330,7 +1436,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
               draw_game_over_screen();
             }
             else if (current_state == LEADERBOARD) {
-              draw_leaderboard_screen();
+              draw_leaderboard_screen(arcade_leaderboard_map, arcade_leaderboard_img);
             }
 
             // SCI-FI MOUSE CURSOR (12x15)
