@@ -51,6 +51,7 @@ static void write_log(const char *format, ...) {
 #include "devices/video/assets/graffiti_song_select.xpm"
 #include "devices/video/assets/graffiti_username_entry.xpm"
 #include "devices/video/assets/mission_failed_bg.xpm"
+#include "devices/video/assets/mission_success_bg.xpm"
 
 
 // Módulos do Grupo
@@ -579,6 +580,8 @@ static void draw_progress_bar(uint32_t elapsed_ticks) {
   vg_draw_rectangle(bar_x, bar_y + bar_h - fill_h, bar_w, fill_h, 0xFFFF00); // Fundo Amarelo
 }
 
+int kbd_gameover_idx = 1; // 1: MENU, 2: RESTART/SONGS
+
 static void draw_game_over_screen(const uint32_t *bg_map, xpm_image_t bg_img) {
   char value[16];
 
@@ -590,10 +593,14 @@ static void draw_game_over_screen(const uint32_t *bg_map, xpm_image_t bg_img) {
 
   
 
-  // Caixa do Score (Red themed)
-  draw_border_main(80, 180, 280, 120, 0xFF0000, 4);
-  vg_draw_rectangle(80, 180, 280, 120, 0x2A0000);
-  draw_text_centered(220, 200, "FINAL SCORE", 3, 0xFF5555);
+  // Caixa do Score (Red themed, Green if WON)
+  uint32_t score_border = (current_state == GAME_WON) ? 0x00FF00 : 0xFF0000;
+  uint32_t score_bg = (current_state == GAME_WON) ? 0x002A00 : 0x2A0000;
+  uint32_t score_title_color = (current_state == GAME_WON) ? 0x55FF55 : 0xFF5555;
+
+  draw_border_main(80, 180, 280, 120, score_border, 4);
+  vg_draw_rectangle(80, 180, 280, 120, score_bg);
+  draw_text_centered(220, 200, "FINAL SCORE", 3, score_title_color);
   snprintf(value, sizeof(value), "%d", score);
   draw_text_centered(220, 240, value, 5, 0xFFFFFF);
 
@@ -608,18 +615,20 @@ static void draw_game_over_screen(const uint32_t *bg_map, xpm_image_t bg_img) {
   draw_leaderboard_summary();
 
   // Botões
-  bool hover_menu = (mouse_x >= 120 && mouse_x <= 380 && mouse_y >= 520 && mouse_y <= 570);
-  bool hover_restart = (mouse_x >= 420 && mouse_x <= 680 && mouse_y >= 520 && mouse_y <= 570);
+  bool hover_menu = (menu_mouse_active() && mouse_x >= 120 && mouse_x <= 380 && mouse_y >= 520 && mouse_y <= 570) ||
+                    (menu_keyboard_active() && kbd_gameover_idx == 1);
+  bool hover_restart = (menu_mouse_active() && mouse_x >= 420 && mouse_x <= 680 && mouse_y >= 520 && mouse_y <= 570) ||
+                       (menu_keyboard_active() && kbd_gameover_idx == 2);
 
   // Main Menu
   draw_border_main(120, 520, 260, 50, hover_menu ? 0xFF5555 : 0xFF0000, 3);
   vg_draw_rectangle(120, 520, 260, 50, hover_menu ? 0x550000 : 0x330000);
-  draw_text_centered(250, 535, "[ENTER] MENU", 3, hover_menu ? 0xFFFFFF : 0xFFCCCC);
+  draw_text_centered(250, 535, "MENU", 3, hover_menu ? 0xFFFFFF : 0xFFCCCC);
 
   // Restart
   draw_border_main(420, 520, 260, 50, hover_restart ? 0xFF5555 : 0xFF0000, 3);
   vg_draw_rectangle(420, 520, 260, 50, hover_restart ? 0x550000 : 0x330000);
-  draw_text_centered(550, 535, "[R] RESTART", 3, hover_restart ? 0xFFFFFF : 0xFFCCCC);
+  draw_text_centered(550, 535, (current_state == GAME_WON) ? "SONGS" : "RESTART", 3, hover_restart ? 0xFFFFFF : 0xFFCCCC);
 }
 
 static void reset_username_entry(void) {
@@ -796,16 +805,25 @@ static void draw_leaderboard_screen(const uint32_t *bg_map, xpm_image_t bg_img) 
   draw_text_centered(400, 40, "HALL OF FAME", 5, 0xFFFF00); // Yellow
   vg_draw_rectangle(100, 90, 600, 4, 0x000000);
 
+  // Fundos para os cabeçalhos (estilo caixa/rótulo) para ficarem mais visuais
+  uint32_t header_bg = 0x333366; // Fundo azulão
+  vg_draw_rectangle(25, 115, 65,  26, header_bg); // RANK
+  vg_draw_rectangle(95, 115, 255, 26, header_bg); // NAME
+  vg_draw_rectangle(355, 115, 205, 26, header_bg); // SONG
+  vg_draw_rectangle(575, 115, 85,  26, header_bg); // SCORE
+  vg_draw_rectangle(665, 115, 120, 26, header_bg); // DATE
+
   // Cabeçalhos
-  draw_text(125, 120, "RANK", 2, 0xFF00FF); // Neon Pink
-  draw_text(235, 120, "NAME", 2, 0xFF00FF);
-  draw_text(430, 120, "SCORE", 2, 0xFF00FF);
-  draw_text(560, 120, "DATE", 2, 0xFF00FF);
-  vg_draw_rectangle(110, 150, 580, 2, 0x00FFFF); // Neon Cyan separador
+  draw_text(30, 120, "RANK", 2, 0xFFFF00); // Amarelo
+  draw_text(100, 120, "NAME", 2, 0xFFFF00);
+  draw_text(360, 120, "SONG", 2, 0xFFFF00);
+  draw_text(580, 120, "SCORE", 2, 0xFFFF00);
+  draw_text(670, 120, "DATE", 2, 0xFFFF00);
+  vg_draw_rectangle(20, 150, 760, 2, 0x00FFFF); // Neon Cyan separador
 
   // Fundo Tabela escuro para contraste
-  draw_border_main(100, 160, 600, 340, 0x00FFFF, 2); // Borda fina Cyan
-  vg_draw_rectangle(100, 160, 600, 340, 0x111122); // Fundo escuro azulado
+  draw_border_main(20, 160, 760, 340, 0x00FFFF, 2); // Borda fina Cyan
+  vg_draw_rectangle(20, 160, 760, 340, 0x111122); // Fundo escuro azulado
 
   if (count == 0) {
     draw_text_centered(400, 300, "NO SCORES FOUND", 3, 0xFFFFFF);
@@ -815,29 +833,37 @@ static void draw_leaderboard_screen(const uint32_t *bg_map, xpm_image_t bg_img) 
       uint32_t color = 0xFFFFFF; // Branco para contrastar com o fundo
       
       snprintf(row, sizeof(row), "#%d", i + 1);
-      draw_text(130, 180 + i * 32, row, 2, color);
+      draw_text(35, 180 + i * 32, row, 2, color);
       
-      draw_text(235, 180 + i * 32, scores[i].username, 2, color);
+      draw_text(100, 180 + i * 32, scores[i].username, 2, color);
+      
+      const char* song_name = "EVERY TIME";
+      if (scores[i].song_id == 1) song_name = "EVERY TIME";
+      else if (scores[i].song_id == 4) song_name = "SUMMER";
+      else if (scores[i].song_id == 2) song_name = "DIAMOND M.";
+      else if (scores[i].song_id == 3) song_name = "HIGHWAY";
+      
+      draw_text(360, 180 + i * 32, song_name, 2, color);
       
       snprintf(row, sizeof(row), "%d", scores[i].score);
-      draw_text(430, 180 + i * 32, row, 2, color);
+      draw_text(580, 180 + i * 32, row, 2, color);
       
       snprintf(row, sizeof(row), "%02d/%02d/%02d",
                scores[i].date.day,
                scores[i].date.month,
                scores[i].date.year);
-      draw_text(560, 180 + i * 32, row, 2, color);
+      draw_text(670, 180 + i * 32, row, 2, color);
       
       // Barra de progresso horizontal
-      int pb_x = 130;
+      int pb_x = 35;
       int pb_y = 180 + i * 32 + 18;
-      int pb_w = 540;
+      int pb_w = 730;
       int pb_h = 4;
       vg_draw_rectangle(pb_x, pb_y, pb_w, pb_h, 0x222222);
       vg_draw_rectangle(pb_x, pb_y, (pb_w * scores[i].progress) / 100, pb_h, 0x00FF00);
       
       // Linha separadora subtil por baixo de cada entrada
-      vg_draw_rectangle(110, 180 + i * 32 + 25, 580, 1, 0x333333);
+      vg_draw_rectangle(25, 180 + i * 32 + 25, 750, 1, 0x333333);
     }
   }
 
@@ -1131,7 +1157,7 @@ static void save_final_score(void) {
   if (elapsed_ticks > total_ticks) elapsed_ticks = total_ticks;
   int progress = (elapsed_ticks * 100) / total_ticks;
 
-  leaderboard_add_score(current_username, score, progress, timestamp);
+  leaderboard_add_score(current_username, score, progress, song_id, timestamp);
   write_log("[LEADERBOARD] Score %d de %s (Progresso: %d%%) guardado em %02d/%02d/20%02d %02d:%02d:%02d.\n",
             score,
             current_username,
@@ -1154,7 +1180,7 @@ static void finish_current_run(bool uart_ready) {
   save_final_score();
 
   music_started = false;
-  current_state = GAME_OVER;
+  current_state = GAME_WON;
   printf("[GAME] Fim da run. Score final=%d, melhor combo=%d.\n", score, best_combo);
   write_log("[GAME] Fim da run. Score final=%d, melhor combo=%d.\n", score, best_combo);
 }
@@ -1336,7 +1362,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
     return 1;
   }
 
-  int total_assets = 13;
+  int total_assets = 14;
   int current_asset = 0;
   draw_loading_progress(current_asset, total_assets);
 
@@ -1376,6 +1402,10 @@ int (proj_main_loop)(int argc, char *argv[]) {
 
   xpm_image_t mission_failed_img;
   uint32_t *mission_failed_map = (uint32_t *)xpm_load((xpm_map_t)mission_failed_xpm, XPM_8_8_8_8, &mission_failed_img);
+  draw_loading_progress(++current_asset, total_assets);
+
+  xpm_image_t mission_success_img;
+  uint32_t *mission_success_map = (uint32_t *)xpm_load((xpm_map_t)mission_success_xpm, XPM_8_8_8_8, &mission_success_img);
   draw_loading_progress(++current_asset, total_assets);
 
   if (bg_maps[0] == NULL || bg_maps[1] == NULL || bg_maps[2] == NULL) {
@@ -1490,7 +1520,7 @@ int (proj_main_loop)(int argc, char *argv[]) {
               else if (scancode_byte == ESC_BREAKCODE) {
                 if (current_state == USERNAME_ENTRY ||
                     current_state == SONG_SELECT ||
-                    current_state == GAME_OVER ||
+                    current_state == GAME_OVER || current_state == GAME_WON ||
                     current_state == LEADERBOARD) {
                   menu_set_keyboard_input();
                   current_state = MENU;
@@ -1554,14 +1584,27 @@ int (proj_main_loop)(int argc, char *argv[]) {
                   else if (kbd_pause_idx == 2) quit_paused_run(uart_ready);
                 }
               }
-              else if (current_state == GAME_OVER || current_state == LEADERBOARD) {
-                if (scancode_byte == 0x1C) { // ENTER
+              else if (current_state == GAME_OVER || current_state == GAME_WON || current_state == LEADERBOARD) {
+                if (scancode_byte == 0x4B && current_state != LEADERBOARD) { // LEFT
                   menu_set_keyboard_input();
-                  current_state = MENU;
-                  music_started = false;
-                } else if (current_state == GAME_OVER && scancode_byte == 0x13) { // 'R' key
-                  current_state = PLAY;
-                  music_started = false;
+                  kbd_gameover_idx = 1;
+                } else if (scancode_byte == 0x4D && current_state != LEADERBOARD) { // RIGHT
+                  menu_set_keyboard_input();
+                  kbd_gameover_idx = 2;
+                } else if (scancode_byte == 0x1C) { // ENTER
+                  menu_set_keyboard_input();
+                  if (current_state == LEADERBOARD) {
+                    current_state = MENU;
+                    music_started = false;
+                  } else {
+                    if (kbd_gameover_idx == 1) { // MENU
+                      current_state = MENU;
+                      music_started = false;
+                    } else if (kbd_gameover_idx == 2) { // RESTART/SONGS
+                      current_state = (current_state == GAME_WON) ? SONG_SELECT : PLAY;
+                      music_started = false;
+                    }
+                  }
                 }
               }
               else if (current_state == USERNAME_ENTRY) {
@@ -1571,6 +1614,8 @@ int (proj_main_loop)(int argc, char *argv[]) {
               else if (current_state == PLAY) {
                 if (scancode_byte == 0x32) { // 'M' key Make Code
                   current_bg_idx = (current_bg_idx + 1) % 3;
+                } else if (scancode_byte == 0x11) { // 'W' key Make Code for instant win
+                  finish_current_run(uart_ready);
                 } else {
                   handle_play_key(scancode_byte);
                 }
@@ -1631,19 +1676,19 @@ int (proj_main_loop)(int argc, char *argv[]) {
                   } else if (mouse_x >= 465 && mouse_x <= 500 && mouse_y >= 415 && mouse_y <= 450) {
                     change_volume(true, uart_ready);
                   }
-                } else if ((current_state == GAME_OVER || current_state == LEADERBOARD) && mouse_packet.lb) {
+                } else if ((current_state == GAME_OVER || current_state == GAME_WON || current_state == LEADERBOARD) && mouse_packet.lb) {
                   if (current_state == LEADERBOARD &&
                       mouse_x >= LEADERBOARD_BACK_X && mouse_x <= LEADERBOARD_BACK_X + LEADERBOARD_BACK_W &&
                       mouse_y >= LEADERBOARD_BACK_Y && mouse_y <= LEADERBOARD_BACK_Y + LEADERBOARD_BACK_H) {
                     current_state = MENU;
                     music_started = false;
-                  } else if (current_state == GAME_OVER) {
+                  } else if (current_state == GAME_OVER || current_state == GAME_WON) {
                     if (mouse_y >= 520 && mouse_y <= 570) {
                       if (mouse_x >= 120 && mouse_x <= 380) { // Main Menu button
                         current_state = MENU;
                         music_started = false;
-                      } else if (mouse_x >= 420 && mouse_x <= 680) { // Restart button
-                        current_state = PLAY;
+                      } else if (mouse_x >= 420 && mouse_x <= 680) { // Restart/Songs button
+                        current_state = (current_state == GAME_WON) ? SONG_SELECT : PLAY;
                         music_started = false;
                       }
                     }
@@ -1819,6 +1864,9 @@ int (proj_main_loop)(int argc, char *argv[]) {
             }
             else if (current_state == GAME_OVER) {
               draw_game_over_screen(mission_failed_map, mission_failed_img);
+            }
+            else if (current_state == GAME_WON) {
+              draw_game_over_screen(mission_success_map, mission_success_img);
             }
             else if (current_state == LEADERBOARD) {
               draw_leaderboard_screen(arcade_leaderboard_map, arcade_leaderboard_img);

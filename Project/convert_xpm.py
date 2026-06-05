@@ -22,9 +22,10 @@ def convert_to_xpm(input_path, output_path, new_width=800, new_height=600):
                 colors[hex_col] = char_list[char_idx % len(char_list)] + char_list[(char_idx // len(char_list)) % len(char_list)]
                 char_idx += 1
 
+    var_name = sys.argv[3] if len(sys.argv) > 3 else "mission_failed_xpm"
     with open(output_path, 'w') as f:
         f.write("/* XPM */\n")
-        f.write("static char *mission_failed_xpm[] = {\n")
+        f.write(f"static char *{var_name}[] = {{\n")
         f.write(f'"{width} {height} {len(colors)} 2",\n')
         
         for hex_col, char_code in colors.items():
