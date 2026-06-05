@@ -16,6 +16,11 @@ typedef enum {
   LEADERBOARD
 } GameState;
 
+typedef enum {
+  MENU_INPUT_KEYBOARD,
+  MENU_INPUT_MOUSE
+} MenuInputMode;
+
 // Declaração das variáveis de hover para estarem acessíveis
 extern bool hover_play;
 extern bool hover_exit;
@@ -30,6 +35,14 @@ extern int song_id;
 extern int kbd_menu_idx;
 extern int kbd_song_idx;
 extern int kbd_pause_idx;
+
+extern MenuInputMode menu_input_mode;
+
+void menu_set_keyboard_input(void);
+void menu_set_mouse_input(void);
+bool menu_keyboard_active(void);
+bool menu_mouse_active(void);
+
 // Função responsável por desenhar o menu principal
 void draw_main_menu(int mouse_x, int mouse_y, uint32_t *bg_map, xpm_image_t bg_img);
 

@@ -15,6 +15,24 @@ int kbd_menu_idx = 1; // 1: Play, 2: Leaderboard, 3: Exit
 int kbd_song_idx = 1; // 1: Song1, 2: Song2, 3: Back
 int kbd_pause_idx = 1; // 1: Resume, 2: Quit
 
+MenuInputMode menu_input_mode = MENU_INPUT_KEYBOARD;
+
+void menu_set_keyboard_input(void) {
+    menu_input_mode = MENU_INPUT_KEYBOARD;
+}
+
+void menu_set_mouse_input(void) {
+    menu_input_mode = MENU_INPUT_MOUSE;
+}
+
+bool menu_keyboard_active(void) {
+    return menu_input_mode == MENU_INPUT_KEYBOARD;
+}
+
+bool menu_mouse_active(void) {
+    return menu_input_mode == MENU_INPUT_MOUSE;
+}
+
 // ============================================================
 // MENU PRINCIPAL  (PLAY + LEADERBOARD + EXIT)
 // ============================================================
@@ -60,14 +78,20 @@ void draw_neo_btn(int x, int y, int w, int h, uint32_t bg_color, bool hovered) {
 }
 void draw_main_menu(int mouse_x, int mouse_y, uint32_t *bg_map, xpm_image_t bg_img) {
     
-    hover_play = (mouse_x >= BTN_PLAY_X && mouse_x <= BTN_PLAY_X + BTN_WIDTH &&
-                  mouse_y >= BTN_PLAY_Y && mouse_y <= BTN_PLAY_Y + BTN_HEIGHT) || (kbd_menu_idx == 1);
+    hover_play = (menu_mouse_active() &&
+                  mouse_x >= BTN_PLAY_X && mouse_x <= BTN_PLAY_X + BTN_WIDTH &&
+                  mouse_y >= BTN_PLAY_Y && mouse_y <= BTN_PLAY_Y + BTN_HEIGHT) ||
+                 (menu_keyboard_active() && kbd_menu_idx == 1);
 
-    hover_leaderboard = (mouse_x >= BTN_LEADERBOARD_X && mouse_x <= BTN_LEADERBOARD_X + BTN_WIDTH &&
-                         mouse_y >= BTN_LEADERBOARD_Y && mouse_y <= BTN_LEADERBOARD_Y + BTN_HEIGHT) || (kbd_menu_idx == 2);
+    hover_leaderboard = (menu_mouse_active() &&
+                         mouse_x >= BTN_LEADERBOARD_X && mouse_x <= BTN_LEADERBOARD_X + BTN_WIDTH &&
+                         mouse_y >= BTN_LEADERBOARD_Y && mouse_y <= BTN_LEADERBOARD_Y + BTN_HEIGHT) ||
+                        (menu_keyboard_active() && kbd_menu_idx == 2);
 
-    hover_exit = (mouse_x >= BTN_EXIT_X && mouse_x <= BTN_EXIT_X + BTN_WIDTH &&
-                  mouse_y >= BTN_EXIT_Y && mouse_y <= BTN_EXIT_Y + BTN_HEIGHT) || (kbd_menu_idx == 3);
+    hover_exit = (menu_mouse_active() &&
+                  mouse_x >= BTN_EXIT_X && mouse_x <= BTN_EXIT_X + BTN_WIDTH &&
+                  mouse_y >= BTN_EXIT_Y && mouse_y <= BTN_EXIT_Y + BTN_HEIGHT) ||
+                 (menu_keyboard_active() && kbd_menu_idx == 3);
 
     vg_draw_xpm_image(bg_map, bg_img.width, bg_img.height, 0, 0, 0, 0);
 
@@ -118,14 +142,20 @@ void draw_song_select(int mouse_x, int mouse_y, const uint32_t *bg_map, xpm_imag
         vg_clear_back_buffer(0x000000);
     }
 
-    hover_song1 = (mouse_x >= SONG1_X && mouse_x <= SONG1_X + SONG_BTN_W &&
-                   mouse_y >= SONG1_Y && mouse_y <= SONG1_Y + SONG_BTN_H) || (kbd_song_idx == 1);
+    hover_song1 = (menu_mouse_active() &&
+                   mouse_x >= SONG1_X && mouse_x <= SONG1_X + SONG_BTN_W &&
+                   mouse_y >= SONG1_Y && mouse_y <= SONG1_Y + SONG_BTN_H) ||
+                  (menu_keyboard_active() && kbd_song_idx == 1);
 
-    hover_song2 = (mouse_x >= SONG2_X && mouse_x <= SONG2_X + SONG_BTN_W &&
-                   mouse_y >= SONG2_Y && mouse_y <= SONG2_Y + SONG_BTN_H) || (kbd_song_idx == 2);
+    hover_song2 = (menu_mouse_active() &&
+                   mouse_x >= SONG2_X && mouse_x <= SONG2_X + SONG_BTN_W &&
+                   mouse_y >= SONG2_Y && mouse_y <= SONG2_Y + SONG_BTN_H) ||
+                  (menu_keyboard_active() && kbd_song_idx == 2);
 
-    hover_back  = (mouse_x >= BACK_BTN_X && mouse_x <= BACK_BTN_X + BACK_BTN_W &&
-                   mouse_y >= BACK_BTN_Y && mouse_y <= BACK_BTN_Y + BACK_BTN_H) || (kbd_song_idx == 3);
+    hover_back  = (menu_mouse_active() &&
+                   mouse_x >= BACK_BTN_X && mouse_x <= BACK_BTN_X + BACK_BTN_W &&
+                   mouse_y >= BACK_BTN_Y && mouse_y <= BACK_BTN_Y + BACK_BTN_H) ||
+                  (menu_keyboard_active() && kbd_song_idx == 3);
 
     // --- BOTÃO SONG 1 ---
     uint32_t s1_base  = (song_id == 1) ? 0x00CC66 : 0x008844;
