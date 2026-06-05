@@ -77,6 +77,8 @@ static int miss_effect_frames[5] = {0, 0, 0, 0, 0};
 static int score = 0;
 static int combo_hits = 0;
 static int best_combo = 0;
+static int session_best_score = 0;
+static int session_best_combo = 0;
 static char score_text[16] = "0";
 static char combo_text[16] = "0X";
 #define MAX_HEALTH 20
@@ -1893,6 +1895,11 @@ int (proj_main_loop)(int argc, char *argv[]) {
             };
 
             vg_draw_xpm_image(mouse_cursor_map, 12, 15, mouse_x, mouse_y, 0xFF00FF, 1);
+            
+            // Maintain session maximums
+            if (score > session_best_score) session_best_score = score;
+            if (best_combo > session_best_combo) session_best_combo = best_combo;
+            
             vg_swap_buffers();
           }
           break;
@@ -1933,15 +1940,32 @@ int (proj_main_loop)(int argc, char *argv[]) {
   // --- LOGICA DE GAME OVER COM RTC ---
   rtc_timestamp tempo_atual;
   if (rtc_read_time(&tempo_atual) == 0) {
-      printf("\n=========================================\n");
-      printf("              GAME OVER                  \n");
-      printf("=========================================\n");
-      printf("Score final: %d | Melhor combo: %d\n", score, best_combo);
-      printf("=========================================\n");
-      printf("Sessao terminada a: %02d/%02d/20%02d as %02d:%02d:%02d\n", 
+      printf("\n");
+      printf("               __\n");
+      printf("              /  \\         ______  ______  _    _  _____   \n");
+      printf("             |    |       |  ____||  ____|| |  | ||  __ \\  \n");
+      printf("             |    |       | |__   | |__   | |  | || |__) | \n");
+      printf("             |    |       |  __|  |  __|  | |  | ||  ___/  \n");
+      printf("             |____|       | |     | |____ | |__| || |      \n");
+      printf("             | || |       |_|     |______| \\____/ |_|      \n");
+      printf("             | || |\n");
+      printf("             | || |        _    _  ______  _____    ____   \n");
+      printf("             | || |       | |  | ||  ____||  __ \\  / __ \\  \n");
+      printf("          _.-' || '-._    | |__| || |__   | |__) || |  | | \n");
+      printf("         /     ||     \\   |  __  ||  __|  |  _  / | |  | | \n");
+      printf("        |      ||      |  | |  | || |____ | | \\ \\ | |__| | \n");
+      printf("        |     (OO)     |  |_|  |_||______||_|  \\_\\ \\____/  \n");
+      printf("        |              |\n");
+      printf("         \\            /\n");
+      printf("          `----------'\n");
+      printf("\n");
+      printf("=========================================================\n");
+      printf("      M A X  S C O R E : %-5d |  M A X  C O M B O : %-3d\n", session_best_score, session_best_combo);
+      printf("=========================================================\n");
+      printf("      Sessao terminada a: %02d/%02d/20%02d as %02d:%02d:%02d\n", 
              tempo_atual.day, tempo_atual.month, tempo_atual.year,
              tempo_atual.hours, tempo_atual.minutes, tempo_atual.seconds);
-      printf("=========================================\n\n");
+      printf("=========================================================\n\n");
   }
 
   return 0;
