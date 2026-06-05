@@ -63,7 +63,7 @@ SONGS = [
         "section":    "MediumSingle",
         "min_tick":   768,
         "min_dist":   96,
-        "offset":     -1.0,          # Compensar o tempo de viagem da nota (travel time ~1s)
+        "offset":     0.0,           # O MP3 já tem silêncio de lead-in integrado, não necessita de antecipação
     },
 ]
 
