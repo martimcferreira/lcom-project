@@ -36,7 +36,7 @@ Ver `Project/SETUP_AUDIO.md` para configurar o par de portas série virtuais e e
 - Guilherme Pinho (up202406596@up.pt)
 - Martim Ferreira (up202403764@up.pt)
 - Andre Rocha (up202407636@up.pt)
-- 4.º elemento: preencher antes da submissão
+- Artur Ferro (up202404762@up.pt)
 
 ## Declaration of Responsible AI Use
 
