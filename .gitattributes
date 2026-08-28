@@ -1,4 +1,3 @@
 # Ignora toda a documentação gerada e ficheiros HTML nas estatísticas do repositório
-doxygen_docs/** linguist-vendored
-doxygen_docs/** linguist-vendored
+Project/doxygen_docs/** linguist-vendored
 *.html linguist-detectable=false
