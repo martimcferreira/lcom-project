@@ -1,6 +1,13 @@
-# Guitar Hero LCOM - Grupo 2LEIC02_2
+# Guitar Hero LCOM
 
 Projeto de LCOM inspirado em Guitar Hero, com vídeo em modo gráfico, teclado, rato, timer, RTC, UART para áudio externo e leaderboard persistente.
+
+## Demo
+
+<p align="center">
+  <img src="docs/gameplay.gif" alt="Guitar Hero Gameplay Demo" width="700"/>
+</p>
+
 
 ## Como compilar
 
@@ -30,14 +37,3 @@ Durante o `make`, os beatmaps em `Project/beatmaps` são copiados para `/tmp/bea
 ## Áudio
 
 Ver `Project/SETUP_AUDIO.md` para configurar o par de portas série virtuais e executar `audio_subsystem/som_guitar_hero.py`.
-
-## Autores
-
-- Guilherme Pinho (up202406596@up.pt)
-- Martim Ferreira (up202403764@up.pt)
-- Andre Rocha (up202407636@up.pt)
-- Artur Ferro (up202404762@up.pt)
-
-## Declaration of Responsible AI Use
-
-We declare that we are responsible for all code and documentation in this repository and that any AI-based assistance used during development was reviewed, tested and adapted by the group before submission.
